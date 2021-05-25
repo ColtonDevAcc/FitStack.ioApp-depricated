@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+          padding: const EdgeInsets.fromLTRB(5, 30, 5, 0),
           child: Column(
             children: [
               Row(
@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, -0),
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TabBar(
@@ -71,16 +71,12 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                     controller: _tabController,
                     labelColor: Colors.white,
                     isScrollable: true,
-                    labelPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    labelPadding: EdgeInsets.fromLTRB(0, 0, 10, 5),
                     indicatorColor: ThemeProvider.primaryAccentRed,
-                    indicatorPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                   ),
                 ),
               ),
               SizedBox(width: _screenWidth, height: 1, child: Container(color: ThemeProvider.secondaryTextColor)),
-              SizedBox(
-                height: 10,
-              ),
               Expanded(
                 child: TabBarView(
                   physics: AlwaysScrollableScrollPhysics(),
