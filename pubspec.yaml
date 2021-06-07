@@ -13,6 +13,7 @@ dependencies:
   provider: ^5.0.0
   http: ^0.13.3
   dio: ^4.0.0
+  material_floating_search_bar: ^0.3.4
 
 dev_dependencies:
   flutter_test:

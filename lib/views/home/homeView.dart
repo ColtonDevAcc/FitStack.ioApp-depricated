@@ -1,95 +1,185 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workify/providers/themeProvider.dart';
-import 'package:workify/views/home/forYouTab.dart';
+import 'package:workify/theme/theme.dart';
 
-class HomeView extends StatefulWidget {
-  static const List<Tab> tabs = <Tab>[
-    Tab(text: 'Zeroth'),
-    Tab(text: 'First'),
-    Tab(text: 'Second'),
-  ];
+class HomeView extends StatelessWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  _HomeViewState createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
-  TabController? _tabController;
-  @override
-  void initState() {
-    // initialise your tab controller here
-    _tabController = TabController(length: 3, vsync: this);
-    super.initState();
+  Widget build(BuildContext context) {
+    TextEditingController searchcontroller = TextEditingController();
+    return Scaffold(
+      backgroundColor: Apptheme.mainBackgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Daily Greeting Text', style: TextStyle(color: Apptheme.mainTextColor)),
+                              Text('Hi, \$User!', style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold, fontSize: 20)),
+                            ],
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage('assets/images/RopeSwings.png'),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      //this stuff
+                      TextFormField(
+                        controller: searchcontroller,
+                        style: TextStyle(color: Colors.white),
+                        autofocus: false,
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          filled: true,
+                          labelText: 'Search meal plans, workout, abs etc...',
+                          labelStyle: TextStyle(color: Apptheme.mainTextColor),
+                          fillColor: Apptheme.mainCardColor,
+                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white.withOpacity(0)), borderRadius: BorderRadius.circular(15)),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 55,
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      recommendationTab(text: "Weight Traning", icon: Icons.fitness_center),
+                      recommendationTab(text: "Yoga", icon: Icons.self_improvement),
+                      recommendationTab(text: "Cardio", icon: Icons.directions_run),
+                      recommendationTab(text: "Meal Plan", icon: Icons.restaurant),
+                    ],
+                  ),
+                ),
+                SafeArea(
+                  child: Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView(
+                        shrinkWrap: true,
+                        addAutomaticKeepAlives: true,
+                        scrollDirection: Axis.vertical,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [Text('Trending', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                                ),
+                                featuredCard(context: context),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [Text('Featured Training', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                                ),
+                                featuredTabCard(),
+                                featuredTabCard(),
+                                featuredTabCard(),
+                                featuredTabCard(),
+                                featuredTabCard(),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width;
-    double _screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: ThemeProvider.primaryBackgroundColor,
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'Workouts'),
-          BottomNavigationBarItem(icon: Icon(Icons.equalizer), label: 'Analytics'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Meals'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Trainers'),
-        ],
-        selectedItemColor: ThemeProvider.primaryAccentRed,
-        backgroundColor: ThemeProvider.primaryAppBarBackground,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: ThemeProvider.primaryIconColor,
-      ),
-      body: SafeArea(
+  Padding recommendationTab({text: String, icon: Icons}) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Apptheme.mainCardColor,
+          borderRadius: BorderRadius.circular(11),
+        ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 30, 5, 0),
-          child: Column(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'News Feed',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    textScaleFactor: 2,
-                  ),
-                  Icon(Icons.search, color: Colors.white),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TabBar(
-                    tabs: [
-                      Text('For you'),
-                      Text('Global'),
-                      Text('Plan'),
-                    ],
-                    controller: _tabController,
-                    labelColor: Colors.white,
-                    isScrollable: true,
-                    labelPadding: EdgeInsets.fromLTRB(0, 0, 10, 5),
-                    indicatorColor: ThemeProvider.primaryAccentRed,
-                  ),
-                ),
-              ),
-              SizedBox(width: _screenWidth, height: 1, child: Container(color: ThemeProvider.secondaryTextColor)),
-              Expanded(
-                child: TabBarView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: [
-                    ForYouTab(),
-                    Text('22222', style: TextStyle(color: Colors.white)),
-                    Text('33333', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-              )
+              Icon(icon, color: Apptheme.mainTextColor),
+              SizedBox(width: 10),
+              Text(text, style: TextStyle(color: Apptheme.mainTextColor)),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Padding featuredCard({context: BuildContext}) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
+        height: 340,
+        width: MediaQuery.of(context).size.width.toDouble(),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 0),
+              child: Container(
+                height: 250,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Image.asset(
+                    'assets/images/RopeSwings.png',
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('RopeRows'),
+              subtitle: Text('8 Exercieses   -   1 hr 45 min', style: TextStyle(color: Apptheme.mainTextColor)),
+              trailing: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
+                onPressed: () {},
+                icon: Text('Start Now'),
+                label: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 13,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding featuredTabCard() {
+    return Padding(
+      padding: EdgeInsets.all(2),
+      child: ListTile(
+        trailing: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: Image.asset('assets/images/RopeSwings.png'),
         ),
       ),
     );

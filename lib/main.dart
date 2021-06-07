@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workify/providers/themeProvider.dart';
+import 'package:workify/theme/theme.dart';
 import 'package:workify/views/home/homeView.dart';
 
 void main() {
@@ -26,6 +27,12 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'Aircraft Closing Room',
             home: HomeView(),
+            theme: ThemeData(
+              textTheme: TextTheme(
+                subtitle1: TextStyle(color: Apptheme.mainTextColor),
+                subtitle2: TextStyle(color: Apptheme.mainTextColor),
+              ),
+            ),
           );
         },
       ),
