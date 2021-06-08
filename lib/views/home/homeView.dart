@@ -13,6 +13,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
+    // ignore: unused_local_variable
     double _screenWidth = MediaQuery.of(context).size.width.toDouble();
     TextEditingController _searchcontroller = TextEditingController();
 
@@ -31,8 +32,8 @@ class _HomeViewState extends State<HomeView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Daily Greeting Text', style: TextStyle(color: Apptheme.mainTextColor)),
-                            Text('Hi, \$User!', style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold, fontSize: 20)),
+                            Text('Daily greeting message ', style: TextStyle(color: Apptheme.mainTextColor)),
+                            Text('Hi \$user, !', style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold, fontSize: 20)),
                           ],
                         ),
                         CircleAvatar(
