@@ -2,146 +2,114 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workify/theme/theme.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
   Widget build(BuildContext context) {
-    TextEditingController searchcontroller = TextEditingController();
-    return Scaffold(
-      backgroundColor: Apptheme.mainBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Daily Greeting Text',
-                                  style:
-                                      TextStyle(color: Apptheme.mainTextColor)),
-                              Text('Hi, \$User!',
-                                  style: TextStyle(
-                                      color: Apptheme.mainTextColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
-                            ],
-                          ),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/RopeSwings.png'),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      //this stuff
-                      TextFormField(
-                        controller: searchcontroller,
-                        style: TextStyle(color: Colors.white),
-                        autofocus: false,
-                        autocorrect: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          labelText: 'Search meal plans, workout, abs etc...',
-                          labelStyle: TextStyle(color: Apptheme.mainTextColor),
-                          fillColor: Apptheme.mainCardColor,
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.white.withOpacity(0)),
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 55,
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      recommendationTab(
-                          text: "Weight Traning", icon: Icons.fitness_center),
-                      recommendationTab(
-                          text: "Yoga", icon: Icons.self_improvement),
-                      recommendationTab(
-                          text: "Cardio", icon: Icons.directions_run),
-                      recommendationTab(
-                          text: "Meal Plan", icon: Icons.restaurant),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 654,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView(
-                      shrinkWrap: true,
-                      addAutomaticKeepAlives: true,
-                      scrollDirection: Axis.vertical,
+    double _screenHeight = MediaQuery.of(context).size.height.toDouble();
+    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
+    TextEditingController _searchcontroller = TextEditingController();
+
+    return Column(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Trending',
-                                      textScaleFactor: 1.3,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Apptheme.mainTextColor)),
-                                  Text('Show all',
-                                      textScaleFactor: .7,
-                                      style: TextStyle(
-                                          color: Apptheme.mainTextColor))
-                                ],
-                              ),
-                              featuredCard(context: context),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Featured Training',
-                                      textScaleFactor: 1.3,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Apptheme.mainTextColor)),
-                                  Text('Show all',
-                                      textScaleFactor: .7,
-                                      style: TextStyle(
-                                          color: Apptheme.mainTextColor))
-                                ],
-                              ),
-                              SizedBox(height: 15),
-                              featuredHorizontalTabCard(),
-                              featuredHorizontalTabCard(),
-                              featuredHorizontalTabCard(),
-                              featuredHorizontalTabCard(),
-                              featuredHorizontalTabCard(),
-                            ],
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Daily Greeting Text', style: TextStyle(color: Apptheme.mainTextColor)),
+                            Text('Hi, \$User!', style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold, fontSize: 20)),
+                          ],
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/images/RopeSwings.png'),
                         )
                       ],
                     ),
+                    SizedBox(height: 20),
+                    //this stuff
+                    TextFormField(
+                      controller: _searchcontroller,
+                      style: TextStyle(color: Colors.white),
+                      autofocus: false,
+                      autocorrect: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        labelText: 'Search meal plans, workout, abs etc...',
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
+                        fillColor: Apptheme.mainCardColor,
+                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white.withOpacity(0)), borderRadius: BorderRadius.circular(15)),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+              Container(
+                height: _screenHeight / 16,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    recommendationTab(text: "Weight Traning", icon: Icons.fitness_center),
+                    recommendationTab(text: "Yoga", icon: Icons.self_improvement),
+                    recommendationTab(text: "Cardio", icon: Icons.directions_run),
+                    recommendationTab(text: "Meal Plan", icon: Icons.restaurant),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    shrinkWrap: true,
+                    addAutomaticKeepAlives: true,
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [Text('Trending', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                            ),
+                            featuredCard(context: context),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [Text('Featured Training', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                            ),
+                            SizedBox(height: 15),
+                            featuredHorizontalTabCard(),
+                            featuredHorizontalTabCard(),
+                            featuredHorizontalTabCard(),
+                            featuredHorizontalTabCard(),
+                            featuredHorizontalTabCard(),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
-          ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -171,9 +139,7 @@ class HomeView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Apptheme.mainCardColor),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
         height: 340,
         width: MediaQuery.of(context).size.width.toDouble(),
         child: Column(
@@ -193,11 +159,9 @@ class HomeView extends StatelessWidget {
             ),
             ListTile(
               title: Text('RopeRows'),
-              subtitle: Text('8 Exercieses   -   1 hr 45 min',
-                  style: TextStyle(color: Apptheme.mainTextColor)),
+              subtitle: Text('8 Exercieses   -   1 hr 45 min', style: TextStyle(color: Apptheme.mainTextColor)),
               trailing: ElevatedButton.icon(
-                style:
-                    ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
+                style: ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
                 onPressed: () {},
                 icon: Text('Start Now'),
                 label: Icon(
@@ -216,9 +180,7 @@ class HomeView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Apptheme.mainCardColor),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
         child: ListTile(
           title: Text('Weightlifting'),
           leading: ClipRRect(
