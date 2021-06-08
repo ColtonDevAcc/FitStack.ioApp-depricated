@@ -25,12 +25,19 @@ class HomeView extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Daily Greeting Text', style: TextStyle(color: Apptheme.mainTextColor)),
-                              Text('Hi, \$User!', style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold, fontSize: 20)),
+                              Text('Daily Greeting Text',
+                                  style:
+                                      TextStyle(color: Apptheme.mainTextColor)),
+                              Text('Hi, \$User!',
+                                  style: TextStyle(
+                                      color: Apptheme.mainTextColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                             ],
                           ),
                           CircleAvatar(
-                            backgroundImage: AssetImage('assets/images/RopeSwings.png'),
+                            backgroundImage:
+                                AssetImage('assets/images/RopeSwings.png'),
                           )
                         ],
                       ),
@@ -46,7 +53,10 @@ class HomeView extends StatelessWidget {
                           labelText: 'Search meal plans, workout, abs etc...',
                           labelStyle: TextStyle(color: Apptheme.mainTextColor),
                           fillColor: Apptheme.mainCardColor,
-                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white.withOpacity(0)), borderRadius: BorderRadius.circular(15)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0)),
+                              borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -59,46 +69,71 @@ class HomeView extends StatelessWidget {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      recommendationTab(text: "Weight Traning", icon: Icons.fitness_center),
-                      recommendationTab(text: "Yoga", icon: Icons.self_improvement),
-                      recommendationTab(text: "Cardio", icon: Icons.directions_run),
-                      recommendationTab(text: "Meal Plan", icon: Icons.restaurant),
+                      recommendationTab(
+                          text: "Weight Traning", icon: Icons.fitness_center),
+                      recommendationTab(
+                          text: "Yoga", icon: Icons.self_improvement),
+                      recommendationTab(
+                          text: "Cardio", icon: Icons.directions_run),
+                      recommendationTab(
+                          text: "Meal Plan", icon: Icons.restaurant),
                     ],
                   ),
                 ),
-                SafeArea(
-                  child: Flexible(
-                    fit: FlexFit.loose,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView(
-                        shrinkWrap: true,
-                        addAutomaticKeepAlives: true,
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [Text('Trending', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
-                                ),
-                                featuredCard(context: context),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [Text('Featured Training', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
-                                ),
-                                featuredTabCard(),
-                                featuredTabCard(),
-                                featuredTabCard(),
-                                featuredTabCard(),
-                                featuredTabCard(),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                Container(
+                  height: 654,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView(
+                      shrinkWrap: true,
+                      addAutomaticKeepAlives: true,
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Trending',
+                                      textScaleFactor: 1.3,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Apptheme.mainTextColor)),
+                                  Text('Show all',
+                                      textScaleFactor: .7,
+                                      style: TextStyle(
+                                          color: Apptheme.mainTextColor))
+                                ],
+                              ),
+                              featuredCard(context: context),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Featured Training',
+                                      textScaleFactor: 1.3,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Apptheme.mainTextColor)),
+                                  Text('Show all',
+                                      textScaleFactor: .7,
+                                      style: TextStyle(
+                                          color: Apptheme.mainTextColor))
+                                ],
+                              ),
+                              SizedBox(height: 15),
+                              featuredHorizontalTabCard(),
+                              featuredHorizontalTabCard(),
+                              featuredHorizontalTabCard(),
+                              featuredHorizontalTabCard(),
+                              featuredHorizontalTabCard(),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 )
@@ -136,7 +171,9 @@ class HomeView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Apptheme.mainCardColor),
         height: 340,
         width: MediaQuery.of(context).size.width.toDouble(),
         child: Column(
@@ -156,9 +193,11 @@ class HomeView extends StatelessWidget {
             ),
             ListTile(
               title: Text('RopeRows'),
-              subtitle: Text('8 Exercieses   -   1 hr 45 min', style: TextStyle(color: Apptheme.mainTextColor)),
+              subtitle: Text('8 Exercieses   -   1 hr 45 min',
+                  style: TextStyle(color: Apptheme.mainTextColor)),
               trailing: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
+                style:
+                    ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
                 onPressed: () {},
                 icon: Text('Start Now'),
                 label: Icon(
@@ -173,13 +212,34 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Padding featuredTabCard() {
+  Padding featuredHorizontalTabCard() {
     return Padding(
-      padding: EdgeInsets.all(2),
-      child: ListTile(
-        trailing: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Image.asset('assets/images/RopeSwings.png'),
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Apptheme.mainCardColor),
+        child: ListTile(
+          title: Text('Weightlifting'),
+          leading: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.elliptical(15, 15)),
+            child: Image.asset('assets/images/RopeSwings.png'),
+          ),
+          subtitle: Text(
+            '5 Exercises - 1hr 10min',
+            style: TextStyle(color: Apptheme.mainTextColor),
+          ),
+          trailing: Container(
+            color: Apptheme.mainButonColor,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
       ),
     );
