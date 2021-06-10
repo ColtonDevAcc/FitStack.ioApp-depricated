@@ -12,7 +12,7 @@ class ProfileView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -101,12 +101,12 @@ class ProfileView extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 25, 20, 10),
+            padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                userStatisticsTab(icon: Icons.favorite, detailsString: 'bpm', value: 120),
-                userStatisticsTab(icon: Icons.local_fire_department, detailsString: 'kcal', value: 120),
+                Expanded(child: userStatisticsTab(icon: Icons.favorite, detailsString: 'bpm', value: 120)),
+                Expanded(child: userStatisticsTab(icon: Icons.local_fire_department, detailsString: 'kcal', value: 120)),
               ],
             ),
           ),
@@ -115,8 +115,8 @@ class ProfileView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                userStatisticsTab(icon: Icons.schedule, detailsString: 'hrs', value: 120),
-                userStatisticsTab(icon: Icons.whatshot, detailsString: 'W streak', value: 10),
+                Expanded(child: userStatisticsTab(icon: Icons.schedule, detailsString: 'hrs', value: 120)),
+                Expanded(child: userStatisticsTab(icon: Icons.whatshot, detailsString: 'W streak', value: 10)),
               ],
             ),
           ),
@@ -129,34 +129,38 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-Row userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
-  return Row(
-    children: [
-      Container(
-        width: 180,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Apptheme.mainCardColor),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(
-                icon,
-                color: Apptheme.mainButonColor,
-              ),
-              SizedBox(height: 40),
-              Row(
+Padding userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
+  return Padding(
+    padding: EdgeInsets.all(5),
+    child: Row(
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Apptheme.mainCardColor),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(value.toString(), textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor)),
-                  SizedBox(width: 5),
-                  Text(detailsString, style: TextStyle(color: Apptheme.mainTextColor)),
+                  Icon(
+                    icon,
+                    color: Apptheme.mainButonColor,
+                  ),
+                  SizedBox(height: 40),
+                  Row(
+                    children: [
+                      Text(value.toString(), textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor)),
+                      SizedBox(width: 5),
+                      Text(detailsString, style: TextStyle(color: Apptheme.mainTextColor)),
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 
