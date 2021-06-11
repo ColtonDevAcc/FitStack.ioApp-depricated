@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
             title: 'Aircraft Closing Room',
             home: MainView(),
             theme: ThemeData(
+              accentColor: Apptheme.mainButonColor,
               textTheme: TextTheme(
                 subtitle1: TextStyle(color: Apptheme.mainTextColor),
                 subtitle2: TextStyle(color: Apptheme.mainTextColor),
