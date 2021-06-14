@@ -88,12 +88,12 @@ class _HomeViewState extends State<HomeView> {
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text('Trending', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                                children: [Text('Featured', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
                               ),
                               featuredCard(context: context),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text('Featured Training', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
+                                children: [Text('Trending', textScaleFactor: 1.3, style: TextStyle(fontWeight: FontWeight.bold, color: Apptheme.mainTextColor)), Text('Show all', textScaleFactor: .7, style: TextStyle(color: Apptheme.mainTextColor))],
                               ),
                               SizedBox(height: 15),
                               featuredHorizontalTabCard(),
