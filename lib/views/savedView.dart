@@ -8,24 +8,36 @@ class SavedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      scrollBehavior: ScrollBehavior(),
       slivers: [
         SliverAppBar(
           floating: false,
           pinned: true,
           expandedHeight: 200,
-          title: Text('Saved Wokrouts', style: TextStyle(color: Apptheme.mainTextColor)),
-          flexibleSpace: FlexibleSpaceBar(background: Image.asset('assets/images/gymGirl.png', fit: BoxFit.cover)),
+          title: Text('Saved Wokrouts',
+              style: TextStyle(color: Apptheme.mainTextColor)),
+          flexibleSpace: FlexibleSpaceBar(
+              background:
+                  Image.asset('assets/images/gymGirl.png', fit: BoxFit.cover)),
           backgroundColor: Apptheme.mainBackgroundColor,
         ),
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              savedWokrouts(planTitle: 'BroSplit', planSubtitle: '7 workouts lasting 2 hours a piece'),
-              savedWokrouts(planTitle: 'BroSplit', planSubtitle: '7 workouts lasting 2 hours a piece'),
-              savedWokrouts(planTitle: 'BroSplit', planSubtitle: '7 workouts lasting 2 hours a piece'),
-              savedWokrouts(planTitle: 'BroSplit', planSubtitle: '7 workouts lasting 2 hours a piece'),
-              savedWokrouts(planTitle: 'BroSplit', planSubtitle: '7 workouts lasting 2 hours a piece'),
+              savedWokrouts(
+                  planTitle: 'BroSplit',
+                  planSubtitle: '7 workouts lasting 2 hours a piece'),
+              savedWokrouts(
+                  planTitle: 'BroSplit',
+                  planSubtitle: '7 workouts lasting 2 hours a piece'),
+              savedWokrouts(
+                  planTitle: 'BroSplit',
+                  planSubtitle: '7 workouts lasting 2 hours a piece'),
+              savedWokrouts(
+                  planTitle: 'BroSplit',
+                  planSubtitle: '7 workouts lasting 2 hours a piece'),
+              savedWokrouts(
+                  planTitle: 'BroSplit',
+                  planSubtitle: '7 workouts lasting 2 hours a piece'),
             ],
           ),
         )
@@ -40,15 +52,20 @@ Padding savedWokrouts({planTitle: String, planSubtitle: String}) {
     child: GestureDetector(
       onTap: () {},
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Apptheme.mainCardColor),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Apptheme.mainCardColor),
         child: ListTile(
-          subtitle: Text(planSubtitle, textScaleFactor: .8, style: TextStyle(color: Apptheme.mainTextColor)),
+          subtitle: Text(planSubtitle,
+              textScaleFactor: .8,
+              style: TextStyle(color: Apptheme.mainTextColor)),
           title: Row(
             children: [
               Text(planTitle),
             ],
           ),
-          trailing: Icon(Icons.arrow_forward_ios, color: Apptheme.mainTextColor),
+          trailing:
+              Icon(Icons.arrow_forward_ios, color: Apptheme.mainTextColor),
           leading: ClipRRect(
             child: Image.asset('assets/images/gymGirl.png'),
             borderRadius: BorderRadius.circular(10),
