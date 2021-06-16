@@ -22,7 +22,11 @@ class ProfileView extends StatelessWidget {
                     color: Apptheme.mainTextColor,
                   ),
                 ),
-                Text('Profile', textScaleFactor: 1.2, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold)),
+                Text('Profile',
+                    textScaleFactor: 1.2,
+                    style: TextStyle(
+                        color: Apptheme.mainTextColor,
+                        fontWeight: FontWeight.bold)),
                 Container(
                   child: Icon(
                     Icons.more_horiz,
@@ -51,8 +55,16 @@ class ProfileView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
               children: [
-                Text('User Name', textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold)),
-                Text('Nationality  🇺🇲', textScaleFactor: 1, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.w300)),
+                Text('User Name',
+                    textScaleFactor: 1.5,
+                    style: TextStyle(
+                        color: Apptheme.mainTextColor,
+                        fontWeight: FontWeight.bold)),
+                Text('Nationality  🇺🇲',
+                    textScaleFactor: 1,
+                    style: TextStyle(
+                        color: Apptheme.mainTextColor,
+                        fontWeight: FontWeight.w300)),
               ],
             ),
           ),
@@ -66,33 +78,61 @@ class ProfileView extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(40, 0, 20, 0),
                   child: Column(
                     children: [
-                      Text('100 lbs', textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold)),
+                      Text('100 lbs',
+                          textScaleFactor: 1.5,
+                          style: TextStyle(
+                              color: Apptheme.mainTextColor,
+                              fontWeight: FontWeight.bold)),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text('Weight', textScaleFactor: 1, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.w300)),
+                        child: Text('Weight',
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                                color: Apptheme.mainTextColor,
+                                fontWeight: FontWeight.w300)),
                       ),
                     ],
                   ),
                 ),
-                Container(color: Apptheme.mainTextColor, child: SizedBox(width: 1, height: 40)),
+                Container(
+                    color: Apptheme.mainTextColor,
+                    child: SizedBox(width: 1, height: 40)),
                 Column(
                   children: [
-                    Text('6"4', textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold)),
+                    Text('6"4',
+                        textScaleFactor: 1.5,
+                        style: TextStyle(
+                            color: Apptheme.mainTextColor,
+                            fontWeight: FontWeight.bold)),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Text('Height', textScaleFactor: 1, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.w300)),
+                      child: Text('Height',
+                          textScaleFactor: 1,
+                          style: TextStyle(
+                              color: Apptheme.mainTextColor,
+                              fontWeight: FontWeight.w300)),
                     ),
                   ],
                 ),
-                Container(color: Apptheme.mainTextColor, child: SizedBox(width: 1, height: 40)),
+                Container(
+                    color: Apptheme.mainTextColor,
+                    child: SizedBox(width: 1, height: 40)),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 75, 0),
                   child: Column(
                     children: [
-                      Text('21', textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.bold)),
+                      Text('21',
+                          textScaleFactor: 1.5,
+                          style: TextStyle(
+                              color: Apptheme.mainTextColor,
+                              fontWeight: FontWeight.bold)),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text('Age', textScaleFactor: 1, style: TextStyle(color: Apptheme.mainTextColor, fontWeight: FontWeight.w300)),
+                        child: Text('Age',
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                                color: Apptheme.mainTextColor,
+                                fontWeight: FontWeight.w300)),
                       ),
                     ],
                   ),
@@ -105,8 +145,16 @@ class ProfileView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: userStatisticsTab(icon: Icons.favorite, detailsString: 'bpm', value: 120)),
-                Expanded(child: userStatisticsTab(icon: Icons.local_fire_department, detailsString: 'kcal', value: 120)),
+                Expanded(
+                    child: userStatisticsTab(
+                        icon: Icons.favorite,
+                        detailsString: 'bpm',
+                        value: 120)),
+                Expanded(
+                    child: userStatisticsTab(
+                        icon: Icons.local_fire_department,
+                        detailsString: 'kcal',
+                        value: 120)),
               ],
             ),
           ),
@@ -115,8 +163,16 @@ class ProfileView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: userStatisticsTab(icon: Icons.schedule, detailsString: 'hrs', value: 120)),
-                Expanded(child: userStatisticsTab(icon: Icons.whatshot, detailsString: 'W streak', value: 10)),
+                Expanded(
+                    child: userStatisticsTab(
+                        icon: Icons.schedule,
+                        detailsString: 'hrs',
+                        value: 120)),
+                Expanded(
+                    child: userStatisticsTab(
+                        icon: Icons.whatshot,
+                        detailsString: 'W streak',
+                        value: 10)),
               ],
             ),
           ),
@@ -136,7 +192,9 @@ Padding userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
       children: [
         Expanded(
           child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Apptheme.mainCardColor),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Apptheme.mainCardColor),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -149,9 +207,12 @@ Padding userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
                   SizedBox(height: 40),
                   Row(
                     children: [
-                      Text(value.toString(), textScaleFactor: 1.5, style: TextStyle(color: Apptheme.mainTextColor)),
+                      Text(value.toString(),
+                          textScaleFactor: 1.5,
+                          style: TextStyle(color: Apptheme.mainTextColor)),
                       SizedBox(width: 5),
-                      Text(detailsString, style: TextStyle(color: Apptheme.mainTextColor)),
+                      Text(detailsString,
+                          style: TextStyle(color: Apptheme.mainTextColor)),
                     ],
                   )
                 ],
@@ -168,7 +229,9 @@ Padding productivityStatistics() {
   return Padding(
     padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
     child: Container(
-      decoration: BoxDecoration(color: Apptheme.mainCardColor, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+          color: Apptheme.mainCardColor,
+          borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
           Padding(
@@ -176,7 +239,8 @@ Padding productivityStatistics() {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Productivity Statistics', style: TextStyle(color: Apptheme.mainTextColor)),
+                Text('Productivity Statistics',
+                    style: TextStyle(color: Apptheme.mainTextColor)),
               ],
             ),
           )

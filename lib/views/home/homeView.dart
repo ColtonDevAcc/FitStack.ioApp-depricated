@@ -24,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Column(
                     children: [
                       Row(
@@ -49,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
                           )
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       //this stuff
                       TextFormField(
                         controller: _searchcontroller,
@@ -67,7 +67,6 @@ class _HomeViewState extends State<HomeView> {
                               borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
-                      SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -97,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                       scrollDirection: Axis.vertical,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Row(
@@ -131,7 +130,7 @@ class _HomeViewState extends State<HomeView> {
                                           color: Apptheme.mainTextColor))
                                 ],
                               ),
-                              SizedBox(height: 15),
+                              SizedBox(height: 10),
                               featuredHorizontalTabCard(),
                               featuredHorizontalTabCard(),
                               featuredHorizontalTabCard(),
