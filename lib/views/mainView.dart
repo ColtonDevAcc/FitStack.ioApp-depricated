@@ -4,11 +4,11 @@ import 'package:line_icons/line_icons.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlanView.dart';
-import 'package:workify/views/profileView.dart';
-import 'package:workify/views/savedView.dart';
-import 'package:workify/views/startWorkoutView.dart';
-import 'package:workify/views/trainerView.dart';
+import 'package:workify/views/mealPlan/mealPlanView.dart';
+import 'package:workify/views/profile/profileView.dart';
+import 'package:workify/views/savedVideo/savedView.dart';
+import 'package:workify/views/startWorkout/startWorkoutView.dart';
+import 'package:workify/views/trainer/trainerView.dart';
 import 'home/homeView.dart';
 
 class MainView extends StatefulWidget {

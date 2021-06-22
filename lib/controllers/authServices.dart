@@ -5,7 +5,7 @@ class AuthServices {
 
   AuthServices(this._firebaseAuth);
 
-  //Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   Future<String> signIn({email: String, password: String}) async {
     try {
@@ -13,7 +13,7 @@ class AuthServices {
           email: email, password: password);
       return "Signed In";
     } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+      return 'Not Signed In';
     }
   }
 
