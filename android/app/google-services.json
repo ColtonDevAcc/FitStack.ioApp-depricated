@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "950746999580",
+    "project_id": "fitkit-a5310",
+    "storage_bucket": "fitkit-a5310.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950746999580:android:36efa6feaeded75de068d9",
+        "android_client_info": {
+          "package_name": "io.FitStack.FitStack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950746999580-16321ffcrl3s95rr3u7in23knju7o7qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbbtvu4sfANLFkjAq84rX4nM-h7u2E78U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950746999580-16321ffcrl3s95rr3u7in23knju7o7qm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "950746999580-bub6iin6glhre4akgbfrh6j1kfdkmk6q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.FitStack.Fitstack"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workify/providers/themeProvider.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mainView.dart';
 
-void main() {
-  runApp(
-    MyApp(),
-  );
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  final Future<FirebaseApp> _fApp = Firebase.initializeApp();
   @override
   _MyAppState createState() => _MyAppState();
 }
