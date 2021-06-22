@@ -43,7 +43,10 @@ class _MyAppState extends State<MyApp> {
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Aircraft Closing Room',
-              home: LoginView(),
+              home: ChangeNotifierProvider(
+                child: LoginView(),
+                create: (context) => AuthServices(FirebaseAuth.instance),
+              ),
               theme: ThemeData(
                 accentColor: Apptheme.mainButonColor,
                 textTheme: TextTheme(

@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: implementation_imports
+import 'package:provider/src/provider.dart';
 import 'package:workify/controllers/authServices.dart';
+import 'package:workify/views/mainView.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailTextController = new TextEditingController();
-    TextEditingController passwordTextController = new TextEditingController();
-
-    final firebaseUser = context.watch<User>();
+    TextEditingController emailTextController = TextEditingController();
+    TextEditingController passwordTextController = TextEditingController();
 
     return Scaffold(
       body: Padding(
@@ -22,17 +24,22 @@ class LoginView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('Email'),
-            TextFormField(),
+            TextFormField(controller: emailTextController),
             SizedBox(height: 30),
             Text('Password'),
-            TextFormField(),
+            TextFormField(controller: passwordTextController),
             TextButton(
                 onPressed: () async {
-                  Future<String> result = context.read<AuthServices>().signIn(
-                        email: emailTextController.text,
-                        password: passwordTextController.text,
+                  print(emailTextController.text.trim());
+                  print(passwordTextController.text.trim());
+                  await context.read<AuthServices>().signIn(
+                        email: emailTextController.text.trim(),
+                        password: passwordTextController.text.trim(),
                       );
-                  print(firebaseUser.toString());
+                  context.read<AuthServices>().userLoggedIn
+                      ? Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainView()))
+                      : null;
                 },
                 child: Text('Login'))
           ],

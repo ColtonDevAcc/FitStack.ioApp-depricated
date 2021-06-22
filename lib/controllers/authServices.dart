@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
-class AuthServices {
+class AuthServices extends ChangeNotifier {
+  bool userLoggedIn = false;
+
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   AuthServices(this._firebaseAuth);
@@ -11,8 +14,10 @@ class AuthServices {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      userLoggedIn = true;
       return "Signed In";
     } on FirebaseAuthException catch (e) {
+      userLoggedIn = false;
       return 'Not Signed In';
     }
   }
