@@ -19,6 +19,7 @@ class AuthServices extends ChangeNotifier {
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       userLoggedIn = false;
+      print(e);
       return 'Not Signed In';
     }
   }

@@ -9,7 +9,6 @@ class TrainerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
-    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
     TextEditingController _searchcontroller = TextEditingController();
 
     return SafeArea(

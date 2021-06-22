@@ -47,6 +47,7 @@ class _MyAppState extends State<MyApp> {
                 create: (context) => AuthServices(FirebaseAuth.instance),
               ),
               theme: ThemeData(
+                // ignore: deprecated_member_use
                 accentColor: Apptheme.mainButonColor,
                 textTheme: TextTheme(
                   subtitle1: TextStyle(color: Apptheme.mainTextColor),

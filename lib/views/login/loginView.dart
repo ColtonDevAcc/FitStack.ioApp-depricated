@@ -37,6 +37,7 @@ class LoginView extends StatelessWidget {
                   context.read<AuthServices>().userLoggedIn
                       ? Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MainView()))
+                      // ignore: unnecessary_statements
                       : null;
                 },
                 child: Text('Login'))
