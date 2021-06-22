@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workify/providers/themeProvider.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/login/loginView.dart';
+import 'package:workify/views/mainView.dart';
 
 import 'controllers/authServices.dart';
 
@@ -15,7 +15,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  final Future<FirebaseApp> _fApp = Firebase.initializeApp();
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               title: 'Aircraft Closing Room',
               home: ChangeNotifierProvider(
-                child: LoginView(),
+                child: MainView(),
                 create: (context) => AuthServices(FirebaseAuth.instance),
               ),
               theme: ThemeData(
