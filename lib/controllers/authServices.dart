@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:workify/app/controllers/userInfo.dart';
 
 class AuthServices extends ChangeNotifier {
   bool userLoggedIn = false;
+  static String? userUID;
 
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -16,6 +16,7 @@ class AuthServices extends ChangeNotifier {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       userLoggedIn = true;
+      userUID = _firebaseAuth.currentUser!.uid;
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       userLoggedIn = false;
@@ -33,13 +34,4 @@ class AuthServices extends ChangeNotifier {
       return e.message.toString();
     }
   }
-}
-
-void setUserData({email: String}) {
-  UserInformation userInfo = UserInformation();
-  var user = FirebaseAuth.instance.currentUser!;
-
-  userInfo.userID = user.uid;
-  userInfo.firstName = user.uid;
-  userInfo.email = user.email;
 }

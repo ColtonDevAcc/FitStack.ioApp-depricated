@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +36,16 @@ class LoginView extends StatelessWidget {
                         password: passwordTextController.text.trim(),
                       );
                   context.read<AuthServices>().userLoggedIn
-                      ? Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainView()))
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangeNotifierProvider(
+                              child: MainView(),
+                              create: (context) =>
+                                  AuthServices(FirebaseAuth.instance),
+                            ),
+                          ),
+                        )
                       // ignore: unnecessary_statements
                       : null;
                 },

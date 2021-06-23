@@ -1,12 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/controllers/authServices.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
+  _ProfileViewState createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
   Widget build(BuildContext context) {
+    final userUID = AuthServices.userUID;
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +63,7 @@ class ProfileView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
               children: [
-                Text('User Name',
+                Text(userUID.toString(),
                     textScaleFactor: 1.5,
                     style: TextStyle(
                         color: Apptheme.mainTextColor,
