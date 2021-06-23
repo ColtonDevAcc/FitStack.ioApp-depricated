@@ -50,12 +50,22 @@ class _SignUpViewState extends State<SignUpView> {
             (context),
             MaterialPageRoute(
               builder: (context) => SingnUpConfirmationView(
+                userID: null,
+                key: key,
                 userName: userNameTextController.text,
                 email: emailTextController.text,
                 password: passwordTextController.text,
                 firstName: firstNameTextController.text,
                 lastName: lastNameTextController.text,
                 nationality: nationalityTextController.text,
+                admin: false,
+                height: height,
+                age: int.parse(ageTextController.text),
+                weight: double.parse(weightTextController.text),
+                mainWorkoutGoal: workoutGoal,
+                workoutFrequency: workoutFrequency.toInt(),
+                workoutExperiencelevel:
+                    userWorkoutExperienceList[userWorkoutExperienceListKey],
               ),
             ),
           );

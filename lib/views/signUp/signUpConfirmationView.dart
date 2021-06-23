@@ -80,6 +80,15 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
         ),
         backgroundColor: Apptheme.mainCardColor,
       ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Text('First Name'),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
