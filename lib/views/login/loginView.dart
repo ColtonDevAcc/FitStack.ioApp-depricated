@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 import 'package:workify/controllers/authServices.dart';
+import 'package:workify/views/signUp/signUpView.dart';
 import '../mainView.dart';
 
 class LoginView extends StatelessWidget {
@@ -27,6 +28,7 @@ class LoginView extends StatelessWidget {
             SizedBox(height: 30),
             Text('Password'),
             TextFormField(controller: passwordTextController),
+            SizedBox(height: 30),
             TextButton(
                 onPressed: () async {
                   print(emailTextController.text.trim());
@@ -49,7 +51,17 @@ class LoginView extends StatelessWidget {
                       // ignore: unnecessary_statements
                       : null;
                 },
-                child: Text('Login'))
+                child: Text('Login')),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    (context),
+                    MaterialPageRoute(
+                      builder: (context) => SignUpView(),
+                    ),
+                  );
+                },
+                child: Text('Sign Up'))
           ],
         ),
       ),

@@ -8,7 +8,8 @@ class User {
   String? email;
   bool? admin;
 
-  User(this.nationality);
+  User(this.nationality, this.userID, this.admin, this.email, this.firstName,
+      this.heightInches, this.lastName, this.userName);
 
   Map<String, dynamic> toJson() => {
         'userID': userID,

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:workify/providers/themeProvider.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
-import 'package:workify/views/mainView.dart';
 
 import 'controllers/authServices.dart';
 
