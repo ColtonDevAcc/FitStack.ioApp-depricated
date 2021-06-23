@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:simple_speed_dial/simple_speed_dial.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/savedVideo/savedView.dart';
@@ -52,33 +52,35 @@ class _MainViewState extends State<MainView> {
               ? addWorkoutFAB(context, _screenHeight, _screenWidth,
                   workoutTitleTextController, workoutTagsTextController)
               : SpeedDial(
-                  labelsStyle: TextStyle(color: Colors.black),
-                  closedBackgroundColor:
-                      Apptheme.mainButonColor.withOpacity(.2),
-                  openBackgroundColor: Apptheme.mainButonColor.withOpacity(.2),
-                  openForegroundColor: Apptheme.mainButonColor.withOpacity(.2),
-                  closedForegroundColor:
-                      Apptheme.mainButonColor.withOpacity(.2),
                   child: Icon(Icons.add, color: Apptheme.mainButonColor),
-                  speedDialChildren: [
+                  children: [
                     SpeedDialChild(
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
                         child: Icon(LineIcons.search,
                             color: Apptheme.mainButonColor),
-                        onPressed: () {},
+                        onTap: () {},
                         label: 'Search Entries',
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),
                     SpeedDialChild(
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
                         child: Icon(LineIcons.edit,
                             color: Apptheme.mainButonColor),
-                        onPressed: () {},
+                        onTap: () {},
                         label: 'Add Entry',
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),
                     SpeedDialChild(
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
                         child: Icon(LineIcons.camera,
                             color: Apptheme.mainButonColor),
-                        onPressed: () {},
+                        onTap: () {},
                         label: 'Scan',
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),

@@ -7,6 +7,12 @@ class User {
   String? nationality;
   String? email;
   bool? admin;
+  double? height;
+  int? age;
+  double? weight;
+  String? mainWorkoutGoal;
+  int? workoutFrequency;
+  String? workoutExperiencelevel;
 
   User(this.nationality, this.userID, this.admin, this.email, this.firstName,
       this.heightInches, this.lastName, this.userName);
