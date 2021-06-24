@@ -1,4 +1,4 @@
-class User {
+class FirebaseUser {
   String? userID;
   String? userName;
   String? firstName;
@@ -14,7 +14,7 @@ class User {
   int? workoutFrequency;
   String? workoutExperiencelevel;
 
-  User(this.nationality, this.userID, this.admin, this.email, this.firstName,
+  FirebaseUser(this.nationality, this.userID, this.admin, this.email, this.firstName,
       this.heightInches, this.lastName, this.userName);
 
   Map<String, dynamic> toJson() => {

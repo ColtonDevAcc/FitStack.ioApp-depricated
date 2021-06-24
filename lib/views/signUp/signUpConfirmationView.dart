@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/models/user.dart';
 
 class SingnUpConfirmationView extends StatefulWidget {
   final String? userID;
@@ -46,29 +50,42 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            (context),
-            MaterialPageRoute(
-              builder: (context) => SingnUpConfirmationView(),
-            ),
+        onTap: () async {
+          var user = new FirebaseUser(
+              this.widget.nationality,
+              this.widget.userID,
+              this.widget.admin,
+              this.widget.email,
+              this.widget.firstName,
+              this.widget.height,
+              this.widget.lastName,
+              this.widget.userName);
+          await AuthServices(FirebaseAuth.instance).signUp(
+            email: this.widget.email,
+            password: this.widget.password,
           );
+          await FirebaseFirestore.instance
+              .collection('UserInfo')
+              .doc(AuthServices.userUID.toString())
+              .set(user.toJson());
+          print('hit');
         },
         child: BottomAppBar(
-            color: Apptheme.mainButonColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: 1),
-                Text(
-                  'Finish Sign Up',
-                  textScaleFactor: 1.4,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 50, width: 1),
-              ],
-            )),
+          color: Apptheme.mainButonColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 1),
+              Text(
+                'Finish Sign Up',
+                textScaleFactor: 1.4,
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 50, width: 1),
+            ],
+          ),
+        ),
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
       appBar: AppBar(
@@ -82,13 +99,62 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Text('First Name'),
-            ],
-          )
+          userInfoDisplayText(
+              displayTextTitle: 'Username',
+              displayTextValue: this.widget.userName),
+          userInfoDisplayText(
+              displayTextTitle: 'First Name',
+              displayTextValue: this.widget.firstName),
+          userInfoDisplayText(
+              displayTextTitle: 'Last Name',
+              displayTextValue: this.widget.lastName),
+          userInfoDisplayText(
+              displayTextTitle: 'Age',
+              displayTextValue: this.widget.age.toString()),
+          userInfoDisplayText(
+              displayTextTitle: 'Height',
+              displayTextValue: this.widget.height.toString()),
+          userInfoDisplayText(
+              displayTextTitle: 'Weight',
+              displayTextValue: this.widget.weight.toString()),
+          userInfoDisplayText(
+              displayTextTitle: 'Workout Experience Level',
+              displayTextValue: this.widget.workoutExperiencelevel.toString()),
+          userInfoDisplayText(
+              displayTextTitle: 'Workout Frequency',
+              displayTextValue: this.widget.workoutFrequency.toString()),
+          userInfoDisplayText(
+              displayTextTitle: 'Workout Goal',
+              displayTextValue: this.widget.mainWorkoutGoal),
+          userInfoDisplayText(
+              displayTextTitle: 'Unique ID',
+              displayTextValue:
+                  this.widget.userID == null ? 'asf' : this.widget.userID),
         ],
       ),
     );
   }
+}
+
+Padding userInfoDisplayText(
+    {displayTextTitle: String, displayTextValue: String}) {
+  return Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(),
+        Text(
+          displayTextTitle,
+          style: TextStyle(color: Apptheme.mainTextColor),
+        ),
+        SizedBox(),
+        Text(
+          displayTextValue,
+          style: TextStyle(color: Apptheme.mainTextColor),
+        ),
+        SizedBox(),
+      ],
+    ),
+  );
 }

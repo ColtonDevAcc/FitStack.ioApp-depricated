@@ -31,6 +31,7 @@ class AuthServices extends ChangeNotifier {
           email: email, password: password);
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
+      print(e);
       return e.message.toString();
     }
   }
