@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,8 +14,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
-    // ignore: unused_local_variable
-    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
     TextEditingController _searchcontroller = TextEditingController();
 
     return SafeArea(
@@ -33,10 +32,10 @@ class _HomeViewState extends State<HomeView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Daily greeting message ',
+                              Text('Good day,',
                                   style:
                                       TextStyle(color: Apptheme.mainTextColor)),
-                              Text('Hi \$user, !',
+                              Text(CurrentUser.firstName.toString(),
                                   style: TextStyle(
                                       color: Apptheme.mainTextColor,
                                       fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/controllers/authServices.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -13,8 +13,6 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
-    final userUID = AuthServices.userUID;
-
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,12 +61,12 @@ class _ProfileViewState extends State<ProfileView> {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
               children: [
-                Text(userUID.toString(),
+                Text("${CurrentUser.firstName} ${CurrentUser.lastName}",
                     textScaleFactor: 1.5,
                     style: TextStyle(
                         color: Apptheme.mainTextColor,
                         fontWeight: FontWeight.bold)),
-                Text('Nationality  🇺🇲',
+                Text('${CurrentUser.nationality}  🇺🇲',
                     textScaleFactor: 1,
                     style: TextStyle(
                         color: Apptheme.mainTextColor,
@@ -86,7 +84,7 @@ class _ProfileViewState extends State<ProfileView> {
                   padding: const EdgeInsets.fromLTRB(40, 0, 20, 0),
                   child: Column(
                     children: [
-                      Text('100 lbs',
+                      Text('${CurrentUser.weight!.toInt()}',
                           textScaleFactor: 1.5,
                           style: TextStyle(
                               color: Apptheme.mainTextColor,
@@ -107,7 +105,8 @@ class _ProfileViewState extends State<ProfileView> {
                     child: SizedBox(width: 1, height: 40)),
                 Column(
                   children: [
-                    Text('6"4',
+                    Text(
+                        '${CurrentUser.height! ~/ 12}"${(CurrentUser.height! % 12).round()}',
                         textScaleFactor: 1.5,
                         style: TextStyle(
                             color: Apptheme.mainTextColor,
@@ -129,7 +128,7 @@ class _ProfileViewState extends State<ProfileView> {
                   padding: const EdgeInsets.fromLTRB(20, 0, 75, 0),
                   child: Column(
                     children: [
-                      Text('21',
+                      Text('${CurrentUser.age}',
                           textScaleFactor: 1.5,
                           style: TextStyle(
                               color: Apptheme.mainTextColor,

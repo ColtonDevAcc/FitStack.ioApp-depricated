@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/models/user.dart';
+import 'package:workify/views/mainView.dart';
 
 class SingnUpConfirmationView extends StatefulWidget {
   final String? userID;
@@ -52,23 +53,29 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
       bottomNavigationBar: GestureDetector(
         onTap: () async {
           var user = new FirebaseUser(
-              this.widget.nationality,
-              this.widget.userID,
-              this.widget.admin,
-              this.widget.email,
-              this.widget.firstName,
-              this.widget.height,
-              this.widget.lastName,
-              this.widget.userName);
+            userName: this.widget.userName!,
+            firstName: this.widget.firstName!,
+            lastName: this.widget.lastName!,
+            nationality: this.widget.nationality!,
+            email: this.widget.email!,
+            admin: this.widget.admin!,
+            height: this.widget.height!,
+            age: this.widget.age!,
+            weight: this.widget.weight!,
+            mainWorkoutGoal: this.widget.mainWorkoutGoal!,
+            workoutFrequency: this.widget.workoutFrequency!,
+            workoutExperiencelevel: this.widget.workoutExperiencelevel!,
+          );
           await AuthServices(FirebaseAuth.instance).signUp(
             email: this.widget.email,
             password: this.widget.password,
           );
           await FirebaseFirestore.instance
               .collection('UserInfo')
-              .doc(AuthServices.userUID.toString())
-              .set(user.toJson());
-          print('hit');
+              .doc(AuthServices.userUID)
+              .set(user.toMap());
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainView()));
         },
         child: BottomAppBar(
           color: Apptheme.mainButonColor,

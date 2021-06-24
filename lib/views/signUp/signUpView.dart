@@ -59,7 +59,7 @@ class _SignUpViewState extends State<SignUpView> {
                 lastName: lastNameTextController.text,
                 nationality: nationalityTextController.text,
                 admin: false,
-                height: height,
+                height: double.parse(heightTextController.text),
                 age: int.parse(ageTextController.text),
                 weight: double.parse(weightTextController.text),
                 mainWorkoutGoal: workoutGoal,
