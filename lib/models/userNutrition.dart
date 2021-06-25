@@ -1,96 +1,75 @@
-import 'package:workify/controllers/currentUser.dart';
+import 'dart:convert';
 
-class CurrentUserNutrition {
-  static double? userCurrentCalorieIntake;
-  static double? userCurrentProteinIntake;
-  static double? userCurrentVitaminAIntake;
-  static double? userCurrentVitaminCIntake;
-  static double? serCurrentVitaminDIntake;
-  static double? userCurrentVitaminEIntake;
+class UserNutrition {
+  final double userCurrentCalorieIntake;
+  final double userCurrentProteinIntake;
+  final double userCurrentVitaminAIntake;
+  final double userCurrentVitaminCIntake;
+  final double userCurrentVitaminDIntake;
+  final double userCurrentVitaminEIntake;
 
-  static double? userRecommendedCalorieIntake;
-  static double? userRecommendedProteinIntake;
-  static double? userRecommendedVitaminAIntake;
-  static double? userRecommendedVitaminCIntake;
-  static double? userRecommendedVitaminDIntake;
-  static double? userRecommendedVitaminEIntake;
+  final double userRecommendedCalorieIntake;
+  final double userRecommendedProteinIntake;
+  final double userRecommendedVitaminAIntake;
+  final double userRecommendedVitaminCIntake;
+  final double userRecommendedVitaminDIntake;
+  final double userRecommendedVitaminEIntake;
 
-  double calculateNutrientsForWeightGain({userGender: String}) {
-    double userWorkoutActivityFactor = calculateUserWorkoutActivityFactor();
+  UserNutrition(
+    this.userCurrentCalorieIntake,
+    this.userCurrentProteinIntake,
+    this.userCurrentVitaminAIntake,
+    this.userCurrentVitaminCIntake,
+    this.userCurrentVitaminDIntake,
+    this.userCurrentVitaminEIntake,
+    this.userRecommendedCalorieIntake,
+    this.userRecommendedProteinIntake,
+    this.userRecommendedVitaminAIntake,
+    this.userRecommendedVitaminCIntake,
+    this.userRecommendedVitaminDIntake,
+    this.userRecommendedVitaminEIntake,
+  );
 
-    if (CurrentUser.gender == 'Male') {
-      print('Male');
-      return userRecommendedCalorieIntake = 66 +
-          (6.3 * CurrentUser.weight!.toDouble()) +
-          (12.9 * CurrentUser.height!.toDouble()) -
-          (6.8 * CurrentUser.age!.toDouble()) * userWorkoutActivityFactor;
-    } else {
-      print('Female');
-      return userRecommendedCalorieIntake = 66 +
-          (4.3 * CurrentUser.weight!.toDouble()) +
-          (4.7 * CurrentUser.height!.toDouble()) -
-          (4.7 * CurrentUser.age!.toDouble()) * userWorkoutActivityFactor;
-    }
+  Map<String, dynamic> toMap() {
+    return {
+      'userCurrentCalorieIntake': userCurrentCalorieIntake,
+      'userCurrentProteinIntake': userCurrentProteinIntake,
+      'userCurrentVitaminAIntake': userCurrentVitaminAIntake,
+      'userCurrentVitaminCIntake': userCurrentVitaminCIntake,
+      'userCurrentVitaminDIntake': userCurrentVitaminDIntake,
+      'userCurrentVitaminEIntake': userCurrentVitaminEIntake,
+      'userRecommendedCalorieIntake': userRecommendedCalorieIntake,
+      'userRecommendedProteinIntake': userRecommendedProteinIntake,
+      'userRecommendedVitaminAIntake': userRecommendedVitaminAIntake,
+      'userRecommendedVitaminCIntake': userRecommendedVitaminCIntake,
+      'userRecommendedVitaminDIntake': userRecommendedVitaminDIntake,
+      'userRecommendedVitaminEIntake': userRecommendedVitaminEIntake,
+    };
   }
 
-  void calculateNutrientsForMuscleGain() {}
-
-  void calculateNutrientsForWeighLoss() {}
-
-  void calculateNutrientsForStrength() {}
-
-  void calculateNutrientsFor() {}
-
-  static double calculateUserWorkoutActivityFactor() {
-    double? userWorkoutActivityFactor;
-
-    switch (CurrentUser.workoutFrequency) {
-      case 0:
-        {
-          userWorkoutActivityFactor = 1.2;
-        }
-        break;
-      case 1:
-        {
-          userWorkoutActivityFactor = 1.375;
-        }
-        break;
-      case 2:
-        {
-          userWorkoutActivityFactor = 1.375;
-        }
-        break;
-      case 3:
-        {
-          userWorkoutActivityFactor = 1.55;
-        }
-        break;
-      case 4:
-        {
-          userWorkoutActivityFactor = 1.55;
-        }
-        break;
-      case 5:
-        {
-          userWorkoutActivityFactor = 1.725;
-        }
-        break;
-      case 6:
-        {
-          userWorkoutActivityFactor = 1.725;
-        }
-        break;
-      case 7:
-        {
-          userWorkoutActivityFactor = 1.9;
-        }
-        break;
-    }
-    return userWorkoutActivityFactor!;
+  factory UserNutrition.fromMap(Map<String, dynamic> map) {
+    return UserNutrition(
+      map['userCurrentCalorieIntake'],
+      map['userCurrentProteinIntake'],
+      map['userCurrentVitaminAIntake'],
+      map['userCurrentVitaminCIntake'],
+      map['userCurrentVitaminDIntake'],
+      map['userCurrentVitaminEIntake'],
+      map['userRecommendedCalorieIntake'],
+      map['userRecommendedProteinIntake'],
+      map['userRecommendedVitaminAIntake'],
+      map['userRecommendedVitaminCIntake'],
+      map['userRecommendedVitaminDIntake'],
+      map['userRecommendedVitaminEIntake'],
+    );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserNutrition.fromJson(String source) =>
+      UserNutrition.fromMap(json.decode(source));
 }
 
-//prot calc
 //protein https://www.acsm.org/docs/default-source/files-for-resource-library/protein-intake-for-optimal-muscle-maintenance.pdf
 
 //cal calc

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/controllers/currentUserNutrition.dart';
+import 'package:workify/models/userAddWorkout.dart';
 
 class AuthServices extends ChangeNotifier {
   bool userLoggedIn = false;
@@ -20,7 +22,7 @@ class AuthServices extends ChangeNotifier {
       userLoggedIn = true;
       userUID = _firebaseAuth.currentUser!.uid;
       await getUserInfo(userUID: userUID);
-      calculateUserNutrition();
+      logInTask();
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       userLoggedIn = false;
@@ -66,6 +68,35 @@ class AuthServices extends ChangeNotifier {
     });
     print('END');
   }
+
+  static Future<String> addUserWorkout({
+    workoutType: String,
+    workoutTitle: String,
+    workoutDescription: String,
+    workoutTags: List,
+  }) async {
+    try {
+      UserAddWorkout newUserWorkout = UserAddWorkout(
+        workoutTitle,
+        workoutDescription,
+        workoutType,
+        workoutTags,
+      );
+
+      await FirebaseFirestore.instance
+          .collection('UserInfo')
+          .doc(AuthServices.userUID)
+          .collection('UserAddedWorkout')
+          .doc(workoutTitle)
+          .set(newUserWorkout.toMap());
+      return "Signed Up";
+    } on FirebaseAuthException catch (e) {
+      return e.message.toString();
+    }
+  }
 }
 
-void calculateUserNutrition() {}
+void logInTask() {
+  CurrentUserNutrition(CurrentUser.gender);
+  print(CurrentUser.gender);
+}

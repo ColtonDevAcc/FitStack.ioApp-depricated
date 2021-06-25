@@ -8,6 +8,7 @@ import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/savedVideo/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
+import 'package:workify/widgets/addWorkoutFAB.dart';
 import 'home/homeView.dart';
 import 'mealPlan/mealPlanView.dart';
 
@@ -24,6 +25,9 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     TextEditingController workoutTitleTextController = TextEditingController();
+    TextEditingController workoutDescriptionTextController =
+        TextEditingController();
+    TextEditingController workoutTypeTextController = TextEditingController();
     TextEditingController workoutTagsTextController = TextEditingController();
 
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
@@ -45,14 +49,29 @@ class _MainViewState extends State<MainView> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: _children[_currentIndex],
       backgroundColor: Apptheme.mainBackgroundColor,
       floatingActionButton: _currentIndex == 2 || _currentIndex == 3
           ? _currentIndex == 2
-              ? addWorkoutFAB(context, _screenHeight, _screenWidth,
-                  workoutTitleTextController, workoutTagsTextController)
+              ? AddWorkoutFAB(
+                  context: context,
+                  screenWidth: _screenWidth,
+                  screenHeight: _screenHeight,
+                  workoutDescriptionTextController:
+                      workoutDescriptionTextController,
+                  workoutTagsTextController: workoutTagsTextController,
+                  workoutTitleTextController: workoutTitleTextController,
+                  workoutTypeTextController: workoutTypeTextController,
+                )
               : SpeedDial(
+                  overlayColor: Colors.transparent,
                   child: Icon(Icons.add, color: Apptheme.mainButonColor),
+                  backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
+                  activeIcon: Icons.add,
+                  activeForegroundColor: Apptheme.mainButonColor,
+                  activeBackgroundColor:
+                      Apptheme.mainButonColor.withOpacity(.2),
                   children: [
                     SpeedDialChild(
                         foregroundColor:
@@ -62,9 +81,11 @@ class _MainViewState extends State<MainView> {
                             color: Apptheme.mainButonColor),
                         onTap: () {},
                         label: 'Search Entries',
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),
                     SpeedDialChild(
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
                         foregroundColor:
                             Apptheme.mainButonColor.withOpacity(.2),
                         labelBackgroundColor: Apptheme.mainCardColor,
@@ -75,6 +96,7 @@ class _MainViewState extends State<MainView> {
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),
                     SpeedDialChild(
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
                         foregroundColor:
                             Apptheme.mainButonColor.withOpacity(.2),
                         labelBackgroundColor: Apptheme.mainCardColor,
@@ -108,188 +130,6 @@ class _MainViewState extends State<MainView> {
               icon: Icon(Icons.groups, size: 22), title: Text('Trainers')),
           SalomonBottomBarItem(
               icon: Icon(Icons.person, size: 22), title: Text('Profile')),
-        ],
-      ),
-    );
-  }
-
-  FloatingActionButton addWorkoutFAB(
-      BuildContext context,
-      double _screenHeight,
-      double _screenWidth,
-      TextEditingController workoutTitleTextController,
-      TextEditingController workoutTagsTextController) {
-    return FloatingActionButton(
-      onPressed: () {
-        showModalBottomSheet(
-          backgroundColor: Apptheme.mainBackgroundColor,
-          context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          builder: (context) {
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.close, color: Apptheme.mainTextColor),
-                          Text('Create Your Workout',
-                              style: TextStyle(color: Apptheme.mainTextColor)),
-                          Icon(Icons.add, color: Apptheme.mainTextColor),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 13, 0, 13),
-                        child: Text('Workout Type',
-                            textScaleFactor: 1.2,
-                            style: TextStyle(color: Apptheme.mainTextColor)),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: _screenHeight / 10,
-                            width: _screenWidth - 20,
-                            child: ListView(
-                              addAutomaticKeepAlives: true,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                workoutCatTypesButton(
-                                    icon: LineIcons.running, title: 'Cardio'),
-                                workoutCatTypesButton(
-                                    icon: LineIcons.bicycle, title: 'Cycling'),
-                                workoutCatTypesButton(
-                                    icon: LineIcons.heartbeat,
-                                    title: 'Cross-Fit'),
-                                workoutCatTypesButton(
-                                    icon: LineIcons.dumbbell,
-                                    title: 'Weight Lifting'),
-                                workoutCatTypesButton(
-                                    icon: LineIcons.swimmer, title: 'Swimming'),
-                                workoutCatTypesButton(
-                                    icon: LineIcons.hiking, title: 'Rucking'),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-                          child: Text('Workout Title',
-                              textScaleFactor: 1.2,
-                              style: TextStyle(color: Apptheme.mainTextColor))),
-                      TextField(
-                        controller: workoutTitleTextController,
-                        decoration: (InputDecoration(
-                          hintText: 'Workout 1',
-                          hintStyle: TextStyle(
-                              color: Apptheme.mainTextColor.withOpacity(0.2)),
-                          fillColor: Apptheme.mainTextColor,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                        )),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-                          child: Text('Workout Tags',
-                              textScaleFactor: 1.2,
-                              style: TextStyle(color: Apptheme.mainTextColor))),
-                      TextField(
-                        controller: workoutTagsTextController,
-                        decoration: (InputDecoration(
-                          hintText: 'tag 1, tag 2, etc..',
-                          hintStyle: TextStyle(
-                              color: Apptheme.mainTextColor.withOpacity(0.2)),
-                          fillColor: Apptheme.mainTextColor,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                        )),
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Apptheme.mainButonColor.withOpacity(.2))),
-                        onPressed: () {},
-                        child: Expanded(
-                          child: Container(
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                'Add Workout',
-                                style:
-                                    TextStyle(color: Apptheme.mainButonColor),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
-      child: Icon(Icons.add, color: Apptheme.mainButonColor),
-    );
-  }
-
-  Padding workoutCatTypesButton({icon: LineIcons, title: String}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-      child: Column(
-        children: [
-          Expanded(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                    Apptheme.mainButonColor.withOpacity(0.2)),
-                shape: MaterialStateProperty.all(
-                  CircleBorder(),
-                ),
-              ),
-              child: Expanded(
-                child: Icon(
-                  icon,
-                  size: 40,
-                  color: Apptheme.mainButonColor,
-                ),
-              ),
-              onPressed: () {},
-            ),
-          ),
-          SizedBox(height: 3),
-          Text(title, style: TextStyle(color: Apptheme.mainTextColor))
         ],
       ),
     );

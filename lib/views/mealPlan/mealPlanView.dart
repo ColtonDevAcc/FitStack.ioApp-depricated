@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
 
 class MealPlanView extends StatelessWidget {
@@ -16,11 +17,11 @@ class MealPlanView extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 1),
             Text('Nutrition',
                 textScaleFactor: 1.3,
                 style: TextStyle(color: Apptheme.mainTextColor)),
-            SizedBox(height: 10),
+            SizedBox(height: 1),
             TextFormField(
               controller: _searchcontroller,
               style: TextStyle(color: Colors.white),
@@ -37,10 +38,12 @@ class MealPlanView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15)),
               ),
             ),
+            SizedBox(height: 1),
             Text(
               'Recommended',
               style: TextStyle(color: Apptheme.mainTextColor),
             ),
+            SizedBox(height: 1),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -48,13 +51,16 @@ class MealPlanView extends StatelessWidget {
                     child: userStatisticsTab(
                   icon: LineIcons.burn,
                   detailsString: 'Calories',
-                  value: CurrentUserNutrition.userCurrentCalorieIntake,
+                  value: CurrentUserNutrition.userRecommendedCalorieIntake!
+                      .toInt(),
                 )),
                 Expanded(
                     child: userStatisticsTab(
-                        icon: LineIcons.drumstickWithBiteTakenOut,
-                        detailsString: 'Vitamin D',
-                        value: 30)),
+                  icon: LineIcons.drumstickWithBiteTakenOut,
+                  detailsString: 'Vitamin D',
+                  value: CurrentUserNutrition.userRecommendedVitaminDIntake!
+                      .toInt(),
+                )),
               ],
             ),
             Row(
@@ -62,14 +68,18 @@ class MealPlanView extends StatelessWidget {
               children: [
                 Expanded(
                     child: userStatisticsTab(
-                        icon: LineIcons.fish,
-                        detailsString: 'Vitamin A',
-                        value: 120)),
+                  icon: LineIcons.fish,
+                  detailsString: 'Vitamin A',
+                  value: CurrentUserNutrition.userRecommendedVitaminAIntake!
+                      .toInt(),
+                )),
                 Expanded(
                     child: userStatisticsTab(
-                        icon: LineIcons.seedling,
-                        detailsString: 'Vitamin E',
-                        value: 120)),
+                  icon: LineIcons.seedling,
+                  detailsString: 'Vitamin E',
+                  value: CurrentUserNutrition.userRecommendedVitaminEIntake!
+                      .toInt(),
+                )),
               ],
             ),
             Row(
@@ -77,33 +87,27 @@ class MealPlanView extends StatelessWidget {
               children: [
                 Expanded(
                     child: userStatisticsTab(
-                        icon: LineIcons.fruitApple,
-                        detailsString: 'Vitamin C',
-                        value: 120)),
+                  icon: LineIcons.fruitApple,
+                  detailsString: 'Vitamin C',
+                  value: CurrentUserNutrition.userRecommendedVitaminCIntake!
+                      .toInt(),
+                )),
                 Expanded(
                     child: userStatisticsTab(
-                        icon: Icons.local_fire_department,
-                        detailsString: 'Protein',
-                        value: (CurrentUser.weight! * 0.65).round())),
+                  icon: Icons.local_fire_department,
+                  detailsString: 'Protein',
+                  value: (CurrentUser.weight! * 0.65).round(),
+                )),
               ],
             ),
-            SizedBox(height: 20),
-            Text('Recents',
+            SizedBox(height: 1),
+            Text('Recents meals',
                 textScaleFactor: 1.3,
                 style: TextStyle(color: Apptheme.mainTextColor)),
-            SizedBox(height: 20),
+            SizedBox(height: 1),
             Expanded(
                 child: ListView(
-              children: [
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-                featuredHorizontalTabCard(),
-              ],
+              children: [],
             ))
           ],
         ),
