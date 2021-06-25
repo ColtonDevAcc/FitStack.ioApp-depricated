@@ -20,6 +20,7 @@ class AuthServices extends ChangeNotifier {
       userLoggedIn = true;
       userUID = _firebaseAuth.currentUser!.uid;
       await getUserInfo(userUID: userUID);
+      calculateUserNutrition();
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       userLoggedIn = false;
@@ -66,3 +67,5 @@ class AuthServices extends ChangeNotifier {
     print('END');
   }
 }
+
+void calculateUserNutrition() {}

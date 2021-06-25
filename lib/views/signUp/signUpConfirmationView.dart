@@ -65,6 +65,7 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
             mainWorkoutGoal: this.widget.mainWorkoutGoal!,
             workoutFrequency: this.widget.workoutFrequency!,
             workoutExperiencelevel: this.widget.workoutExperiencelevel!,
+            gender: 'Male',
           );
           await AuthServices(FirebaseAuth.instance).signUp(
             email: this.widget.email,

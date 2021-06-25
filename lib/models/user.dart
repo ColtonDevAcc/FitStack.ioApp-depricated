@@ -9,11 +9,13 @@ class FirebaseUser {
   bool admin;
   double height;
   int age;
+  String gender;
   double weight;
   String mainWorkoutGoal;
   int workoutFrequency;
   String workoutExperiencelevel;
   FirebaseUser({
+    required this.gender,
     required this.userName,
     required this.firstName,
     required this.lastName,
@@ -35,6 +37,7 @@ class FirebaseUser {
       'lastName': lastName,
       'nationality': nationality,
       'email': email,
+      'gender': gender,
       'admin': admin,
       'height': height,
       'age': age,
@@ -59,6 +62,7 @@ class FirebaseUser {
       mainWorkoutGoal: map['mainWorkoutGoal'],
       workoutFrequency: map['workoutFrequency'],
       workoutExperiencelevel: map['workoutExperiencelevel'],
+      gender: map['gender'],
     );
   }
 

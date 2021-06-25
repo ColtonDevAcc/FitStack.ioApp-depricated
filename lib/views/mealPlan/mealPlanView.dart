@@ -38,55 +38,6 @@ class MealPlanView extends StatelessWidget {
               ),
             ),
             Text(
-              'Your intake',
-              style: TextStyle(color: Apptheme.mainTextColor),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: LineIcons.burn,
-                        detailsString: 'Calories',
-                        value: 3200)),
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: LineIcons.drumstickWithBiteTakenOut,
-                        detailsString: 'Vitamin D',
-                        value: 30)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: LineIcons.fish,
-                        detailsString: 'Vitamin A',
-                        value: 120)),
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: LineIcons.seedling,
-                        detailsString: 'Vitamin E',
-                        value: 120)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: LineIcons.fruitApple,
-                        detailsString: 'Vitamin C',
-                        value: 120)),
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: Icons.local_fire_department,
-                        detailsString: 'Protein',
-                        value: 120)),
-              ],
-            ),
-            Text(
               'Recommended',
               style: TextStyle(color: Apptheme.mainTextColor),
             ),
@@ -95,9 +46,10 @@ class MealPlanView extends StatelessWidget {
               children: [
                 Expanded(
                     child: userStatisticsTab(
-                        icon: LineIcons.burn,
-                        detailsString: 'Calories',
-                        value: 3200)),
+                  icon: LineIcons.burn,
+                  detailsString: 'Calories',
+                  value: CurrentUserNutrition.userCurrentCalorieIntake,
+                )),
                 Expanded(
                     child: userStatisticsTab(
                         icon: LineIcons.drumstickWithBiteTakenOut,
