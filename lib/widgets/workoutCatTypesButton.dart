@@ -5,8 +5,13 @@ import 'package:workify/theme/theme.dart';
 class WorkoutCatTypesButton extends StatelessWidget {
   final IconData icon;
   final String title;
+  final void Function() onPressed;
 
-  const WorkoutCatTypesButton({Key? key, required this.icon, required this.title})
+  const WorkoutCatTypesButton(
+      {Key? key,
+      required this.icon,
+      required this.title,
+      required this.onPressed})
       : super(key: key);
 
   @override
@@ -29,7 +34,7 @@ class WorkoutCatTypesButton extends StatelessWidget {
               size: 40,
               color: Apptheme.mainButonColor,
             ),
-            onPressed: () {},
+            onPressed: onPressed,
           ),
           SizedBox(height: 3),
           Text(title, style: TextStyle(color: Apptheme.mainTextColor))

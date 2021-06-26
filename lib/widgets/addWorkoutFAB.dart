@@ -15,7 +15,7 @@ class AddWorkoutFAB extends StatelessWidget {
   final TextEditingController workoutDescriptionTextController;
   final TextEditingController workoutTypeTextController;
 
-  static List? workoutTags;
+  static List? workoutTags = [];
 
   const AddWorkoutFAB(
       {Key? key,
@@ -30,173 +30,203 @@ class AddWorkoutFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Apptheme.mainBackgroundColor,
-          context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          builder: (context) {
-            return ListView(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(LineIcons.times,
-                                  color: Apptheme.mainTextColor)),
-                          Text('Create Your Workout',
-                              style: TextStyle(color: Apptheme.mainTextColor)),
-                          GestureDetector(
-                              onTap: () {
-                                print('Add Image');
-                              },
-                              child: Icon(LineIcons.camera,
-                                  color: Apptheme.mainTextColor)),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 13, 0, 13),
-                        child: Text('Workout Type',
-                            textScaleFactor: 1.2,
-                            style: TextStyle(color: Apptheme.mainTextColor)),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: screenHeight / 10,
-                            width: screenWidth - 20,
-                            child: ListView(
-                              addAutomaticKeepAlives: true,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.running, title: 'Cardio'),
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.bicycle, title: 'Cycling'),
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.heartbeat,
-                                    title: 'Cross-Fit'),
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.dumbbell,
-                                    title: 'Weight Lifting'),
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.swimmer, title: 'Swimming'),
-                                WorkoutCatTypesButton(
-                                    icon: LineIcons.hiking, title: 'Rucking'),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-                          child: Text('Workout Title',
-                              textScaleFactor: 1.2,
-                              style: TextStyle(color: Apptheme.mainTextColor))),
-                      TextField(
-                        controller: workoutTitleTextController,
-                        decoration: (InputDecoration(
-                          hintText: 'Workout 1',
-                          hintStyle: TextStyle(
-                              color: Apptheme.mainTextColor.withOpacity(0.2)),
-                          fillColor: Apptheme.mainTextColor,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                        )),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-                          child: Text('Workout Title',
-                              textScaleFactor: 1.2,
-                              style: TextStyle(color: Apptheme.mainTextColor))),
-                      TextField(
-                        controller: workoutDescriptionTextController,
-                        decoration: (InputDecoration(
-                          hintText: 'Brief description',
-                          hintStyle: TextStyle(
-                              color: Apptheme.mainTextColor.withOpacity(0.2)),
-                          fillColor: Apptheme.mainTextColor,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Apptheme.mainTextColor),
-                          ),
-                        )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-                        child: Text(
-                          'Workout Tags',
-                          textScaleFactor: 1.2,
-                          style: TextStyle(color: Apptheme.mainTextColor),
+    String workoutType = 'default';
+    return SafeArea(
+      child: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Apptheme.mainBackgroundColor,
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            builder: (context) {
+              return ListView(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(LineIcons.times,
+                                    color: Apptheme.mainTextColor)),
+                            Text('Create Your Workout',
+                                style:
+                                    TextStyle(color: Apptheme.mainTextColor)),
+                            GestureDetector(
+                                onTap: () {
+                                  print('Add Image');
+                                },
+                                child: Icon(LineIcons.camera,
+                                    color: Apptheme.mainTextColor)),
+                          ],
                         ),
-                      ),
-                      addWorkoutTags(),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Apptheme.mainButonColor.withOpacity(.2))),
-                        onPressed: () async {
-                          //print
-                          await AuthServices.addUserWorkout(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 13, 0, 13),
+                          child: Text('Workout Type',
+                              textScaleFactor: 1.2,
+                              style: TextStyle(color: Apptheme.mainTextColor)),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              height: screenHeight / 10,
+                              width: screenWidth - 20,
+                              child: ListView(
+                                addAutomaticKeepAlives: true,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Cardio';
+                                      },
+                                      icon: LineIcons.running,
+                                      title: 'Cardio'),
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Cycling';
+                                      },
+                                      icon: LineIcons.bicycle,
+                                      title: 'Cycling'),
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Cross-Fit';
+                                      },
+                                      icon: LineIcons.heartbeat,
+                                      title: 'Cross-Fit'),
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Weight Lifting';
+                                      },
+                                      icon: LineIcons.dumbbell,
+                                      title: 'Weight Lifting'),
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Swimming';
+                                      },
+                                      icon: LineIcons.swimmer,
+                                      title: 'Swimming'),
+                                  WorkoutCatTypesButton(
+                                      onPressed: () {
+                                        workoutType = 'Rucking';
+                                      },
+                                      icon: LineIcons.hiking,
+                                      title: 'Rucking'),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+                            child: Text('Workout Title',
+                                textScaleFactor: 1.2,
+                                style:
+                                    TextStyle(color: Apptheme.mainTextColor))),
+                        TextField(
+                          controller: workoutTitleTextController,
+                          decoration: (InputDecoration(
+                            hintText: 'Workout 1',
+                            hintStyle: TextStyle(
+                                color: Apptheme.mainTextColor.withOpacity(0.2)),
+                            fillColor: Apptheme.mainTextColor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                          )),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+                            child: Text('Workout Title',
+                                textScaleFactor: 1.2,
+                                style:
+                                    TextStyle(color: Apptheme.mainTextColor))),
+                        TextField(
+                          controller: workoutDescriptionTextController,
+                          decoration: (InputDecoration(
+                            hintText: 'Brief description',
+                            hintStyle: TextStyle(
+                                color: Apptheme.mainTextColor.withOpacity(0.2)),
+                            fillColor: Apptheme.mainTextColor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Apptheme.mainTextColor),
+                            ),
+                          )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+                          child: Text(
+                            'Workout Tags',
+                            textScaleFactor: 1.2,
+                            style: TextStyle(color: Apptheme.mainTextColor),
+                          ),
+                        ),
+                        addWorkoutTags(),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Apptheme.mainButonColor.withOpacity(.2))),
+                          onPressed: () async {
+                            //print
+                            await AuthServices.addUserWorkout(
                               workoutDescription:
                                   workoutDescriptionTextController.text,
                               workoutTags: workoutTags,
                               workoutTitle: workoutTitleTextController.text,
-                              workoutType: 'run');
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          child: Center(
-                            child: Text(
-                              'Add Workout',
-                              style: TextStyle(color: Apptheme.mainButonColor),
+                              workoutType: workoutType,
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            child: Center(
+                              child: Text(
+                                'Add Workout',
+                                style:
+                                    TextStyle(color: Apptheme.mainButonColor),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
-      child: Icon(Icons.add, color: Apptheme.mainButonColor),
+                ],
+              );
+            },
+          );
+        },
+        backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
+        child: Icon(Icons.add, color: Apptheme.mainButonColor),
+      ),
     );
   }
 
