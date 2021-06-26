@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/models/user.dart';
-import 'package:workify/views/mainView.dart';
+import 'package:workify/views/login/loginView.dart';
 
 class SingnUpConfirmationView extends StatefulWidget {
   final String? userID;
@@ -76,7 +76,7 @@ class _SingnUpConfirmationViewState extends State<SingnUpConfirmationView> {
               .doc(AuthServices.userUID)
               .set(user.toMap());
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MainView()));
+              context, MaterialPageRoute(builder: (context) => LoginView()));
         },
         child: BottomAppBar(
           color: Apptheme.mainButonColor,

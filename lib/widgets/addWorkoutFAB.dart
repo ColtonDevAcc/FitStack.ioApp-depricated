@@ -204,6 +204,20 @@ class AddWorkoutFAB extends StatelessWidget {
                               workoutTitle: workoutTitleTextController.text,
                               workoutType: workoutType,
                             );
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            Navigator.pop(context);
                           },
                           child: Container(
                             width: double.infinity,

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
@@ -26,8 +25,6 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
       'run': Icons.error,
       'Default': Icons.error
     };
-
-    double _screenHeight = MediaQuery.of(context).size.height.toDouble();
 
     return SafeArea(
       child: Column(

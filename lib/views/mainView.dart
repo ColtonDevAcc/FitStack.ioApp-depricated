@@ -91,7 +91,36 @@ class _MainViewState extends State<MainView> {
                         labelBackgroundColor: Apptheme.mainCardColor,
                         child: Icon(LineIcons.edit,
                             color: Apptheme.mainButonColor),
-                        onTap: () {},
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Apptheme.mainBackgroundColor,
+                            builder: (context) {
+                              return Column(
+                                children: [
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'Add entry',
+                                    style: TextStyle(
+                                        color: Apptheme.mainTextColor),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text('data'),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: TextField(
+                                          style: TextStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                         label: 'Add Entry',
                         backgroundColor:
                             Apptheme.mainButonColor.withOpacity(.2)),
