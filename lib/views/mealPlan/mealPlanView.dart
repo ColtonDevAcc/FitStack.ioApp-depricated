@@ -132,9 +132,17 @@ class MealPlanView extends StatelessWidget {
                           document.data() as Map<String, dynamic>;
 
                       return new ListTile(
-                        title: new Text(data['mealTitle'] == null
-                            ? 'null info'
-                            : data['mealTitle']),
+                        title: new Text(
+                          data['mealTitle'] == null
+                              ? 'null info'
+                              : data['mealTitle'],
+                        ),
+                        subtitle: Text(
+                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()} Protein',
+                          style: TextStyle(
+                            color: Apptheme.mainTextColor,
+                          ),
+                        ),
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           color: Apptheme.mainTextColor,
