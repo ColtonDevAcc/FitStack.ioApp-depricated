@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
@@ -105,10 +107,44 @@ class MealPlanView extends StatelessWidget {
                 textScaleFactor: 1.3,
                 style: TextStyle(color: Apptheme.mainTextColor)),
             SizedBox(height: 1),
-            Expanded(
-                child: ListView(
-              children: [],
-            ))
+            Flexible(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('UserInfo')
+                    .doc(AuthServices.userUID)
+                    .collection(
+                        'UserAddedMealEntry') //TODO: change to UserAddedMeal
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return new ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
+
+                      return new ListTile(
+                        title: new Text(data['mealTitle'] == null
+                            ? 'null info'
+                            : data['mealTitle']),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Apptheme.mainTextColor,
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

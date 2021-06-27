@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
 class AddMealEntry extends StatelessWidget {
@@ -14,6 +14,7 @@ class AddMealEntry extends StatelessWidget {
   final TextEditingController vitaminCTextControler;
   final TextEditingController calciumTextControler;
   final TextEditingController ironTextControler;
+  final TextEditingController titleTextController;
 
   const AddMealEntry({
     Key? key,
@@ -27,6 +28,7 @@ class AddMealEntry extends StatelessWidget {
     required this.vitaminCTextControler,
     required this.calciumTextControler,
     required this.ironTextControler,
+    required this.titleTextController,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,11 @@ class AddMealEntry extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        mealDetailEntry(
+          title: 'Meal title',
+          subtitle: '',
+          textController: titleTextController,
+        ),
         mealDetailEntry(
           title: 'Calories',
           subtitle: 'energy',
@@ -89,7 +96,25 @@ class AddMealEntry extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(
                   Apptheme.mainButonColor.withOpacity(.2))),
           onPressed: () async {
-            print(calorieTextControler.text);
+            print('START');
+            await AuthServices.addUserMealEntry(
+              mealTitle: this.titleTextController.text,
+              mealCalories: int.parse(this.calorieTextControler.text.trim()),
+              mealTransFat: int.parse(this.transfatTextControler.text.trim()),
+              mealCholesterol:
+                  int.parse(this.cholesterolTextControler.text.trim()),
+              mealSodium: int.parse(this.sodiumTextControler.text.trim()),
+              mealTotalCarbs:
+                  int.parse(this.totalcarbsTextControler.text.trim()),
+              mealProtein: int.parse(this.proteinTextControler.text.trim()),
+              mealVitaminA:
+                  int.parse(this.vitaminAcalorieTextControler.text.trim()),
+              mealVitaminC: int.parse(this.vitaminCTextControler.text.trim()),
+              mealCalcium: int.parse(this.calciumTextControler.text.trim()),
+              mealIron: int.parse(this.ironTextControler.text.trim()),
+            );
+            print('END');
+            Navigator.pop(context);
           },
           child: Container(
             width: double.infinity,

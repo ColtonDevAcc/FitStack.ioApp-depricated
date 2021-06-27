@@ -41,56 +41,58 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
             ],
           ),
           Flexible(
-              child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('UserInfo')
-                .doc(AuthServices.userUID)
-                .collection('UserAddedWorkout')
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('UserInfo')
+                  .doc(AuthServices.userUID)
+                  .collection('UserAddedWorkout')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
-              }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
 
-              return new ListView(
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
+                return new ListView(
+                  children:
+                      snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
 
-                  return new ListTile(
-                    leading: Icon(
-                      iconList[data['userAddedWorkoutType']],
-                      color: Apptheme.mainTextColor,
-                    ),
-                    title: new Text(data['userAddedWorkoutTitle']),
-                    subtitle: Row(
-                      children: [
-                        new Text(
-                          data['userAddedWorkoutDescription'],
-                          style: TextStyle(color: Apptheme.mainTextColor),
-                        ),
-                        SizedBox(width: 2),
-                        Text(
-                          ' --  ${data['userAddedWorkoutTags'].take(3)}',
-                          textScaleFactor: .8,
-                          style: TextStyle(color: Apptheme.mainTextColor),
-                        ),
-                      ],
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Apptheme.mainTextColor,
-                    ),
-                  );
-                }).toList(),
-              );
-            },
-          ))
+                    return new ListTile(
+                      leading: Icon(
+                        iconList[data['userAddedWorkoutType']],
+                        color: Apptheme.mainTextColor,
+                      ),
+                      title: new Text(data['userAddedWorkoutTitle']),
+                      subtitle: Row(
+                        children: [
+                          new Text(
+                            data['userAddedWorkoutDescription'],
+                            style: TextStyle(color: Apptheme.mainTextColor),
+                          ),
+                          SizedBox(width: 2),
+                          Text(
+                            ' --  ${data['userAddedWorkoutTags'].take(3)}',
+                            textScaleFactor: .8,
+                            style: TextStyle(color: Apptheme.mainTextColor),
+                          ),
+                        ],
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Apptheme.mainTextColor,
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          )
         ],
       ),
     );

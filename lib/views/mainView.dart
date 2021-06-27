@@ -44,6 +44,7 @@ class _MainViewState extends State<MainView> {
     final TextEditingController vitaminCTextControler = TextEditingController();
     final TextEditingController calciumTextControler = TextEditingController();
     final TextEditingController ironTextControler = TextEditingController();
+    final TextEditingController titleTextController = TextEditingController();
 
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
     double _screenWidth = MediaQuery.of(context).size.width.toDouble();
@@ -148,7 +149,6 @@ class _MainViewState extends State<MainView> {
                                       SizedBox(height: 5),
                                       SizedBox(height: 5),
                                       AddMealEntry(
-                                   
                                         calorieTextControler:
                                             calorieTextControler,
                                         transfatTextControler:
@@ -168,6 +168,8 @@ class _MainViewState extends State<MainView> {
                                         calciumTextControler:
                                             calciumTextControler,
                                         ironTextControler: ironTextControler,
+                                        titleTextController:
+                                            titleTextController,
                                       )
                                     ],
                                   ),

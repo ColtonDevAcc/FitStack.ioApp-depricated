@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/models/userAddWorkout.dart';
+import 'package:workify/models/userAddedMealEntry.dart';
 
 class AuthServices extends ChangeNotifier {
   bool userLoggedIn = false;
@@ -95,26 +96,42 @@ class AuthServices extends ChangeNotifier {
     }
   }
 
-  static Future<String> addUserMeal({
-    workoutType: String,
-    workoutTitle: String,
-    workoutDescription: String,
-    workoutTags: List,
+  static Future<String> addUserMealEntry({
+    mealTitle: String,
+    mealCalories: int,
+    mealTransFat: int,
+    mealCholesterol: int,
+    mealSodium: int,
+    mealTotalCarbs: int,
+    mealProtein: int,
+    mealVitaminA: int,
+    mealVitaminC: int,
+    mealCalcium: int,
+    mealIron: int,
   }) async {
     try {
-      UserAddWorkout newUserWorkout = UserAddWorkout(
-        workoutTitle,
-        workoutDescription,
-        workoutType,
-        workoutTags,
+      print('Start 2');
+      UserAddedMealEntry userAddedMealEntry = UserAddedMealEntry(
+        mealCalories,
+        mealTransFat,
+        mealCholesterol,
+        mealSodium,
+        mealTotalCarbs,
+        mealProtein,
+        mealVitaminA,
+        mealVitaminC,
+        mealCalcium,
+        mealIron,
+        mealTitle,
       );
 
       await FirebaseFirestore.instance
           .collection('UserInfo')
           .doc(AuthServices.userUID)
-          .collection('UserAddedWorkout')
-          .doc(workoutTitle)
-          .set(newUserWorkout.toMap());
+          .collection('UserAddedMeal')
+          .doc(mealTitle)
+          .set(userAddedMealEntry.toMap());
+      print('End 2');
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
