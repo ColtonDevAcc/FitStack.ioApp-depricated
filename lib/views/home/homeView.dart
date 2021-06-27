@@ -32,14 +32,17 @@ class _HomeViewState extends State<HomeView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Good day,',
-                                  style:
-                                      TextStyle(color: Apptheme.mainTextColor)),
-                              Text(CurrentUser.firstName.toString(),
-                                  style: TextStyle(
-                                      color: Apptheme.mainTextColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                              Text(
+                                'Good day,',
+                                style: TextStyle(color: Apptheme.mainTextColor),
+                              ),
+                              Text(
+                                CurrentUser.firstName.toString(),
+                                style: TextStyle(
+                                    color: Apptheme.mainTextColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                             ],
                           ),
                           CircleAvatar(
@@ -61,9 +64,11 @@ class _HomeViewState extends State<HomeView> {
                           labelStyle: TextStyle(color: Apptheme.mainTextColor),
                           fillColor: Apptheme.mainCardColor,
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.white.withOpacity(0)),
-                              borderRadius: BorderRadius.circular(15)),
+                            borderSide: BorderSide(
+                              color: Colors.white.withOpacity(0),
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                       ),
                     ],

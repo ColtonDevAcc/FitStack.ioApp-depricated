@@ -43,3 +43,4 @@ class WorkoutCatTypesButton extends StatelessWidget {
     );
   }
 }
+

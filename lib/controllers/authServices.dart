@@ -94,6 +94,32 @@ class AuthServices extends ChangeNotifier {
       return e.message.toString();
     }
   }
+
+  static Future<String> addUserMeal({
+    workoutType: String,
+    workoutTitle: String,
+    workoutDescription: String,
+    workoutTags: List,
+  }) async {
+    try {
+      UserAddWorkout newUserWorkout = UserAddWorkout(
+        workoutTitle,
+        workoutDescription,
+        workoutType,
+        workoutTags,
+      );
+
+      await FirebaseFirestore.instance
+          .collection('UserInfo')
+          .doc(AuthServices.userUID)
+          .collection('UserAddedWorkout')
+          .doc(workoutTitle)
+          .set(newUserWorkout.toMap());
+      return "Signed Up";
+    } on FirebaseAuthException catch (e) {
+      return e.message.toString();
+    }
+  }
 }
 
 void logInTask() {

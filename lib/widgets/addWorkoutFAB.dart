@@ -205,18 +205,6 @@ class AddWorkoutFAB extends StatelessWidget {
                               workoutType: workoutType,
                             );
 
-
-
-
-
-
-
-
-
-
-
-
-
                             Navigator.pop(context);
                           },
                           child: Container(

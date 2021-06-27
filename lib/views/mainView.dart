@@ -8,6 +8,7 @@ import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/savedVideo/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
+import 'package:workify/widgets/addMealEntry.dart';
 import 'package:workify/widgets/addWorkoutFAB.dart';
 import 'home/homeView.dart';
 import 'mealPlan/mealPlanView.dart';
@@ -29,6 +30,20 @@ class _MainViewState extends State<MainView> {
         TextEditingController();
     TextEditingController workoutTypeTextController = TextEditingController();
     TextEditingController workoutTagsTextController = TextEditingController();
+
+    final TextEditingController calorieTextControler = TextEditingController();
+    final TextEditingController transfatTextControler = TextEditingController();
+    final TextEditingController cholesterolTextControler =
+        TextEditingController();
+    final TextEditingController sodiumTextControler = TextEditingController();
+    final TextEditingController totalcarbsTextControler =
+        TextEditingController();
+    final TextEditingController proteinTextControler = TextEditingController();
+    final TextEditingController vitaminAcalorieTextControler =
+        TextEditingController();
+    final TextEditingController vitaminCTextControler = TextEditingController();
+    final TextEditingController calciumTextControler = TextEditingController();
+    final TextEditingController ironTextControler = TextEditingController();
 
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
     double _screenWidth = MediaQuery.of(context).size.width.toDouble();
@@ -93,27 +108,67 @@ class _MainViewState extends State<MainView> {
                             color: Apptheme.mainButonColor),
                         onTap: () {
                           showModalBottomSheet(
+                            isScrollControlled: true,
                             context: context,
                             backgroundColor: Apptheme.mainBackgroundColor,
                             builder: (context) {
-                              return Column(
+                              return ListView(
                                 children: [
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Add entry',
-                                    style: TextStyle(
-                                        color: Apptheme.mainTextColor),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
+                                  Column(
                                     children: [
-                                      Text('data'),
                                       Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: TextField(
-                                          style: TextStyle(),
+                                        padding: EdgeInsets.fromLTRB(
+                                            0,
+                                            AppBar().preferredSize.height,
+                                            0,
+                                            0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Icon(
+                                              LineIcons.times,
+                                              color: Apptheme.mainTextColor,
+                                            ),
+                                            Text(
+                                              'Add entry',
+                                              textScaleFactor: 1.5,
+                                              style: TextStyle(
+                                                color: Apptheme.mainTextColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Icon(
+                                              LineIcons.camera,
+                                              color: Apptheme.mainTextColor,
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      SizedBox(height: 5),
+                                      SizedBox(height: 5),
+                                      AddMealEntry(
+                                   
+                                        calorieTextControler:
+                                            calorieTextControler,
+                                        transfatTextControler:
+                                            transfatTextControler,
+                                        cholesterolTextControler:
+                                            cholesterolTextControler,
+                                        sodiumTextControler:
+                                            sodiumTextControler,
+                                        totalcarbsTextControler:
+                                            totalcarbsTextControler,
+                                        proteinTextControler:
+                                            proteinTextControler,
+                                        vitaminAcalorieTextControler:
+                                            vitaminAcalorieTextControler,
+                                        vitaminCTextControler:
+                                            vitaminCTextControler,
+                                        calciumTextControler:
+                                            calciumTextControler,
+                                        ironTextControler: ironTextControler,
+                                      )
                                     ],
                                   ),
                                 ],
