@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workify/theme/theme.dart';
+
 class SavedView extends StatelessWidget {
   const SavedView({Key? key}) : super(key: key);
 

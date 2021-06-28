@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/models/userAddWorkout.dart';
+import 'package:workify/models/userAddWorkoutDetails.dart';
 import 'package:workify/models/userAddedMealEntry.dart';
+import 'package:intl/intl.dart';
 
 class AuthServices extends ChangeNotifier {
   bool userLoggedIn = false;
@@ -112,17 +114,19 @@ class AuthServices extends ChangeNotifier {
     try {
       print('Start 2');
       UserAddedMealEntry userAddedMealEntry = UserAddedMealEntry(
-        mealCalories,
-        mealTransFat,
-        mealCholesterol,
-        mealSodium,
-        mealTotalCarbs,
-        mealProtein,
-        mealVitaminA,
-        mealVitaminC,
-        mealCalcium,
-        mealIron,
-        mealTitle,
+        mealCalories: mealCalories,
+        mealTransFat: mealTransFat,
+        mealCholesterol: mealCholesterol,
+        mealSodium: mealSodium,
+        mealTotalCarbs: mealTotalCarbs,
+        mealProtein: mealProtein,
+        mealVitaminA: mealVitaminA,
+        mealVitaminC: mealVitaminC,
+        mealCalcium: mealCalcium,
+        mealIron: mealIron,
+        mealTitle: mealTitle,
+        mealEntryCreationDateTime:
+            DateFormat('MM-dd-yy').format(DateTime.now()),
       );
 
       await FirebaseFirestore.instance
@@ -131,6 +135,28 @@ class AuthServices extends ChangeNotifier {
           .collection('UserAddedMeal')
           .doc(mealTitle)
           .set(userAddedMealEntry.toMap());
+      print('End 2');
+      return "Signed Up";
+    } on FirebaseAuthException catch (e) {
+      return e.message.toString();
+    }
+  }
+
+  static Future<String> addUserWorkoutDetails(
+      {workoutCategoryTitle: String}) async {
+    try {
+      print('Start 2');
+      UserAddWorkoutDetails addUserWorkoutDetails =
+          UserAddWorkoutDetails(workoutCategoryTitle: workoutCategoryTitle);
+
+      await FirebaseFirestore.instance
+          .collection('UserInfo')
+          .doc(AuthServices.userUID)
+          .collection('UserAddedWorkout')
+          .doc(workoutCategoryTitle)
+          .collection('UserAddedWorkoutDetails')
+          .doc()
+          .set(addUserWorkoutDetails.toMap());
       print('End 2');
       return "Signed Up";
     } on FirebaseAuthException catch (e) {

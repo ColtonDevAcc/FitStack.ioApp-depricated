@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/startWorkout/createdWorkoutView.dart';
 
 class StartWorkoutView extends StatefulWidget {
   const StartWorkoutView({Key? key}) : super(key: key);
@@ -63,29 +64,51 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                     Map<String, dynamic> data =
                         document.data() as Map<String, dynamic>;
 
-                    return new ListTile(
-                      leading: Icon(
-                        iconList[data['userAddedWorkoutType']],
-                        color: Apptheme.mainTextColor,
-                      ),
-                      title: new Text(data['userAddedWorkoutTitle']),
-                      subtitle: Row(
-                        children: [
-                          new Text(
-                            data['userAddedWorkoutDescription'],
-                            style: TextStyle(color: Apptheme.mainTextColor),
+                    String workoutTitle = data['userAddedWorkoutTitle'];
+                    IconData? workoutType =
+                        iconList[data['userAddedWorkoutType']];
+                    String workoutDescription =
+                        data['userAddedWorkoutDescription'];
+
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreatedWorkoutView(
+                              workoutDescription: workoutDescription,
+                              workoutTitle: workoutTitle,
+                              workoutType: workoutType!,
+                            ),
                           ),
-                          SizedBox(width: 2),
-                          Text(
-                            ' --  ${data['userAddedWorkoutTags'].take(3)}',
-                            textScaleFactor: .8,
-                            style: TextStyle(color: Apptheme.mainTextColor),
-                          ),
-                        ],
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Apptheme.mainTextColor,
+                        );
+                      },
+                      child: new ListTile(
+                        leading: Icon(
+                          iconList[workoutType],
+                          color: Apptheme.mainTextColor,
+                        ),
+                        title: new Text(
+                          workoutTitle,
+                        ),
+                        subtitle: Row(
+                          children: [
+                            new Text(
+                              workoutDescription,
+                              style: TextStyle(color: Apptheme.mainTextColor),
+                            ),
+                            SizedBox(width: 2),
+                            Text(
+                              ' --  ${data['userAddedWorkoutTags'].take(3)}',
+                              textScaleFactor: .8,
+                              style: TextStyle(color: Apptheme.mainTextColor),
+                            ),
+                          ],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Apptheme.mainTextColor,
+                        ),
                       ),
                     );
                   }).toList(),

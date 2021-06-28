@@ -12,19 +12,22 @@ class UserAddedMealEntry {
   final int mealVitaminC;
   final int mealCalcium;
   final int mealIron;
+  final String mealEntryCreationDateTime;
 
-  UserAddedMealEntry(
-      this.mealCalories,
-      this.mealTransFat,
-      this.mealCholesterol,
-      this.mealSodium,
-      this.mealTotalCarbs,
-      this.mealProtein,
-      this.mealVitaminA,
-      this.mealVitaminC,
-      this.mealCalcium,
-      this.mealIron,
-      this.mealTitle);
+  UserAddedMealEntry({
+    required this.mealCalories,
+    required this.mealTransFat,
+    required this.mealCholesterol,
+    required this.mealSodium,
+    required this.mealTotalCarbs,
+    required this.mealProtein,
+    required this.mealVitaminA,
+    required this.mealVitaminC,
+    required this.mealCalcium,
+    required this.mealIron,
+    required this.mealTitle,
+    required this.mealEntryCreationDateTime,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,22 +42,24 @@ class UserAddedMealEntry {
       'mealVitaminC': mealVitaminC,
       'mealCalcium': mealCalcium,
       'mealIron': mealIron,
+      'mealEntryCreationDateTime': mealEntryCreationDateTime,
     };
   }
 
   factory UserAddedMealEntry.fromMap(Map<String, dynamic> map) {
     return UserAddedMealEntry(
-      map['mealTitle'],
-      map['mealCalories'],
-      map['mealTransFat'],
-      map['mealCholesterol'],
-      map['mealSodium'],
-      map['mealTotalCarbs'],
-      map['mealProtein'],
-      map['mealVitaminA'],
-      map['mealVitaminC'],
-      map['mealCalcium'],
-      map['mealIron'],
+      mealTitle: map['mealTitle'],
+      mealCalories: map['mealCalories'],
+      mealTransFat: map['mealTransFat'],
+      mealCholesterol: map['mealCholesterol'],
+      mealSodium: map['mealSodium'],
+      mealTotalCarbs: map['mealTotalCarbs'],
+      mealProtein: map['mealProtein'],
+      mealVitaminA: map['mealVitaminA'],
+      mealVitaminC: map['mealVitaminC'],
+      mealCalcium: map['mealCalcium'],
+      mealIron: map['mealIron'],
+      mealEntryCreationDateTime: map['mealEntryCreationDateTime'],
     );
   }
 

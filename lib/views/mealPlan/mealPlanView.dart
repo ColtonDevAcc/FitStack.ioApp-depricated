@@ -137,7 +137,7 @@ class MealPlanView extends StatelessWidget {
                               : data['mealTitle'],
                         ),
                         subtitle: Text(
-                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()}g Protein',
+                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()}g Protein -- ${data['mealEntryCreationDateTime']}',
                           style: TextStyle(
                             color: Apptheme.mainTextColor,
                           ),
