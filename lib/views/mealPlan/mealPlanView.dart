@@ -112,8 +112,7 @@ class MealPlanView extends StatelessWidget {
                 stream: FirebaseFirestore.instance
                     .collection('UserInfo')
                     .doc(AuthServices.userUID)
-                    .collection(
-                        'UserAddedMealEntry') //TODO: change to UserAddedMeal
+                    .collection('UserAddedMeal')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -138,7 +137,7 @@ class MealPlanView extends StatelessWidget {
                               : data['mealTitle'],
                         ),
                         subtitle: Text(
-                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()} Protein',
+                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()}g Protein',
                           style: TextStyle(
                             color: Apptheme.mainTextColor,
                           ),

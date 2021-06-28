@@ -127,9 +127,14 @@ class _MainViewState extends State<MainView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Icon(
-                                              LineIcons.times,
-                                              color: Apptheme.mainTextColor,
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                LineIcons.times,
+                                                color: Apptheme.mainTextColor,
+                                              ),
                                             ),
                                             Text(
                                               'Add entry',
@@ -139,9 +144,14 @@ class _MainViewState extends State<MainView> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            Icon(
-                                              LineIcons.camera,
-                                              color: Apptheme.mainTextColor,
+                                            GestureDetector(
+                                              onTap: () {
+                                                print('camera pressed');
+                                              },
+                                              child: Icon(
+                                                LineIcons.camera,
+                                                color: Apptheme.mainTextColor,
+                                              ),
                                             ),
                                           ],
                                         ),
