@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/createWorkout/createWorkoutView.dart';
 import 'package:workify/views/profile/profileView.dart';
@@ -10,7 +11,6 @@ import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
 import 'package:workify/widgets/addMealEntry.dart';
 import 'package:workify/widgets/addWorkoutFAB.dart';
-import 'home/homeView.dart';
 import 'mealPlan/mealPlanView.dart';
 
 class MainView extends StatefulWidget {
@@ -56,7 +56,7 @@ class _MainViewState extends State<MainView> {
     }
 
     final List<Widget> _children = [
-      HomeView(),
+      DarkOne(),
       SavedView(),
       StartWorkoutView(),
       MealPlanView(),
@@ -65,9 +65,24 @@ class _MainViewState extends State<MainView> {
     ];
 
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+          ],
+        ),
+      ),
       resizeToAvoidBottomInset: true,
       body: _children[_currentIndex],
-      backgroundColor: Apptheme.mainBackgroundColor,
+      backgroundColor: Color.fromRGBO(33, 40, 67, 1),
       floatingActionButton: _currentIndex == 2 || _currentIndex == 3
           ? _currentIndex == 2
               ? AddWorkoutFAB(
@@ -206,8 +221,8 @@ class _MainViewState extends State<MainView> {
                 )
           : null,
       bottomNavigationBar: SalomonBottomBar(
-        selectedItemColor: Apptheme.mainButonColor,
-        unselectedItemColor: Apptheme.mainTextColor,
+        selectedItemColor: Color.fromRGBO(251, 137, 107, 1),
+        unselectedItemColor: Color.fromRGBO(86, 93, 121, 1),
         currentIndex: _currentIndex,
         onTap: (index) {
           changeTabs(index: index);

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/providers/themeProvider.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
@@ -26,8 +27,6 @@ class _MyAppState extends State<MyApp> {
       create: (_) => ThemeProvider(),
       child: Builder(
         builder: (BuildContext context) {
-          // ignore: unused_local_variable
-          final theme = Provider.of<ThemeProvider>(context);
           return MultiProvider(
             providers: [
               Provider<AuthServices>(
@@ -48,7 +47,7 @@ class _MyAppState extends State<MyApp> {
               ),
               theme: ThemeData(
                 sliderTheme: SliderThemeData(
-                    valueIndicatorColor: Apptheme.mainCardColor),
+                    valueIndicatorColor: Color.fromRGBO(33, 40, 67, 1)),
                 // ignore: deprecated_member_use
                 accentColor: Apptheme.mainButonColor,
                 textTheme: TextTheme(

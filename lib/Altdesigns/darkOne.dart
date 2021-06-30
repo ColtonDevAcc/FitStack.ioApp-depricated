@@ -1,6 +1,16 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:workify/controllers/authServices.dart';
+import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/views/createWorkout/createWorkoutView.dart';
+import 'package:workify/views/mealPlan/mealPlanView.dart';
+import 'package:workify/views/profile/profileView.dart';
+import 'package:workify/views/startWorkout/startWorkoutView.dart';
+import 'package:workify/views/trainer/trainerView.dart';
 
 class DarkOne extends StatefulWidget {
   const DarkOne({Key? key}) : super(key: key);
@@ -11,91 +21,157 @@ class DarkOne extends StatefulWidget {
 
 class _DarkOneState extends State<DarkOne> {
   int indexSelected = 1;
+  var _selectedIndex = 0;
+  final List<Widget> _children = [
+    DarkOne(),
+    SavedView(),
+    StartWorkoutView(),
+    MealPlanView(),
+    TrainerView(),
+    ProfileView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Color.fromRGBO(20, 26, 47, 1),
+      drawer: Drawer(
+        child: Container(
+          color: Color.fromRGBO(20, 26, 47, 1),
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(33, 40, 67, 1),
+                ),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Home',
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Home',
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Home',
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Home',
+                      textScaleFactor: 2,
+                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              color: Color.fromRGBO(33, 40, 67, 1),
-              width: size.width * .3,
+              color: Color.fromRGBO(20, 26, 47, 1),
+              width: size.width * .18,
               height: size.height,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(LineIcons.bars, color: Colors.white),
-                    Spacer(flex: 3),
-                    sideButtons(
-                        icon: LineIcons.dumbbell,
-                        index: 1,
-                        indexSelected: indexSelected,
-                        onTap: () {
-                          setState(() {
-                            indexSelected = 1;
-                            print('1');
-                          });
-                        }),
-                    Spacer(flex: 1),
-                    sideButtons(
-                        icon: LineIcons.utensils,
-                        index: 2,
-                        indexSelected: indexSelected,
-                        onTap: () {
-                          setState(() {
-                            indexSelected = 2;
-                          });
-                        }),
-                    Spacer(flex: 1),
-                    sideButtons(
-                        icon: Icons.watch,
-                        index: 3,
-                        indexSelected: indexSelected,
-                        onTap: () {
-                          setState(() {
-                            indexSelected = 3;
-                          });
-                        }),
-                    Spacer(flex: 1),
-                    sideButtons(
-                        icon: LineIcons.lightningBolt,
-                        index: 4,
-                        indexSelected: indexSelected,
-                        onTap: () {
-                          setState(() {
-                            indexSelected = 4;
-                          });
-                        }),
-                    Spacer(flex: 1),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: RotatedBox(
-                        child: Text(
-                          'Statatistics',
-                          style:
-                              TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
-                        ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                child: NavigationRail(
+                  backgroundColor: Color.fromRGBO(33, 40, 67, 1),
+                  selectedIndex: _selectedIndex,
+                  unselectedIconTheme: IconThemeData(
+                    color: Colors.white.withOpacity(.5),
+                  ),
+                  selectedIconTheme: IconThemeData(
+                    color: Color.fromRGBO(250, 137, 107, 1),
+                  ),
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  leading: CircleAvatar(
+                    backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                  ),
+                  minWidth: 56,
+                  groupAlignment: 1,
+                  labelType: NavigationRailLabelType.selected,
+                  selectedLabelTextStyle: TextStyle(color: Colors.white),
+                  trailing: Column(
+                    children: [
+                      SizedBox(height: 50),
+                      RotatedBox(
                         quarterTurns: 3,
-                      ),
-                    ),
-                    Spacer(flex: 1),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: RotatedBox(
                         child: Text(
                           'OverView',
-                          style:
-                              TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
+                          style: TextStyle(color: Colors.white.withOpacity(.5)),
                         ),
-                        quarterTurns: 3,
                       ),
+                      SizedBox(height: 50),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Text(
+                          'Feed',
+                          style: TextStyle(color: Colors.white.withOpacity(.5)),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                    ],
+                  ),
+                  destinations: [
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.home),
+                      selectedIcon: Icon(LineIcons.home),
+                      label: Text('Home'),
                     ),
-                    Spacer(flex: 1),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.utensils),
+                      selectedIcon: Icon(LineIcons.utensils),
+                      label: Text('Nutrition'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.dumbbell),
+                      selectedIcon: Icon(LineIcons.dumbbell),
+                      label: Text('Workout'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.users),
+                      selectedIcon: Icon(LineIcons.users),
+                      label: Text('Group'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.peopleCarry),
+                      selectedIcon: Icon(LineIcons.peopleCarry),
+                      label: Text('Trainers'),
+                    ),
                   ],
                 ),
               ),
@@ -105,66 +181,83 @@ class _DarkOneState extends State<DarkOne> {
             alignment: Alignment.centerRight,
             child: Container(
               height: size.height,
-              width: size.width * .7,
+              width: size.width * .82,
               color: Color.fromRGBO(20, 26, 47, 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Icon(LineIcons.userCircle, color: Colors.white),
-                  ),
-                  Spacer(flex: 3),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
-                    child: Container(
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/DailyWorkout.png'),
-                      ),
-                    ),
-                  ),
-                  Spacer(flex: 1),
-                  SizedBox(),
-                  Spacer(flex: 2),
-                  Container(
-                    height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: [
-                        SizedBox(width: 65),
-                        listViewCards(),
-                        listViewCards(),
-                        listViewCards(),
-                        listViewCards(),
-                      ],
-                    ),
-                  ),
-                  Spacer(flex: 1)
-                ],
-              ),
+              child:
+                  _selectedIndex == 0 ? homeView() : _children[_selectedIndex],
             ),
           ),
-          Positioned(
-            left: 40,
-            top: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          _selectedIndex == 0
+              ? Positioned(
+                  left: 30,
+                  top: 80,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hello ${CurrentUser.firstName}',
+                        textScaleFactor: 2.5,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'What is your goal today?',
+                        textScaleFactor: 1.3,
+                        style: TextStyle(color: Colors.white.withOpacity(.6)),
+                      ),
+                    ],
+                  ),
+                )
+              : Text(''),
+        ],
+      ),
+    );
+  }
+
+  Container homeView() {
+    return Container(
+      color: Color.fromRGBO(20, 26, 47, 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Spacer(flex: 3),
+          Container(
+            height: MediaQuery.of(context).size.height * .5,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
               children: [
-                Text(
-                  'Hello \$user',
-                  textScaleFactor: 2.5,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  'random text random text random text',
-                  textScaleFactor: 1.3,
-                  style: TextStyle(color: Colors.white.withOpacity(.6)),
-                ),
+                SizedBox(width: 55),
+                listViewWorkoutCards(),
+                listViewWorkoutCards(),
+                listViewWorkoutCards(),
               ],
             ),
-          )
+          ),
+          Spacer(flex: 1),
+          SizedBox(),
+          Spacer(flex: 2),
+          Container(
+            height: 200,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: [
+                SizedBox(width: 65),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                listViewCards(
+                    color: Color.fromRGBO(200, 138, 133, 1),
+                    data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+              ],
+            ),
+          ),
+          Spacer(flex: 1)
         ],
       ),
     );
@@ -199,10 +292,69 @@ GestureDetector sideButtons(
   );
 }
 
-Padding listViewCards() {
+Padding listViewCards({color: Color, data: Array}) {
   return Padding(
     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
     child: Container(
+      child: Stack(
+        children: [
+          Align(
+            child: SfSparkLineChart(
+              labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
+              axisLineColor: Colors.white.withOpacity(0),
+              color: color,
+
+              //Enable the trackball
+              trackball: SparkChartTrackball(
+                activationMode: SparkChartActivationMode.tap,
+                color: color,
+                borderColor: color,
+              ),
+
+              //Enable marker
+              marker: SparkChartMarker(
+                displayMode: SparkChartMarkerDisplayMode.all,
+                color: color,
+                borderColor: color,
+              ),
+              data: data,
+            ),
+          ),
+          Positioned(
+              child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '45',
+                      textScaleFactor: 3,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                      child: Text(
+                        'lbs',
+                        textScaleFactor: 1,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  'Weight Gain',
+                  style: TextStyle(color: Colors.white.withOpacity(.5)),
+                )
+              ],
+            ),
+          ))
+        ],
+      ),
       width: 128,
       decoration: BoxDecoration(
         color: Color.fromRGBO(37, 44, 76, 1),
@@ -213,3 +365,74 @@ Padding listViewCards() {
     ),
   );
 }
+
+Padding listViewWorkoutCards() {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(0, 80, 10, 0),
+    child: Row(
+      children: [
+        Container(
+          child: Image(
+            fit: BoxFit.fill,
+            image: AssetImage('assets/images/DailyWorkout.png'),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+/**Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              height: size.height,
+              width: size.width * .82,
+              color: Color.fromRGBO(20, 26, 47, 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Spacer(flex: 3),
+                  Container(
+                    height: MediaQuery.of(context).size.height * .5,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        SizedBox(width: 55),
+                        listViewWorkoutCards(),
+                        listViewWorkoutCards(),
+                        listViewWorkoutCards(),
+                      ],
+                    ),
+                  ),
+                  Spacer(flex: 1),
+                  SizedBox(),
+                  Spacer(flex: 2),
+                  Container(
+                    height: 200,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: [
+                        SizedBox(width: 65),
+                        listViewCards(
+                            color: Color.fromRGBO(41, 69, 142, 1),
+                            data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                        listViewCards(
+                            color: Color.fromRGBO(200, 138, 133, 1),
+                            data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
+                        listViewCards(
+                            color: Color.fromRGBO(41, 69, 142, 1),
+                            data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                        listViewCards(
+                            color: Color.fromRGBO(41, 69, 142, 1),
+                            data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                      ],
+                    ),
+                  ),
+                  Spacer(flex: 1)
+                ],
+              ),
+            ),
+          ),
+           */

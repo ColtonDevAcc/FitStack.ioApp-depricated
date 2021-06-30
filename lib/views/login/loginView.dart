@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
+import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/views/signUp/signUpView.dart';
 import '../mainView.dart';
@@ -42,7 +42,7 @@ class LoginView extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ChangeNotifierProvider(
-                              child: MainView(),
+                              child: DarkOne(),
                               create: (context) =>
                                   AuthServices(FirebaseAuth.instance),
                             ),
