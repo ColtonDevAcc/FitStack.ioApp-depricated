@@ -21,8 +21,6 @@ class CreatedWorkoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -143,8 +141,7 @@ class CreatedWorkoutView extends StatelessWidget {
                         key: new GlobalKey(),
                         child: ListTile(
                           leading: Icon(
-                            LineIcons
-                                .dumbbell, //TODO: add image fetch from firebase for muscle group
+                            LineIcons.dumbbell,
                             color: Apptheme.mainTextColor,
                           ),
                           title: Text(

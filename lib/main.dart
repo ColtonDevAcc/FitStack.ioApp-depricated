@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/providers/themeProvider.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/login/loginView.dart';
 
 import 'controllers/authServices.dart';
 
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               title: 'Aircraft Closing Room',
               home: ChangeNotifierProvider(
-                child: DarkOne(),
+                child: LoginView(),
                 create: (context) => AuthServices(FirebaseAuth.instance),
               ),
               theme: ThemeData(
