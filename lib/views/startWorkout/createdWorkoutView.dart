@@ -21,6 +21,8 @@ class CreatedWorkoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -91,18 +93,67 @@ class CreatedWorkoutView extends StatelessWidget {
                     contentsAlign: ContentsAlign.basic,
                     contentsBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.all(24.0),
-                      child: ListTile(
-                        leading: Icon(
-                          LineIcons
-                              .dumbbell, //TODO: add image fetch from firebase for muscle group
-                          color: Apptheme.mainTextColor,
+                      child: Dismissible(
+                        onDismissed: (value) async {
+                          await FirebaseFirestore.instance.runTransaction(
+                            (Transaction transaction) async {
+                              transaction
+                                  .delete(snapshot.data!.docs[index].reference);
+                            },
+                          );
+                        },
+                        secondaryBackground: Container(
+                          color: Colors.green,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Center(
+                                child: Text(
+                                  'Add',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              Icon(
+                                LineIcons.plus,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 10),
+                            ],
+                          ),
                         ),
-                        title: Text(
-                          'Workout ${index + 1} ${snapshot.data!.docs[index].get('workoutCategoryTitle')}',
+                        background: Container(
+                          color: Colors.red,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 10),
+                              Icon(
+                                LineIcons.trash,
+                                color: Colors.white,
+                              ),
+                              Center(
+                                child: Text(
+                                  'Remove',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        subtitle: Text(
-                          'Reps $index | Sets $index | lbs $index',
-                          style: TextStyle(color: Apptheme.mainTextColor),
+                        key: new GlobalKey(),
+                        child: ListTile(
+                          leading: Icon(
+                            LineIcons
+                                .dumbbell, //TODO: add image fetch from firebase for muscle group
+                            color: Apptheme.mainTextColor,
+                          ),
+                          title: Text(
+                            'Workout ${index + 1} ${snapshot.data!.docs[index].get('workoutCategoryTitle')}',
+                          ),
+                          subtitle: Text(
+                            'Reps $index | Sets $index | lbs $index',
+                            style: TextStyle(color: Apptheme.mainTextColor),
+                          ),
                         ),
                       ),
                     ),
