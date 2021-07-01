@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
-import 'package:workify/views/createWorkout/createWorkoutView.dart';
+import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
 import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
@@ -22,9 +23,9 @@ class _DarkOneState extends State<DarkOne> {
   var _selectedIndex = 0;
   final List<Widget> _children = [
     DarkOne(),
+    MealPlanView(),
     SavedView(),
     StartWorkoutView(),
-    MealPlanView(),
     TrainerView(),
     ProfileView(),
   ];
@@ -95,7 +96,7 @@ class _DarkOneState extends State<DarkOne> {
             alignment: Alignment.centerLeft,
             child: Container(
               color: Color.fromRGBO(20, 26, 47, 1),
-              width: size.width * .18,
+              width: size.width * .2,
               height: size.height,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
@@ -312,20 +313,33 @@ Padding listViewWorkoutCards() {
 
 Container goalProgressionCard({context: BuildContext}) {
   return Container(
-    width: MediaQuery.of(context).size.width * .68,
+    width: MediaQuery.of(context).size.width * .8,
     height: MediaQuery.of(context).size.height * .15,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(5),
       color: Color.fromRGBO(37, 44, 76, 1),
     ),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          children: [
-            Text('data'),
-            Text('data'),
-          ],
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Your workout goal',
+                style: TextStyle(color: Colors.white.withOpacity(.3)),
+              ),
+              SizedBox(height: 5),
+              Text(
+                '${CurrentUser.mainWorkoutGoal}',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
         ),
         SizedBox(
           height: 50,
@@ -334,9 +348,24 @@ Container goalProgressionCard({context: BuildContext}) {
             color: Colors.white,
           ),
         ),
-        Column(
-          children: [],
-        )
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '5 lbs',
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 5),
+              Text(
+                'Weight increase',
+                style: TextStyle(color: Colors.white.withOpacity(.3)),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );
@@ -356,7 +385,7 @@ Container homeView({context: BuildContext}) {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              SizedBox(width: 55),
+              SizedBox(width: MediaQuery.of(context).size.width * .02),
               listViewWorkoutCards(),
               listViewWorkoutCards(),
               listViewWorkoutCards(),
@@ -372,7 +401,7 @@ Container homeView({context: BuildContext}) {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             children: [
-              SizedBox(width: 60),
+              SizedBox(width: MediaQuery.of(context).size.width * .02),
               listViewCards(
                   color: Color.fromRGBO(41, 69, 142, 1),
                   data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),

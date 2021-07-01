@@ -6,7 +6,6 @@ import 'package:provider/src/provider.dart';
 import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/views/signUp/signUpView.dart';
-import '../mainView.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);

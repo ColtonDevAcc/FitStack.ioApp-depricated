@@ -5,7 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:workify/Altdesigns/darkOne.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/createWorkout/createWorkoutView.dart';
+import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
