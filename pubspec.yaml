@@ -14,6 +14,7 @@ dependencies:
   http: ^0.13.3
   dio: ^4.0.0
   json_serializable: ^4.1.3
+  flutter_svg: ^0.22.0
 
   #ui dep
   material_floating_search_bar: ^0.3.4
@@ -44,6 +45,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/AppLogo/
+    - assets/images/StudioLogo/
+
  
   
   

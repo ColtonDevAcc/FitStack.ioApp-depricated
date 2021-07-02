@@ -155,190 +155,196 @@ class _DarkOneState extends State<DarkOne> {
       ),
     );
   }
-}
 
-Padding listViewCards({color: Color, data: Array}) {
-  return Padding(
-    padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-    child: Container(
-      child: Stack(
-        children: [
-          Align(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: SfSparkLineChart(
-                labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
-                axisLineColor: Colors.white.withOpacity(0),
-                color: color,
-
-                //Enable the trackball
-                trackball: SparkChartTrackball(
-                  activationMode: SparkChartActivationMode.tap,
+  Padding listViewCards({color: Color, data: Array}) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
+      child: Container(
+        child: Stack(
+          children: [
+            Align(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: SfSparkLineChart(
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
+                  axisLineColor: Colors.white.withOpacity(0),
                   color: color,
-                  borderColor: color,
-                ),
 
-                //Enable marker
-                marker: SparkChartMarker(
-                  displayMode: SparkChartMarkerDisplayMode.all,
-                  color: color,
-                  borderColor: color,
+                  //Enable the trackball
+                  trackball: SparkChartTrackball(
+                    activationMode: SparkChartActivationMode.tap,
+                    color: color,
+                    borderColor: color,
+                  ),
+
+                  //Enable marker
+                  marker: SparkChartMarker(
+                    displayMode: SparkChartMarkerDisplayMode.all,
+                    color: color,
+                    borderColor: color,
+                  ),
+                  data: data,
                 ),
-                data: data,
               ),
             ),
-          ),
-          Positioned(
-              child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '45',
-                      textScaleFactor: 3,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                      child: Text(
-                        'lbs',
-                        textScaleFactor: 1,
+            Positioned(
+                child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '45',
+                        textScaleFactor: 3,
                         style: TextStyle(color: Colors.white),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Text(
+                          'lbs',
+                          textScaleFactor: 1,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'Weight Gain',
+                    style: TextStyle(color: Colors.white.withOpacity(.5)),
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
+        width: 128,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(37, 44, 76, 1),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding listViewWorkoutCards() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+      child: Row(
+        children: [
+          Container(
+            child: Image(
+              fit: BoxFit.fill,
+              image: AssetImage('assets/images/DailyWorkout.png'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container homeView({context: BuildContext}) {
+    return Container(
+      color: Color.fromRGBO(20, 26, 47, 1),
+      child: ListView(
+        children: [
+          SizedBox(height: AppBar().preferredSize.height - 13),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              10,
+              0,
+              0,
+              10,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Apptheme.mainCardColor.withOpacity(.8),
+              ),
+              height: 130,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
+                child: Row(
+                  children: [
+                    Expanded(child: radialNutrientsGraph(context: context)),
+                    Text(
+                      'Hows your day look?',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
-                Text(
-                  'Weight Gain',
-                  style: TextStyle(color: Colors.white.withOpacity(.5)),
-                )
-              ],
-            ),
-          ))
-        ],
-      ),
-      width: 128,
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(37, 44, 76, 1),
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-    ),
-  );
-}
-
-Padding listViewWorkoutCards() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-    child: Row(
-      children: [
-        Container(
-          child: Image(
-            fit: BoxFit.fill,
-            image: AssetImage('assets/images/DailyWorkout.png'),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Container homeView({context: BuildContext}) {
-  return Container(
-    color: Color.fromRGBO(20, 26, 47, 1),
-    child: ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Apptheme.mainCardColor.withOpacity(.8),
-            ),
-            height: 130,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
-              child: Row(
-                children: [
-                  Expanded(child: radialNutrientsGraph(context: context)),
-                  Text(
-                    'Hows your day look?',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
               ),
             ),
           ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * .35,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              SizedBox(width: MediaQuery.of(context).size.width * .02),
-              listViewWorkoutCards(),
-              listViewWorkoutCards(),
-              listViewWorkoutCards(),
-            ],
+          Container(
+            height: MediaQuery.of(context).size.height * .35,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * .02),
+                listViewWorkoutCards(),
+                listViewWorkoutCards(),
+                listViewWorkoutCards(),
+              ],
+            ),
           ),
-        ),
-        Container(
-          height: 200,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            children: [
-              SizedBox(width: MediaQuery.of(context).size.width * .02),
-              listViewCards(
-                  color: Color.fromRGBO(41, 69, 142, 1),
-                  data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
-              listViewCards(
-                  color: Color.fromRGBO(200, 138, 133, 1),
-                  data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
-              listViewCards(
-                  color: Color.fromRGBO(41, 69, 142, 1),
-                  data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
-              listViewCards(
-                  color: Color.fromRGBO(41, 69, 142, 1),
-                  data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
-            ],
+          Container(
+            height: 200,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * .02),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                listViewCards(
+                    color: Color.fromRGBO(200, 138, 133, 1),
+                    data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                listViewCards(
+                    color: Color.fromRGBO(41, 69, 142, 1),
+                    data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+              ],
+            ),
           ),
+        ],
+      ),
+    );
+  }
+
+  SfCircularChart radialNutrientsGraph({context: BuildContext}) {
+    return SfCircularChart(
+      palette: [Colors.white, Apptheme.mainButonColor, Colors.blue],
+      margin: EdgeInsets.all(0),
+      series: [
+        RadialBarSeries<_PieData, String>(
+          dataSource: [pieData1, pieData2, pieData3],
+          xValueMapper: (_PieData data, _) => data.xData,
+          yValueMapper: (_PieData data, _) => data.yData,
+          dataLabelMapper: (_PieData data, _) => data.text,
+          dataLabelSettings: DataLabelSettings(isVisible: true),
+          strokeColor: Colors.white,
+          trackBorderColor: Colors.transparent,
+          trackColor: Colors.transparent,
+          gap: '7',
         ),
       ],
-    ),
-  );
-}
+    );
+  }
 
-SfCircularChart radialNutrientsGraph({context: BuildContext}) {
-  return SfCircularChart(
-    palette: [Colors.white, Apptheme.mainButonColor, Colors.blue],
-    margin: EdgeInsets.all(0),
-    series: [
-      RadialBarSeries<_PieData, String>(
-        dataSource: [pieData1, pieData2, pieData3],
-        xValueMapper: (_PieData data, _) => data.xData,
-        yValueMapper: (_PieData data, _) => data.yData,
-        dataLabelMapper: (_PieData data, _) => data.text,
-        dataLabelSettings: DataLabelSettings(isVisible: true),
-        strokeColor: Colors.white,
-        trackBorderColor: Colors.transparent,
-        trackColor: Colors.transparent,
-        gap: '7',
-      ),
-    ],
-  );
+  _PieData pieData1 = _PieData('2', 3, 'calories');
+  _PieData pieData2 = _PieData('2', 4, 'protein');
+  _PieData pieData3 = _PieData('2', .8, 'hydration');
 }
-
-_PieData pieData1 = _PieData('2', 3, 'calories');
-_PieData pieData2 = _PieData('2', 4, 'protein');
-_PieData pieData3 = _PieData('2', .8, 'hydration');
 
 class _PieData {
   _PieData(
