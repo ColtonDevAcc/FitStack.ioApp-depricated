@@ -2,7 +2,7 @@
     "prettier.printWidth": 600,
     "prettier.proseWrap": "never",
     "dart_data_class_generator.constructor.required": true,
-    "files.autoSave": "onFocusChange",
+    "files.autoSave": "off",
     "bracketPairColorizer.forceUniqueOpeningColor": true,
     "dart_data_class_generator.useEquatable": true
 }

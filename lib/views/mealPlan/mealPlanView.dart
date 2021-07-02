@@ -52,14 +52,14 @@ class MealPlanView extends StatelessWidget {
                 Expanded(
                     child: userStatisticsTab(
                   icon: LineIcons.burn,
-                  detailsString: 'Calories',
+                  detailsString: 'Cal',
                   value: CurrentUserNutrition.userRecommendedCalorieIntake!
                       .toInt(),
                 )),
                 Expanded(
                     child: userStatisticsTab(
                   icon: LineIcons.drumstickWithBiteTakenOut,
-                  detailsString: 'Vitamin D',
+                  detailsString: 'Vit D',
                   value: CurrentUserNutrition.userRecommendedVitaminDIntake!
                       .toInt(),
                 )),
@@ -71,14 +71,14 @@ class MealPlanView extends StatelessWidget {
                 Expanded(
                     child: userStatisticsTab(
                   icon: LineIcons.fish,
-                  detailsString: 'Vitamin A',
+                  detailsString: 'Vit A',
                   value: CurrentUserNutrition.userRecommendedVitaminAIntake!
                       .toInt(),
                 )),
                 Expanded(
                     child: userStatisticsTab(
                   icon: LineIcons.seedling,
-                  detailsString: 'Vitamin E',
+                  detailsString: 'Vit E',
                   value: CurrentUserNutrition.userRecommendedVitaminEIntake!
                       .toInt(),
                 )),
@@ -90,7 +90,7 @@ class MealPlanView extends StatelessWidget {
                 Expanded(
                     child: userStatisticsTab(
                   icon: LineIcons.fruitApple,
-                  detailsString: 'Vitamin C',
+                  detailsString: 'Vit C',
                   value: CurrentUserNutrition.userRecommendedVitaminCIntake!
                       .toInt(),
                 )),

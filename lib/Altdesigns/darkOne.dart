@@ -3,11 +3,13 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:workify/controllers/currentUser.dart';
-import 'package:workify/views/saved/savedView.dart';
+import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
 import 'package:workify/views/profile/profileView.dart';
+import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
 
@@ -35,61 +37,6 @@ class _DarkOneState extends State<DarkOne> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color.fromRGBO(20, 26, 47, 1),
-      drawer: Drawer(
-        child: Container(
-          color: Color.fromRGBO(20, 26, 47, 1),
-          child: ListView(
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(33, 40, 67, 1),
-                ),
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Home',
-                      textScaleFactor: 2,
-                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Home',
-                      textScaleFactor: 2,
-                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Home',
-                      textScaleFactor: 2,
-                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Home',
-                      textScaleFactor: 2,
-                      style: TextStyle(color: Color.fromRGBO(86, 93, 121, 1)),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
       body: Stack(
         children: [
           Align(
@@ -100,8 +47,8 @@ class _DarkOneState extends State<DarkOne> {
               height: size.height,
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                  topRight: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
                 ),
                 child: NavigationRail(
                   backgroundColor: Color.fromRGBO(33, 40, 67, 1),
@@ -117,8 +64,25 @@ class _DarkOneState extends State<DarkOne> {
                       _selectedIndex = index;
                     });
                   },
-                  leading: CircleAvatar(
-                    backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                  leading: Column(
+                    children: [
+                      SizedBox(
+                        height: AppBar().preferredSize.height - 20,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                        backgroundImage: NetworkImage(
+                            'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                      ),
+                      SizedBox(height: 20),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Text(
+                          CurrentUser.userName,
+                          style: TextStyle(color: Apptheme.mainTextColor),
+                        ),
+                      )
+                    ],
                   ),
                   minWidth: 56,
                   groupAlignment: 1,
@@ -193,65 +157,40 @@ class _DarkOneState extends State<DarkOne> {
   }
 }
 
-GestureDetector sideButtons(
-    {index: int, indexSelected: int, onTap: Function, icon: IconData}) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Container(
-      decoration: BoxDecoration(
-        color: index == indexSelected
-            // ignore: dead_code
-            ? Color.fromRGBO(251, 137, 107, 1)
-            : Color.fromRGBO(44, 52, 88, 1),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Icon(
-          icon,
-          color: index == indexSelected
-              // ignore: dead_code
-              ? Color.fromRGBO(230, 230, 230, 1)
-              : Color.fromRGBO(86, 93, 121, 1),
-        ),
-      ),
-    ),
-  );
-}
-
 Padding listViewCards({color: Color, data: Array}) {
   return Padding(
-    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+    padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
     child: Container(
       child: Stack(
         children: [
           Align(
-            child: SfSparkLineChart(
-              labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
-              axisLineColor: Colors.white.withOpacity(0),
-              color: color,
-
-              //Enable the trackball
-              trackball: SparkChartTrackball(
-                activationMode: SparkChartActivationMode.tap,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: SfSparkLineChart(
+                labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
+                axisLineColor: Colors.white.withOpacity(0),
                 color: color,
-                borderColor: color,
-              ),
 
-              //Enable marker
-              marker: SparkChartMarker(
-                displayMode: SparkChartMarkerDisplayMode.all,
-                color: color,
-                borderColor: color,
+                //Enable the trackball
+                trackball: SparkChartTrackball(
+                  activationMode: SparkChartActivationMode.tap,
+                  color: color,
+                  borderColor: color,
+                ),
+
+                //Enable marker
+                marker: SparkChartMarker(
+                  displayMode: SparkChartMarkerDisplayMode.all,
+                  color: color,
+                  borderColor: color,
+                ),
+                data: data,
               ),
-              data: data,
             ),
           ),
           Positioned(
               child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +205,7 @@ Padding listViewCards({color: Color, data: Array}) {
                       style: TextStyle(color: Colors.white),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                       child: Text(
                         'lbs',
                         textScaleFactor: 1,
@@ -311,77 +250,35 @@ Padding listViewWorkoutCards() {
   );
 }
 
-Container goalProgressionCard({context: BuildContext}) {
-  return Container(
-    width: MediaQuery.of(context).size.width * .8,
-    height: MediaQuery.of(context).size.height * .15,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: Color.fromRGBO(37, 44, 76, 1),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Your workout goal',
-                style: TextStyle(color: Colors.white.withOpacity(.3)),
-              ),
-              SizedBox(height: 5),
-              Text(
-                '${CurrentUser.mainWorkoutGoal}',
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 50,
-          width: 3,
-          child: Container(
-            color: Colors.white,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '5 lbs',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 5),
-              Text(
-                'Weight increase',
-                style: TextStyle(color: Colors.white.withOpacity(.3)),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 Container homeView({context: BuildContext}) {
   return Container(
     color: Color.fromRGBO(20, 26, 47, 1),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    child: ListView(
       children: [
-        Spacer(flex: 10),
-        goalProgressionCard(context: context),
-        Spacer(flex: 1),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Apptheme.mainCardColor.withOpacity(.8),
+            ),
+            height: 130,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
+              child: Row(
+                children: [
+                  Expanded(child: radialNutrientsGraph(context: context)),
+                  Text(
+                    'Hows your day look?',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         Container(
-          height: MediaQuery.of(context).size.height * .5,
+          height: MediaQuery.of(context).size.height * .35,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
@@ -392,9 +289,6 @@ Container homeView({context: BuildContext}) {
             ],
           ),
         ),
-        Spacer(flex: 1),
-        SizedBox(),
-        Spacer(flex: 1),
         Container(
           height: 200,
           child: ListView(
@@ -417,8 +311,42 @@ Container homeView({context: BuildContext}) {
             ],
           ),
         ),
-        Spacer(flex: 5)
       ],
     ),
   );
+}
+
+SfCircularChart radialNutrientsGraph({context: BuildContext}) {
+  return SfCircularChart(
+    palette: [Colors.white, Apptheme.mainButonColor, Colors.blue],
+    margin: EdgeInsets.all(0),
+    series: [
+      RadialBarSeries<_PieData, String>(
+        dataSource: [pieData1, pieData2, pieData3],
+        xValueMapper: (_PieData data, _) => data.xData,
+        yValueMapper: (_PieData data, _) => data.yData,
+        dataLabelMapper: (_PieData data, _) => data.text,
+        dataLabelSettings: DataLabelSettings(isVisible: true),
+        strokeColor: Colors.white,
+        trackBorderColor: Colors.transparent,
+        trackColor: Colors.transparent,
+        gap: '7',
+      ),
+    ],
+  );
+}
+
+_PieData pieData1 = _PieData('2', 3, 'calories');
+_PieData pieData2 = _PieData('2', 4, 'protein');
+_PieData pieData3 = _PieData('2', .8, 'hydration');
+
+class _PieData {
+  _PieData(
+    this.xData,
+    this.yData,
+    this.text,
+  );
+  final String xData;
+  final num yData;
+  final String text;
 }
