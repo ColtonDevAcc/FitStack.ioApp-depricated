@@ -27,8 +27,16 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
       'Default': Icons.error
     };
 
-    return SafeArea(
-      child: Column(
+    return Scaffold(
+      backgroundColor: Apptheme.mainBackgroundColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          LineIcons.plus,
+          color: Colors.white,
+        ),
+      ),
+      body: Column(
         children: [
           SizedBox(height: 10),
           Row(
@@ -37,7 +45,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
               Text(
                 'Recent workouts',
                 textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor),
+                style: TextStyle(color: Colors.white),
               ),
             ],
           ),

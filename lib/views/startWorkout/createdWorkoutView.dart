@@ -165,16 +165,3 @@ class CreatedWorkoutView extends StatelessWidget {
     );
   }
 }
-
-/*return new ListView(
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-
-                    return Text(
-                      'ddd ${data['workoutCategoryTitle']}',
-                      style: TextStyle(color: Apptheme.mainTextColor),
-                    );
-                  }).toList(),
-                ); */

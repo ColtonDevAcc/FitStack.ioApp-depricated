@@ -14,8 +14,16 @@ class MealPlanView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController _searchcontroller = TextEditingController();
 
-    return SafeArea(
-      child: Padding(
+    return Scaffold(
+      backgroundColor: Apptheme.mainBackgroundColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          LineIcons.plus,
+          color: Colors.white,
+        ),
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Column(
           children: [
