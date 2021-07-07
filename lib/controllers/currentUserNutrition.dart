@@ -15,19 +15,21 @@ class CurrentUserNutrition {
   static double? userRecommendedVitaminDIntake;
   static double? userRecommendedVitaminEIntake;
 
+  static double? userWorkoutActivityFactor;
+
   final currentUserGender;
 
   CurrentUserNutrition(this.currentUserGender) {
     calcUserRecommendedNutrientsForWeightGain();
     calcUserRecommendedVitaminAIntake();
     calcUserRecommendedVitaminCIntake();
+    calcUserRecommendedProteinIntake();
     userRecommendedVitaminEIntake = 15;
     userRecommendedVitaminDIntake = 175;
   }
 
   double calcUserRecommendedNutrientsForWeightGain({userGender: String}) {
     double userWorkoutActivityFactor = calculateUserWorkoutActivityFactor();
-
     if (CurrentUser.gender == 'Male') {
       print('Male');
       return userRecommendedCalorieIntake = 66 +
@@ -43,12 +45,6 @@ class CurrentUserNutrition {
     }
   }
 
-  void calculateNutrientsForMuscleGain() {}
-
-  void calculateNutrientsForWeighLoss() {}
-
-  void calculateNutrientsForStrength() {}
-
   void calcUserRecommendedVitaminCIntake() {
     int x = CurrentUser.age!;
 
@@ -59,6 +55,10 @@ class CurrentUserNutrition {
     } else if (x > 18 && CurrentUser.gender == 'Male') {
       userRecommendedVitaminCIntake = 90;
     }
+  }
+
+  void calcUserRecommendedProteinIntake() {
+    userRecommendedProteinIntake = CurrentUser.weight! / 2.2046 * 2.2;
   }
 
   void calcUserRecommendedVitaminAIntake() {
@@ -72,7 +72,6 @@ class CurrentUserNutrition {
   }
 
   double calculateUserWorkoutActivityFactor() {
-    double userWorkoutActivityFactor = 1.0;
     int x = CurrentUser.workoutFrequency!;
 
     if (x == 0) {
@@ -85,57 +84,8 @@ class CurrentUserNutrition {
       return userWorkoutActivityFactor = 1.725;
     } else if (x > 6 && x < 9) {
       return userWorkoutActivityFactor = 1.9;
+    } else {
+      return userWorkoutActivityFactor = 1.0;
     }
-
-    return userWorkoutActivityFactor;
   }
 }
-
-//prot calc
-//protein https://www.acsm.org/docs/default-source/files-for-resource-library/protein-intake-for-optimal-muscle-maintenance.pdf
-
-//cal calc
-//https://www.checkyourhealth.org/eat-healthy/cal_calculator.php
-
-// switch (CurrentUser.workoutFrequency) {
-//       case 0:
-//         {
-//           userWorkoutActivityFactor = 1.2;
-//         }
-//         break;
-//       case 0 <:
-//         {
-//           userWorkoutActivityFactor = 1.375;
-//         }
-//         break;
-//       case 2:
-//         {
-//           userWorkoutActivityFactor = 1.375;
-//         }
-//         break;
-//       case 3:
-//         {
-//           userWorkoutActivityFactor = 1.55;
-//         }
-//         break;
-//       case 4:
-//         {
-//           userWorkoutActivityFactor = 1.55;
-//         }
-//         break;
-//       case 5:
-//         {
-//           userWorkoutActivityFactor = 1.725;
-//         }
-//         break;
-//       case 6:
-//         {
-//           userWorkoutActivityFactor = 1.725;
-//         }
-//         break;
-//       case 7:
-//         {
-//           userWorkoutActivityFactor = 1.9;
-//         }
-//         break;
-//     }

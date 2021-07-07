@@ -49,15 +49,6 @@ class CreatedWorkoutView extends StatelessWidget {
         ],
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
-      floatingActionButton: SpeedDial(
-        icon: LineIcons.plus,
-        iconTheme: IconThemeData(color: Apptheme.mainButonColor),
-        backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
-        onPress: () async {
-          await AuthServices.addUserWorkoutDetails(
-              workoutCategoryTitle: workoutTitle);
-        },
-      ),
       body: Column(
         children: [
           Flexible(

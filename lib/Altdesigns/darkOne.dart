@@ -2,16 +2,20 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
 import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
+import 'package:workify/widgets/addMealEntry.dart';
+import 'package:workify/widgets/addWorkoutFAB.dart';
 
 class DarkOne extends StatefulWidget {
   const DarkOne({Key? key}) : super(key: key);
@@ -22,7 +26,7 @@ class DarkOne extends StatefulWidget {
 
 class _DarkOneState extends State<DarkOne> {
   int indexSelected = 1;
-  var _selectedIndex = 0;
+  var _currentIndex = 0;
   final List<Widget> _children = [
     DarkOne(),
     MealPlanView(),
@@ -34,8 +38,169 @@ class _DarkOneState extends State<DarkOne> {
 
   @override
   Widget build(BuildContext context) {
+    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
+    double _screenHeight = MediaQuery.of(context).size.width.toDouble();
+
+    TextEditingController workoutTitleTextController = TextEditingController();
+    TextEditingController workoutDescriptionTextController =
+        TextEditingController();
+    TextEditingController workoutTypeTextController = TextEditingController();
+    TextEditingController workoutTagsTextController = TextEditingController();
+
+    final TextEditingController calorieTextControler = TextEditingController();
+    final TextEditingController transfatTextControler = TextEditingController();
+    final TextEditingController cholesterolTextControler =
+        TextEditingController();
+    final TextEditingController sodiumTextControler = TextEditingController();
+    final TextEditingController totalcarbsTextControler =
+        TextEditingController();
+    final TextEditingController proteinTextControler = TextEditingController();
+    final TextEditingController vitaminAcalorieTextControler =
+        TextEditingController();
+    final TextEditingController vitaminCTextControler = TextEditingController();
+    final TextEditingController calciumTextControler = TextEditingController();
+    final TextEditingController ironTextControler = TextEditingController();
+    final TextEditingController titleTextController = TextEditingController();
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: _currentIndex == 1 || _currentIndex == 3
+          ? _currentIndex == 2
+              ? AddWorkoutFAB(
+                  context: context,
+                  screenWidth: _screenWidth,
+                  screenHeight: _screenHeight,
+                  workoutDescriptionTextController:
+                      workoutDescriptionTextController,
+                  workoutTagsTextController: workoutTagsTextController,
+                  workoutTitleTextController: workoutTitleTextController,
+                  workoutTypeTextController: workoutTypeTextController,
+                )
+              : SpeedDial(
+                  overlayColor: Colors.transparent,
+                  child: Icon(Icons.add, color: Apptheme.mainButonColor),
+                  backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
+                  activeIcon: Icons.add,
+                  activeForegroundColor: Apptheme.mainButonColor,
+                  activeBackgroundColor:
+                      Apptheme.mainButonColor.withOpacity(.2),
+                  children: [
+                    SpeedDialChild(
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
+                        child: Icon(LineIcons.search,
+                            color: Apptheme.mainButonColor),
+                        onTap: () {},
+                        label: 'Search Entries',
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
+                        backgroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2)),
+                    SpeedDialChild(
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
+                        child: Icon(LineIcons.edit,
+                            color: Apptheme.mainButonColor),
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            backgroundColor: Apptheme.mainBackgroundColor,
+                            builder: (context) {
+                              return ListView(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0,
+                                            AppBar().preferredSize.height,
+                                            0,
+                                            0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                LineIcons.times,
+                                                color: Apptheme.mainTextColor,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Add entry',
+                                              textScaleFactor: 1.5,
+                                              style: TextStyle(
+                                                color: Apptheme.mainTextColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                print('camera pressed');
+                                              },
+                                              child: Icon(
+                                                LineIcons.camera,
+                                                color: Apptheme.mainTextColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      SizedBox(height: 5),
+                                      AddMealEntry(
+                                        calorieTextControler:
+                                            calorieTextControler,
+                                        transfatTextControler:
+                                            transfatTextControler,
+                                        cholesterolTextControler:
+                                            cholesterolTextControler,
+                                        sodiumTextControler:
+                                            sodiumTextControler,
+                                        totalcarbsTextControler:
+                                            totalcarbsTextControler,
+                                        proteinTextControler:
+                                            proteinTextControler,
+                                        vitaminAcalorieTextControler:
+                                            vitaminAcalorieTextControler,
+                                        vitaminCTextControler:
+                                            vitaminCTextControler,
+                                        calciumTextControler:
+                                            calciumTextControler,
+                                        ironTextControler: ironTextControler,
+                                        titleTextController:
+                                            titleTextController,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        label: 'Add Entry',
+                        backgroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2)),
+                    SpeedDialChild(
+                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
+                        foregroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2),
+                        labelBackgroundColor: Apptheme.mainCardColor,
+                        child: Icon(LineIcons.camera,
+                            color: Apptheme.mainButonColor),
+                        onTap: () {},
+                        label: 'Scan',
+                        backgroundColor:
+                            Apptheme.mainButonColor.withOpacity(.2)),
+                  ],
+                )
+          : null,
       backgroundColor: Color.fromRGBO(20, 26, 47, 1),
       body: Stack(
         children: [
@@ -52,7 +217,7 @@ class _DarkOneState extends State<DarkOne> {
                 ),
                 child: NavigationRail(
                   backgroundColor: Color.fromRGBO(33, 40, 67, 1),
-                  selectedIndex: _selectedIndex,
+                  selectedIndex: _currentIndex,
                   unselectedIconTheme: IconThemeData(
                     color: Colors.white.withOpacity(.5),
                   ),
@@ -61,7 +226,7 @@ class _DarkOneState extends State<DarkOne> {
                   ),
                   onDestinationSelected: (int index) {
                     setState(() {
-                      _selectedIndex = index;
+                      _currentIndex = index;
                     });
                   },
                   leading: Column(
@@ -146,9 +311,9 @@ class _DarkOneState extends State<DarkOne> {
               height: size.height,
               width: size.width * .82,
               color: Color.fromRGBO(20, 26, 47, 1),
-              child: _selectedIndex == 0
+              child: _currentIndex == 0
                   ? homeView(context: context)
-                  : _children[_selectedIndex],
+                  : _children[_currentIndex],
             ),
           ),
         ],
@@ -256,12 +421,7 @@ class _DarkOneState extends State<DarkOne> {
         children: [
           SizedBox(height: AppBar().preferredSize.height - 13),
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              10,
-              0,
-              0,
-              10,
-            ),
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -341,9 +501,11 @@ class _DarkOneState extends State<DarkOne> {
     );
   }
 
-  _PieData pieData1 = _PieData('2', 3, 'calories');
-  _PieData pieData2 = _PieData('2', 4, 'protein');
-  _PieData pieData3 = _PieData('2', .8, 'hydration');
+  _PieData pieData1 = _PieData(
+      '2', CurrentUserNutrition.userRecommendedCalorieIntake!, 'calories');
+  _PieData pieData2 = _PieData(
+      '2', CurrentUserNutrition.userRecommendedProteinIntake!, 'protein');
+  _PieData pieData3 = _PieData('2', 400, 'hydration');
 }
 
 class _PieData {
@@ -353,6 +515,6 @@ class _PieData {
     this.text,
   );
   final String xData;
-  final num yData;
+  final double yData;
   final String text;
 }
