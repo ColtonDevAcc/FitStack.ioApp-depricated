@@ -1,0 +1,17 @@
+<svg id="Component_8_1" data-name="Component 8 – 1" xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #2d71c5;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Component_10_1" data-name="Component 10 – 1">
+    <circle id="Ellipse_4" data-name="Ellipse 4" class="cls-1" cx="18.5" cy="18.5" r="18.5"/>
+    <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" class="cls-2" d="M9.127,8.449l.417-2.718H6.936V3.967A1.359,1.359,0,0,1,8.468,2.5H9.654V.184A14.46,14.46,0,0,0,7.549,0,3.319,3.319,0,0,0,4,3.659V5.731H1.609V8.449H4V15.02H6.936V8.449Z" transform="translate(12.391 10.99)"/>
+  </g>
+</svg>
