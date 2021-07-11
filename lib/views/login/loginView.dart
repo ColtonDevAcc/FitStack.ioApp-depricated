@@ -27,7 +27,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
           children: [
             Stack(
@@ -58,7 +58,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Welcome back we you\'ve you\'ve \nbeen missed',
+                        'Welcome back we \nmissed you :(',
                         textScaleFactor: 1.5,
                         style: TextStyle(
                           color: Colors.black54,
@@ -213,7 +213,7 @@ class _LoginViewState extends State<LoginView> {
                           )
                         ],
                       ),
-                      Spacer(flex: 2),
+                      Spacer(flex: 3),
                     ],
                   ),
                 ),
