@@ -1,4 +1,1 @@
-<svg id="Component_8_1" data-name="Component 8 – 1" xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
-  <circle id="Ellipse_4" data-name="Ellipse 4" cx="18.5" cy="18.5" r="18.5" fill="#2d71c5"/>
-  <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M9.127,8.449l.417-2.718H6.936V3.967A1.359,1.359,0,0,1,8.468,2.5H9.654V.184A14.46,14.46,0,0,0,7.549,0,3.319,3.319,0,0,0,4,3.659V5.731H1.609V8.449H4V15.02H6.936V8.449Z" transform="translate(12.391 10.99)" fill="#fff"/>
-</svg>
+<svg viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg"><circle cx="18.5" cy="18.5" fill="#2d71c5" r="18.5"/><path d="m21.52 19.44.41-2.72h-2.6v-1.72a1.36 1.36 0 0 1 1.23-1.48h1.49v-2.35a14.88 14.88 0 0 0 -2.11-.17 3.32 3.32 0 0 0 -3.56 3.06 3 3 0 0 0 0 .6v2.07h-2.38v2.72h2.39v6.55h2.94v-6.56z" fill="#fff"/></svg>

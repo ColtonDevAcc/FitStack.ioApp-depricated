@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/signUp/signUpWandNDetails.dart';
@@ -235,11 +235,11 @@ class _SigUupViewState extends State<SignUpView> {
                               //! Sign the user up with the current info and push the extra info into firestore
                               if (passwordTextController.text ==
                                   passwordConfirmationTextController.text) {
-                                await context.read<AuthServices>().signUp(
-                                      email: emailTextController.text.trim(),
-                                      password:
-                                          passwordTextController.text.trim(),
-                                    );
+                                await AuthServices(FirebaseAuth.instance)
+                                    .signUp(
+                                  email: emailTextController.text,
+                                  password: passwordTextController.text,
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
