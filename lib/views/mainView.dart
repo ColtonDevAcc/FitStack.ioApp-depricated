@@ -257,7 +257,7 @@ class _MainViewState extends State<MainView> {
                   selectedLabelTextStyle: TextStyle(color: Colors.white),
                   trailing: Column(
                     children: [
-                      SizedBox(height: 110),
+                      SizedBox(height: _screenHeight * .19),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Text(
@@ -267,7 +267,7 @@ class _MainViewState extends State<MainView> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: 25),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Text(
@@ -277,7 +277,7 @@ class _MainViewState extends State<MainView> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: 20),
                     ],
                   ),
                   destinations: [
@@ -404,15 +404,54 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Padding listViewWorkoutCards() {
+  Padding listViewWorkoutCards({context: BuildContext}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: Row(
         children: [
-          Container(
-            child: Image(
-              fit: BoxFit.fill,
-              image: AssetImage('assets/images/DailyWorkout.png'),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              height: MediaQuery.of(context).size.height * .35,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/images/DailyWorkout.png'),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .12,
+                      color: Apptheme.mainCardColor,
+                      width: 170,
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Fat Burn Max',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Expanded(
+                            child: Text(
+                              'It is a long established fact that a reader will; random text text text  ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
@@ -427,25 +466,31 @@ class _MainViewState extends State<MainView> {
         children: [
           SizedBox(height: AppBar().preferredSize.height - 13),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Apptheme.mainCardColor.withOpacity(.8),
-              ),
-              height: 130,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
-                child: Row(
-                  children: [
-                    Expanded(child: radialNutrientsGraph(context: context)),
-                    Text(
-                      'Hows your day look?',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ],
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Stats',
+                  textScaleFactor: 1.2,
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ),
+                statsForContainer(
+                  color: Color.fromRGBO(253, 117, 5, 1),
+                  icon: LineIcons.tint,
+                  value: .73,
+                ),
+                statsForContainer(
+                  color: Color.fromRGBO(230, 64, 64, 1),
+                  icon: Icons.local_fire_department,
+                  value: .30,
+                ),
+                statsForContainer(
+                  color: Color.fromRGBO(87, 54, 232, 1),
+                  icon: LineIcons.drumstickWithBiteTakenOut,
+                  value: .9,
+                ),
+              ],
             ),
           ),
           Column(
@@ -465,9 +510,9 @@ class _MainViewState extends State<MainView> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     SizedBox(width: MediaQuery.of(context).size.width * .02),
-                    listViewWorkoutCards(),
-                    listViewWorkoutCards(),
-                    listViewWorkoutCards(),
+                    listViewWorkoutCards(context: context),
+                    listViewWorkoutCards(context: context),
+                    listViewWorkoutCards(context: context),
                   ],
                 ),
               ),
@@ -509,6 +554,35 @@ class _MainViewState extends State<MainView> {
           ),
         ],
       ),
+    );
+  }
+
+  Row statsForContainer({icon: LineIcons, color: Color, value: Double}) {
+    double value1 = value * 100;
+
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundColor: Apptheme.mainCardColor,
+          child: Icon(
+            icon,
+            color: color,
+          ),
+        ),
+        Expanded(
+          child: ListTile(
+            title: Text(
+              '${value1.toInt()}%',
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+            subtitle: LinearProgressIndicator(
+              value: value,
+              color: color,
+              backgroundColor: Colors.grey.withOpacity(.4),
+            ),
+          ),
+        )
+      ],
     );
   }
 
