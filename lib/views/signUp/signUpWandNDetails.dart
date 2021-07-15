@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/models/user.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/login/loginView.dart';
 
 class SignUpWandNDetails extends StatefulWidget {
   final firstName;
@@ -85,7 +86,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: _screenHeight * .6,
+              height: _screenHeight * .4,
               width: _screenWidth - 30,
               child: onBoardingTask[taskIndex],
             ),
@@ -98,26 +99,55 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                     taskIndex++;
                   });
                 } else {
+                  List<String> mainWorkoutGoalList = [
+                    'I want to get stronger',
+                    'I want to lose weight',
+                    'I want to gain weight',
+                    'Just to improve my health'
+                  ];
+                  List<String> workoutFrequencyList = [
+                    'Daily',
+                    '1 - 2 days a week',
+                    '3 - 4 days a week',
+                    '5 - 6 days a week'
+                  ];
+                  List<String> liftingExperienceList = [
+                    'Beginner',
+                    'Moderate',
+                    'Experienced',
+                    'Professinal'
+                  ];
+
                   //! NEED TO IMPLEMENT TO AUTH USER
-                  // var user = new FirebaseUser(
-                  //   userName: this.widget.userName!,
-                  //   firstName: this.widget.firstName!,
-                  //   lastName: this.widget.lastName!,
-                  //   nationality: nationalityTextController.text,
-                  //   email: this.widget.email!,
-                  //   admin: false,
-                  //   height: heightTextController.text,
-                  //   age: ageTextController.text,
-                  //   weight: this.widget.weight!,
-                  //   mainWorkoutGoal: this.widget.mainWorkoutGoal!,
-                  //   workoutFrequency: this.widget.workoutFrequency!,
-                  //   workoutExperiencelevel: this.widget.workoutExperiencelevel!,
-                  //   gender: 'Male',
-                  // );
-                  // await FirebaseFirestore.instance
-                  //     .collection('UserInfo')
-                  //     .doc(AuthServices.userUID)
-                  //     .set(user.toMap());
+                  var user = new FirebaseUser(
+                    userName: 'this.widget.userName!',
+                    firstName: this.widget.firstName!,
+                    lastName: this.widget.lastName!,
+                    nationality: nationalityTextController.text,
+                    email: this.widget.email!,
+                    admin: false,
+                    height: double.tryParse(heightTextController.text)!,
+                    age: int.tryParse(ageTextController.text)!,
+                    weight: double.tryParse(weightTextController.text)!,
+                    mainWorkoutGoal:
+                        mainWorkoutGoalList[workoutGoalSelectedButton],
+                    workoutFrequency:
+                        workoutFrequencyList[workoutFrequencySelectedButton],
+                    workoutExperiencelevel: liftingExperienceList[
+                        workoutExperiencelevelSelectedButton],
+                    gender: 'Male',
+                  );
+                  await FirebaseFirestore.instance
+                      .collection('UserInfo')
+                      .doc(AuthServices.userUID)
+                      .set(user.toMap());
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginView(),
+                    ),
+                  );
                 }
               },
               child: Container(
@@ -190,7 +220,6 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Spacer(flex: 1),
         Expanded(
           child: TextField(
-            keyboardType: TextInputType.number,
             style: TextStyle(color: Colors.black),
             textAlign: TextAlign.center,
             decoration: InputDecoration(

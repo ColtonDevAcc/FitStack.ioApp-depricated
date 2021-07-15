@@ -1,17 +1,21 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:workify/Altdesigns/darkOne.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:workify/controllers/currentUser.dart';
+import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/saved/savedView.dart';
+import 'package:workify/views/mealPlan/mealPlanView.dart';
 import 'package:workify/views/profile/profileView.dart';
+import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
 import 'package:workify/widgets/addMealEntry.dart';
 import 'package:workify/widgets/addWorkoutFAB.dart';
-import 'mealPlan/mealPlanView.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -21,10 +25,22 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  int indexSelected = 1;
   var _currentIndex = 0;
+  final List<Widget> _children = [
+    MainView(),
+    MealPlanView(),
+    SavedView(),
+    StartWorkoutView(),
+    TrainerView(),
+    ProfileView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
+    double _screenHeight = MediaQuery.of(context).size.width.toDouble();
+
     TextEditingController workoutTitleTextController = TextEditingController();
     TextEditingController workoutDescriptionTextController =
         TextEditingController();
@@ -46,44 +62,9 @@ class _MainViewState extends State<MainView> {
     final TextEditingController ironTextControler = TextEditingController();
     final TextEditingController titleTextController = TextEditingController();
 
-    double _screenHeight = MediaQuery.of(context).size.height.toDouble();
-    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
-
-    void changeTabs({index: int}) {
-      setState(() {
-        _currentIndex = index;
-      });
-    }
-
-    final List<Widget> _children = [
-      DarkOne(),
-      SavedView(),
-      StartWorkoutView(),
-      MealPlanView(),
-      TrainerView(),
-      ProfileView(),
-    ];
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-            Text('data'),
-          ],
-        ),
-      ),
-      resizeToAvoidBottomInset: true,
-      body: _children[_currentIndex],
-      backgroundColor: Color.fromRGBO(33, 40, 67, 1),
-      floatingActionButton: _currentIndex == 2 || _currentIndex == 3
+      floatingActionButton: _currentIndex == 1 || _currentIndex == 3
           ? _currentIndex == 2
               ? AddWorkoutFAB(
                   context: context,
@@ -220,29 +201,351 @@ class _MainViewState extends State<MainView> {
                   ],
                 )
           : null,
-      bottomNavigationBar: SalomonBottomBar(
-        selectedItemColor: Color.fromRGBO(251, 137, 107, 1),
-        unselectedItemColor: Color.fromRGBO(86, 93, 121, 1),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          changeTabs(index: index);
-          print(_children[_currentIndex]);
-        },
-        items: [
-          SalomonBottomBarItem(
-              icon: Icon(Icons.home, size: 22), title: Text('Home')),
-          SalomonBottomBarItem(
-              icon: Icon(Icons.favorite, size: 22), title: Text('Saved')),
-          SalomonBottomBarItem(
-              icon: Icon(Icons.control_point, size: 22), title: Text('Create')),
-          SalomonBottomBarItem(
-              icon: Icon(Icons.restaurant, size: 22), title: Text('Nutrition')),
-          SalomonBottomBarItem(
-              icon: Icon(Icons.groups, size: 22), title: Text('Trainers')),
-          SalomonBottomBarItem(
-              icon: Icon(Icons.person, size: 22), title: Text('Profile')),
+      backgroundColor: Apptheme.mainBackgroundColor,
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              color: Apptheme.mainBackgroundColor,
+              width: size.width * .2,
+              height: size.height,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                ),
+                child: NavigationRail(
+                  backgroundColor: Apptheme.mainCardColor,
+                  selectedIndex: _currentIndex,
+                  unselectedIconTheme: IconThemeData(
+                    color: Apptheme.mainIconColor,
+                  ),
+                  selectedIconTheme: IconThemeData(
+                    color: Apptheme.mainButonColor,
+                  ),
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  leading: Column(
+                    children: [
+                      SizedBox(
+                        height: AppBar().preferredSize.height - 20,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                        backgroundImage: NetworkImage(
+                            'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                      ),
+                      SizedBox(height: 20),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Text(
+                          CurrentUser.userName,
+                          style: TextStyle(
+                              color: Apptheme.mainButonColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  minWidth: 56,
+                  groupAlignment: 1,
+                  labelType: NavigationRailLabelType.selected,
+                  selectedLabelTextStyle: TextStyle(color: Colors.white),
+                  trailing: Column(
+                    children: [
+                      SizedBox(height: 110),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Text(
+                          'OverView',
+                          style: TextStyle(
+                              color: Apptheme.mainButonColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Text(
+                          'Feed',
+                          style: TextStyle(
+                              color: Apptheme.mainButonColor,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                    ],
+                  ),
+                  destinations: [
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.home),
+                      selectedIcon: Icon(LineIcons.home),
+                      label: Text('Home'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.utensils),
+                      selectedIcon: Icon(LineIcons.utensils),
+                      label: Text('Nutrition'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.dumbbell),
+                      selectedIcon: Icon(LineIcons.dumbbell),
+                      label: Text('Workout'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.users),
+                      selectedIcon: Icon(LineIcons.users),
+                      label: Text('Group'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(LineIcons.peopleCarry),
+                      selectedIcon: Icon(LineIcons.peopleCarry),
+                      label: Text('Trainers'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              height: size.height,
+              width: size.width * .82,
+              color: Apptheme.mainBackgroundColor,
+              child: _currentIndex == 0
+                  ? homeView(context: context)
+                  : _children[_currentIndex],
+            ),
+          ),
         ],
       ),
     );
   }
+
+  Padding listViewCards({color: Color, data: Array}) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
+      child: Container(
+        child: Stack(
+          children: [
+            Align(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: SfSparkLineChart(
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
+                  axisLineColor: Colors.white.withOpacity(0),
+                  color: color,
+
+                  //Enable the trackball
+                  trackball: SparkChartTrackball(
+                    activationMode: SparkChartActivationMode.tap,
+                    color: color,
+                    borderColor: color,
+                  ),
+
+                  //Enable marker
+                  marker: SparkChartMarker(
+                    displayMode: SparkChartMarkerDisplayMode.all,
+                    color: color,
+                    borderColor: color,
+                  ),
+                  data: data,
+                ),
+              ),
+            ),
+            Positioned(
+                child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '45',
+                        textScaleFactor: 3,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Text(
+                          'lbs',
+                          textScaleFactor: 1,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'Weight Gain',
+                    style: TextStyle(color: Colors.white.withOpacity(.5)),
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
+        width: 128,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(37, 44, 76, 1),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding listViewWorkoutCards() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+      child: Row(
+        children: [
+          Container(
+            child: Image(
+              fit: BoxFit.fill,
+              image: AssetImage('assets/images/DailyWorkout.png'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container homeView({context: BuildContext}) {
+    return Container(
+      color: Apptheme.mainBackgroundColor,
+      child: ListView(
+        children: [
+          SizedBox(height: AppBar().preferredSize.height - 13),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Apptheme.mainCardColor.withOpacity(.8),
+              ),
+              height: 130,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
+                child: Row(
+                  children: [
+                    Expanded(child: radialNutrientsGraph(context: context)),
+                    Text(
+                      'Hows your day look?',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
+                child: Text(
+                  'Daily workouts',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * .35,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * .02),
+                    listViewWorkoutCards(),
+                    listViewWorkoutCards(),
+                    listViewWorkoutCards(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+                child: Text(
+                  'Progress',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: 200,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * .02),
+                    listViewCards(
+                        color: Color.fromRGBO(41, 69, 142, 1),
+                        data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                    listViewCards(
+                        color: Color.fromRGBO(200, 138, 133, 1),
+                        data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
+                    listViewCards(
+                        color: Color.fromRGBO(41, 69, 142, 1),
+                        data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                    listViewCards(
+                        color: Color.fromRGBO(41, 69, 142, 1),
+                        data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  SfCircularChart radialNutrientsGraph({context: BuildContext}) {
+    return SfCircularChart(
+      palette: [Colors.white, Apptheme.mainButonColor, Colors.blue],
+      margin: EdgeInsets.all(0),
+      series: [
+        RadialBarSeries<_PieData, String>(
+          dataSource: [pieData1, pieData2, pieData3],
+          xValueMapper: (_PieData data, _) => data.xData,
+          yValueMapper: (_PieData data, _) => data.yData,
+          dataLabelMapper: (_PieData data, _) => data.text,
+          dataLabelSettings: DataLabelSettings(isVisible: true),
+          strokeColor: Colors.white,
+          trackBorderColor: Colors.transparent,
+          trackColor: Colors.transparent,
+          gap: '7',
+        ),
+      ],
+    );
+  }
+
+  _PieData pieData1 = _PieData(
+      '2', CurrentUserNutrition.userRecommendedCalorieIntake!, 'calories');
+  _PieData pieData2 = _PieData(
+      '2', CurrentUserNutrition.userRecommendedProteinIntake!, 'protein');
+  _PieData pieData3 = _PieData('2', 400, 'hydration');
+}
+
+class _PieData {
+  _PieData(
+    this.xData,
+    this.yData,
+    this.text,
+  );
+  final String xData;
+  final double yData;
+  final String text;
 }

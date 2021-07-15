@@ -12,7 +12,7 @@ class FirebaseUser {
   String gender;
   double weight;
   String mainWorkoutGoal;
-  int workoutFrequency;
+  String workoutFrequency;
   String workoutExperiencelevel;
   FirebaseUser({
     required this.gender,

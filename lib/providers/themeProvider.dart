@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
   static List validEmail = ['cbristow@aictitle.com'];
-  static Color primaryBackgroundColor = Color.fromRGBO(13, 17, 32, 1.0);
+  static Color primaryBackgroundColor = Color.fromRGBO(249, 249, 249, 1);
   static Color primaryAppBarBackground = Color.fromRGBO(22, 26, 43, 1.0);
   static Color primaryIconColor = Color.fromRGBO(66, 71, 96, 1.0);
   static Color primaryAccentRed = Color.fromRGBO(212, 88, 93, 1.0);
@@ -16,7 +16,7 @@ class ThemeProvider extends ChangeNotifier {
   static Color thirdAccent = Color.fromRGBO(139, 195, 217, 1.0);
   static Color secondaryButton = Color.fromRGBO(240, 244, 248, 1.0);
 
-  static Color primaryCardColor = Colors.white;
+  static Color primaryCardColor = Color.fromRGBO(255, 255, 255, 1);
 
   bool _darkMode = true;
 
