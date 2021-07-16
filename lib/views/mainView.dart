@@ -354,6 +354,7 @@ class _MainViewState extends State<MainView> {
                     color: color,
                     borderColor: color,
                   ),
+
                   data: data,
                 ),
               ),
@@ -585,41 +586,4 @@ class _MainViewState extends State<MainView> {
       ],
     );
   }
-
-  SfCircularChart radialNutrientsGraph({context: BuildContext}) {
-    return SfCircularChart(
-      palette: [Colors.white, Apptheme.mainButonColor, Colors.blue],
-      margin: EdgeInsets.all(0),
-      series: [
-        RadialBarSeries<_PieData, String>(
-          dataSource: [pieData1, pieData2, pieData3],
-          xValueMapper: (_PieData data, _) => data.xData,
-          yValueMapper: (_PieData data, _) => data.yData,
-          dataLabelMapper: (_PieData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(isVisible: true),
-          strokeColor: Colors.white,
-          trackBorderColor: Colors.transparent,
-          trackColor: Colors.transparent,
-          gap: '7',
-        ),
-      ],
-    );
-  }
-
-  _PieData pieData1 = _PieData(
-      '2', CurrentUserNutrition.userRecommendedCalorieIntake!, 'calories');
-  _PieData pieData2 = _PieData(
-      '2', CurrentUserNutrition.userRecommendedProteinIntake!, 'protein');
-  _PieData pieData3 = _PieData('2', 400, 'hydration');
-}
-
-class _PieData {
-  _PieData(
-    this.xData,
-    this.yData,
-    this.text,
-  );
-  final String xData;
-  final double yData;
-  final String text;
 }
