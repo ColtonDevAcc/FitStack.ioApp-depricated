@@ -2,95 +2,150 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workify/theme/theme.dart';
 
-class SavedView extends StatelessWidget {
+class SavedView extends StatefulWidget {
   const SavedView({Key? key}) : super(key: key);
 
   @override
+  _SavedViewState createState() => _SavedViewState();
+}
+
+class _SavedViewState extends State<SavedView> {
+  @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: false,
-          pinned: true,
-          expandedHeight: 200,
-          title: Text('Saved Wokrouts',
-              style: TextStyle(color: Apptheme.mainTextColor)),
-          flexibleSpace: FlexibleSpaceBar(
-              background:
-                  Image.asset('assets/images/gymGirl.png', fit: BoxFit.cover)),
-          backgroundColor: Apptheme.mainBackgroundColor,
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              savedWokrouts(
-                  planTitle: 'BroSplit',
-                  planSubtitle: '7 workouts lasting 2 hours a piece',
-                  current: false),
-              savedWokrouts(
-                  planTitle: 'BroSplit',
-                  planSubtitle: '7 workouts lasting 2 hours a piece',
-                  current: false),
-              savedWokrouts(
-                  planTitle: 'BroSplit',
-                  planSubtitle: '7 workouts lasting 2 hours a piece',
-                  current: true),
-              savedWokrouts(
-                  planTitle: 'BroSplit',
-                  planSubtitle: '7 workouts lasting 2 hours a piece',
-                  current: false),
-              savedWokrouts(
-                  planTitle: 'BroSplit',
-                  planSubtitle: '7 workouts lasting 2 hours a piece',
-                  current: false),
-            ],
+    return Scaffold(
+        backgroundColor: Apptheme.mainBackgroundColor,
+        body: DefaultTabController(
+          length: 3,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: AppBar().preferredSize.height),
+                Text(
+                  'MY WORKOUTS',
+                  textScaleFactor: 1.4,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(
+                      25.0,
+                    ),
+                  ),
+                  child: TabBar(
+                    // give the indicator a decoration (color and border radius)
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        25.0,
+                      ),
+                      color: Apptheme.mainButonColor,
+                    ),
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey,
+                    tabs: [
+                      // first tab [you can add an icon using the icon property]
+                      Tab(
+                        text: 'Workouts',
+                      ),
+                      // second tab [you can add an icon using the icon property]
+                      Tab(
+                        text: 'Meal Plans',
+                      ),
+                      Tab(
+                        text: 'Fit Kits',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TabBarView(
+                      children: [
+                        savedWorkoutCards(context: context),
+                        Text('data'),
+                        Text('data'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-        )
-      ],
-    );
+        ));
   }
 }
 
-Padding savedWokrouts(
-    {planTitle: String, planSubtitle: String, current: bool}) {
+savedWorkouts() {
+  return Column();
+}
+
+savedWorkoutCards({context: BuildContext}) {
   return Padding(
-    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-    child: Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Apptheme.mainCardColor),
-      child: ListTile(
-        subtitle: Text(planSubtitle,
-            textScaleFactor: .8,
-            style: TextStyle(color: Apptheme.mainTextColor)),
-        title: Row(
-          children: [
-            Text(planTitle),
-          ],
-        ),
-        trailing: current == true
-            ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Apptheme.mainButonColor.withOpacity(.2)),
-                  child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: Text(
-                      'Current',
-                      style: TextStyle(color: Apptheme.mainButonColor),
-                    ),
+    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+    child: Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 10,
+                  blurRadius: 5,
+                  offset: Offset(0, 7), // changes position of shadow
+                ),
+              ],
+            ),
+            height: MediaQuery.of(context).size.height * .33,
+            width: MediaQuery.of(context).size.width - 124,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Image(
+                    fit: BoxFit.fill,
+                    image: AssetImage('assets/images/gymGirl.png'),
                   ),
                 ),
-              )
-            : Icon(Icons.arrow_forward_ios, color: Apptheme.mainTextColor),
-        leading: ClipRRect(
-          child: Image.asset('assets/images/gymGirl.png'),
-          borderRadius: BorderRadius.circular(10),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 124,
+                    height: MediaQuery.of(context).size.height * .12,
+                    color: Apptheme.mainCardColor,
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Fat Burn Max',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text('It is a long established fact that a'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-        contentPadding: EdgeInsets.fromLTRB(10, 0, 1, 0),
-      ),
+      ],
     ),
   );
 }

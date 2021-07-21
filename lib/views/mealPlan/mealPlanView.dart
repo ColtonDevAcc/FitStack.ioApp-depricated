@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
@@ -74,7 +73,7 @@ class MealPlanView extends StatelessWidget {
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.green,
                         label: 'Vitamin D',
-                        data: 900,
+                        data: 35,
                       ),
                     ],
                   ),
@@ -85,13 +84,13 @@ class MealPlanView extends StatelessWidget {
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.blue.shade900,
                         label: 'Vitamin A',
-                        data: 900,
+                        data: 3,
                       ),
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.red.shade300,
                         label: 'Vitamin E',
-                        data: 900,
+                        data: 44,
                       ),
                     ],
                   ),
@@ -102,13 +101,13 @@ class MealPlanView extends StatelessWidget {
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.orange.shade700,
                         label: 'Vitamin C',
-                        data: 900,
+                        data: 6,
                       ),
                       statsForConsumption(
                         icon: LineIcons.drumstickWithBiteTakenOut,
                         color: Colors.blue.shade900,
                         label: 'Protein',
-                        data: 900,
+                        data: 80,
                       ),
                     ],
                   ),

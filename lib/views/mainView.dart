@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
@@ -13,8 +12,6 @@ import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
-import 'package:workify/widgets/addMealEntry.dart';
-import 'package:workify/widgets/addWorkoutFAB.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
