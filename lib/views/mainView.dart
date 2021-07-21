@@ -1,13 +1,12 @@
 import 'dart:ffi';
+import 'dart:math';
 
+import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:workify/controllers/currentUser.dart';
-import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
 import 'package:workify/views/profile/profileView.dart';
@@ -38,169 +37,10 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width.toDouble();
     double _screenHeight = MediaQuery.of(context).size.width.toDouble();
-
-    TextEditingController workoutTitleTextController = TextEditingController();
-    TextEditingController workoutDescriptionTextController =
-        TextEditingController();
-    TextEditingController workoutTypeTextController = TextEditingController();
-    TextEditingController workoutTagsTextController = TextEditingController();
-
-    final TextEditingController calorieTextControler = TextEditingController();
-    final TextEditingController transfatTextControler = TextEditingController();
-    final TextEditingController cholesterolTextControler =
-        TextEditingController();
-    final TextEditingController sodiumTextControler = TextEditingController();
-    final TextEditingController totalcarbsTextControler =
-        TextEditingController();
-    final TextEditingController proteinTextControler = TextEditingController();
-    final TextEditingController vitaminAcalorieTextControler =
-        TextEditingController();
-    final TextEditingController vitaminCTextControler = TextEditingController();
-    final TextEditingController calciumTextControler = TextEditingController();
-    final TextEditingController ironTextControler = TextEditingController();
-    final TextEditingController titleTextController = TextEditingController();
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: _currentIndex == 1 || _currentIndex == 3
-          ? _currentIndex == 2
-              ? AddWorkoutFAB(
-                  context: context,
-                  screenWidth: _screenWidth,
-                  screenHeight: _screenHeight,
-                  workoutDescriptionTextController:
-                      workoutDescriptionTextController,
-                  workoutTagsTextController: workoutTagsTextController,
-                  workoutTitleTextController: workoutTitleTextController,
-                  workoutTypeTextController: workoutTypeTextController,
-                )
-              : SpeedDial(
-                  overlayColor: Colors.transparent,
-                  child: Icon(Icons.add, color: Apptheme.mainButonColor),
-                  backgroundColor: Apptheme.mainButonColor.withOpacity(.2),
-                  activeIcon: Icons.add,
-                  activeForegroundColor: Apptheme.mainButonColor,
-                  activeBackgroundColor:
-                      Apptheme.mainButonColor.withOpacity(.2),
-                  children: [
-                    SpeedDialChild(
-                        foregroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2),
-                        labelBackgroundColor: Apptheme.mainCardColor,
-                        child: Icon(LineIcons.search,
-                            color: Apptheme.mainButonColor),
-                        onTap: () {},
-                        label: 'Search Entries',
-                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
-                        backgroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2)),
-                    SpeedDialChild(
-                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
-                        foregroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2),
-                        labelBackgroundColor: Apptheme.mainCardColor,
-                        child: Icon(LineIcons.edit,
-                            color: Apptheme.mainButonColor),
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            backgroundColor: Apptheme.mainBackgroundColor,
-                            builder: (context) {
-                              return ListView(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            0,
-                                            AppBar().preferredSize.height,
-                                            0,
-                                            0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Icon(
-                                                LineIcons.times,
-                                                color: Apptheme.mainTextColor,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Add entry',
-                                              textScaleFactor: 1.5,
-                                              style: TextStyle(
-                                                color: Apptheme.mainTextColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                print('camera pressed');
-                                              },
-                                              child: Icon(
-                                                LineIcons.camera,
-                                                color: Apptheme.mainTextColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      SizedBox(height: 5),
-                                      AddMealEntry(
-                                        calorieTextControler:
-                                            calorieTextControler,
-                                        transfatTextControler:
-                                            transfatTextControler,
-                                        cholesterolTextControler:
-                                            cholesterolTextControler,
-                                        sodiumTextControler:
-                                            sodiumTextControler,
-                                        totalcarbsTextControler:
-                                            totalcarbsTextControler,
-                                        proteinTextControler:
-                                            proteinTextControler,
-                                        vitaminAcalorieTextControler:
-                                            vitaminAcalorieTextControler,
-                                        vitaminCTextControler:
-                                            vitaminCTextControler,
-                                        calciumTextControler:
-                                            calciumTextControler,
-                                        ironTextControler: ironTextControler,
-                                        titleTextController:
-                                            titleTextController,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        label: 'Add Entry',
-                        backgroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2)),
-                    SpeedDialChild(
-                        labelStyle: TextStyle(color: Apptheme.mainTextColor),
-                        foregroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2),
-                        labelBackgroundColor: Apptheme.mainCardColor,
-                        child: Icon(LineIcons.camera,
-                            color: Apptheme.mainButonColor),
-                        onTap: () {},
-                        label: 'Scan',
-                        backgroundColor:
-                            Apptheme.mainButonColor.withOpacity(.2)),
-                  ],
-                )
-          : null,
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Stack(
         children: [
@@ -210,104 +50,95 @@ class _MainViewState extends State<MainView> {
               color: Apptheme.mainBackgroundColor,
               width: size.width * .2,
               height: size.height,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
+              child: NavigationRail(
+                backgroundColor: Apptheme.mainCardColor,
+                selectedIndex: _currentIndex,
+                unselectedIconTheme:
+                    IconThemeData(color: Apptheme.mainIconColor, size: 30),
+                selectedIconTheme: IconThemeData(
+                  color: Apptheme.mainButonColor,
                 ),
-                child: NavigationRail(
-                  backgroundColor: Apptheme.mainCardColor,
-                  selectedIndex: _currentIndex,
-                  unselectedIconTheme: IconThemeData(
-                    color: Apptheme.mainIconColor,
-                  ),
-                  selectedIconTheme: IconThemeData(
-                    color: Apptheme.mainButonColor,
-                  ),
-                  onDestinationSelected: (int index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  leading: Column(
-                    children: [
-                      SizedBox(
-                        height: AppBar().preferredSize.height - 20,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                leading: Column(
+                  children: [
+                    SizedBox(height: AppBar().preferredSize.height - 5),
+                    CircleAvatar(
+                      backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                      backgroundImage: NetworkImage(
+                          'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                    ),
+                    SizedBox(height: 20),
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Text(
+                        CurrentUser.userName,
+                        style: TextStyle(
+                            color: Apptheme.mainButonColor,
+                            fontWeight: FontWeight.bold),
                       ),
-                      CircleAvatar(
-                        backgroundColor: Color.fromRGBO(37, 44, 76, 1),
-                        backgroundImage: NetworkImage(
-                            'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
-                      ),
-                      SizedBox(height: 20),
-                      RotatedBox(
-                        quarterTurns: 3,
-                        child: Text(
-                          CurrentUser.userName,
-                          style: TextStyle(
-                              color: Apptheme.mainButonColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                  minWidth: 56,
-                  groupAlignment: 1,
-                  labelType: NavigationRailLabelType.selected,
-                  selectedLabelTextStyle: TextStyle(color: Colors.white),
-                  trailing: Column(
-                    children: [
-                      SizedBox(height: _screenHeight * .19),
-                      RotatedBox(
-                        quarterTurns: 3,
-                        child: Text(
-                          'OverView',
-                          style: TextStyle(
-                              color: Apptheme.mainButonColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      RotatedBox(
-                        quarterTurns: 3,
-                        child: Text(
-                          'Feed',
-                          style: TextStyle(
-                              color: Apptheme.mainButonColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: Icon(LineIcons.home),
-                      selectedIcon: Icon(LineIcons.home),
-                      label: Text('Home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(LineIcons.utensils),
-                      selectedIcon: Icon(LineIcons.utensils),
-                      label: Text('Nutrition'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(LineIcons.dumbbell),
-                      selectedIcon: Icon(LineIcons.dumbbell),
-                      label: Text('Workout'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(LineIcons.users),
-                      selectedIcon: Icon(LineIcons.users),
-                      label: Text('Group'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(LineIcons.peopleCarry),
-                      selectedIcon: Icon(LineIcons.peopleCarry),
-                      label: Text('Trainers'),
-                    ),
+                    )
                   ],
                 ),
+                minWidth: 56,
+                groupAlignment: 1,
+                labelType: NavigationRailLabelType.none,
+                selectedLabelTextStyle: TextStyle(color: Colors.white),
+                trailing: Column(
+                  children: [
+                    SizedBox(height: _screenHeight * .30),
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Text(
+                        'OverView',
+                        style: TextStyle(
+                            color: Apptheme.mainButonColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Text(
+                        'Feed',
+                        style: TextStyle(
+                            color: Apptheme.mainButonColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
+                destinations: [
+                  NavigationRailDestination(
+                    icon: Icon(LineIcons.home),
+                    selectedIcon: Icon(LineIcons.home),
+                    label: Text('Home'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(LineIcons.utensils),
+                    selectedIcon: Icon(LineIcons.utensils),
+                    label: Text('Nutrition'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(LineIcons.dumbbell),
+                    selectedIcon: Icon(LineIcons.dumbbell),
+                    label: Text('Workout'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(LineIcons.users),
+                    selectedIcon: Icon(LineIcons.users),
+                    label: Text('Group'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(LineIcons.peopleCarry),
+                    selectedIcon: Icon(LineIcons.peopleCarry),
+                    label: Text('Trainers'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -329,39 +160,46 @@ class _MainViewState extends State<MainView> {
 
   Padding listViewCards({color: Color, data: Array}) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
+      padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
       child: Container(
         child: Stack(
           children: [
             Align(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: SfSparkLineChart(
-                  labelStyle: TextStyle(color: Colors.white.withOpacity(0)),
-                  axisLineColor: Colors.white.withOpacity(0),
-                  color: color,
-
-                  //Enable the trackball
-                  trackball: SparkChartTrackball(
-                    activationMode: SparkChartActivationMode.tap,
-                    color: color,
-                    borderColor: color,
-                  ),
-
-                  //Enable marker
-                  marker: SparkChartMarker(
-                    displayMode: SparkChartMarkerDisplayMode.all,
-                    color: color,
-                    borderColor: color,
-                  ),
-
-                  data: data,
+                child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 90, 10, 10),
+              child: Sparkline(
+                useCubicSmoothing: true,
+                cubicSmoothingFactor: 0.2,
+                lineWidth: 3,
+                lineColor: Apptheme.mainStatisticColor,
+                fillMode: FillMode.below,
+                fillGradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Apptheme.mainStatisticColor.withOpacity(.1),
+                    Apptheme.mainCardColor,
+                  ],
                 ),
+                averageLable: true,
+                data: [
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                  Random().nextDouble(),
+                ],
               ),
-            ),
+            )),
             Positioned(
                 child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,22 +210,22 @@ class _MainViewState extends State<MainView> {
                     children: [
                       Text(
                         '45',
-                        textScaleFactor: 3,
-                        style: TextStyle(color: Colors.white),
+                        textScaleFactor: 2,
+                        style: TextStyle(color: Colors.black),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: Text(
                           'lbs',
                           textScaleFactor: 1,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ],
                   ),
                   Text(
                     'Weight Gain',
-                    style: TextStyle(color: Colors.white.withOpacity(.5)),
+                    style: TextStyle(color: Colors.black.withOpacity(.5)),
                   )
                 ],
               ),
@@ -396,7 +234,7 @@ class _MainViewState extends State<MainView> {
         ),
         width: 128,
         decoration: BoxDecoration(
-          color: Color.fromRGBO(37, 44, 76, 1),
+          color: Apptheme.mainCardColor,
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
@@ -413,6 +251,16 @@ class _MainViewState extends State<MainView> {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 10,
+                    blurRadius: 5,
+                    offset: Offset(0, 7), // changes position of shadow
+                  ),
+                ],
+              ),
               height: MediaQuery.of(context).size.height * .35,
               child: Stack(
                 children: [
@@ -465,12 +313,21 @@ class _MainViewState extends State<MainView> {
       color: Apptheme.mainBackgroundColor,
       child: ListView(
         children: [
-          SizedBox(height: AppBar().preferredSize.height - 13),
+          SizedBox(height: AppBar().preferredSize.height - 45),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'HOW YOUR DAY LOOKS',
+                  textScaleFactor: 1.4,
+                  style: TextStyle(
+                    color: Apptheme.mainButonColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
                 Text(
                   'Stats',
                   textScaleFactor: 1.2,
@@ -502,6 +359,7 @@ class _MainViewState extends State<MainView> {
                 padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
                 child: Text(
                   'Daily workouts',
+                  textScaleFactor: 1.2,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -526,6 +384,7 @@ class _MainViewState extends State<MainView> {
                 padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
                 child: Text(
                   'Progress',
+                  textScaleFactor: 1.2,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -562,6 +421,7 @@ class _MainViewState extends State<MainView> {
     double value1 = value * 100;
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
           backgroundColor: Apptheme.mainCardColor,
@@ -570,8 +430,9 @@ class _MainViewState extends State<MainView> {
             color: color,
           ),
         ),
-        Expanded(
+        Flexible(
           child: ListTile(
+            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
             title: Text(
               '${value1.toInt()}%',
               style: TextStyle(color: color, fontWeight: FontWeight.bold),

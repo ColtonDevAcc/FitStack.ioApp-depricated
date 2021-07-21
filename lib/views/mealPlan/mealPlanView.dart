@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
-import 'package:workify/controllers/currentUser.dart';
-import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/theme/theme.dart';
 
 class MealPlanView extends StatelessWidget {
@@ -12,109 +10,111 @@ class MealPlanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _searchcontroller = TextEditingController();
+    double _screenWidth = MediaQuery.of(context).size.width;
+    double _screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Apptheme.mainBackgroundColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(
-          LineIcons.plus,
-          color: Colors.white,
-        ),
+        backgroundColor: Apptheme.secondaryAccent,
+        child: Icon(LineIcons.qrcode),
       ),
+      backgroundColor: Apptheme.mainBackgroundColor,
       body: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 1),
-            Text('Nutrition',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
-            SizedBox(height: 1),
-            TextFormField(
-              controller: _searchcontroller,
-              style: TextStyle(color: Colors.white),
-              autofocus: false,
-              autocorrect: true,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Search meal plans, or reci...',
-                labelStyle:
-                    TextStyle(color: Apptheme.mainTextColor.withOpacity(.5)),
-                fillColor: Apptheme.mainCardColor,
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white.withOpacity(0)),
-                    borderRadius: BorderRadius.circular(15)),
+            SizedBox(
+              height: AppBar().preferredSize.height,
+            ),
+            Text(
+              'NUTRITION',
+              textScaleFactor: 1.4,
+              style: TextStyle(
+                color: Apptheme.mainButonColor,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 1),
+            SizedBox(height: 10),
             Text(
-              'Recommended',
-              style: TextStyle(color: Apptheme.mainTextColor),
+              'Consumption',
+              textScaleFactor: 1.2,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 1),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: LineIcons.burn,
-                  detailsString: 'Cal',
-                  value: CurrentUserNutrition.userRecommendedCalorieIntake!
-                      .toInt(),
-                )),
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: LineIcons.drumstickWithBiteTakenOut,
-                  detailsString: 'Vit D',
-                  value: CurrentUserNutrition.userRecommendedVitaminDIntake!
-                      .toInt(),
-                )),
-              ],
+            SizedBox(height: 10),
+            Container(
+              height: _screenHeight * .25,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 10,
+                    blurRadius: 5,
+                    offset: Offset(0, 7), // changes position of shadow
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(15),
+                color: Apptheme.mainCardColor,
+              ),
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      statsForConsumption(
+                        icon: Icons.local_fire_department,
+                        color: Colors.red,
+                        label: 'Calories',
+                        data: 900,
+                      ),
+                      statsForConsumption(
+                        icon: LineIcons.prescriptionBottle,
+                        color: Colors.green,
+                        label: 'Vitamin D',
+                        data: 900,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      statsForConsumption(
+                        icon: LineIcons.prescriptionBottle,
+                        color: Colors.blue.shade900,
+                        label: 'Vitamin A',
+                        data: 900,
+                      ),
+                      statsForConsumption(
+                        icon: LineIcons.prescriptionBottle,
+                        color: Colors.red.shade300,
+                        label: 'Vitamin E',
+                        data: 900,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      statsForConsumption(
+                        icon: LineIcons.prescriptionBottle,
+                        color: Colors.orange.shade700,
+                        label: 'Vitamin C',
+                        data: 900,
+                      ),
+                      statsForConsumption(
+                        icon: LineIcons.drumstickWithBiteTakenOut,
+                        color: Colors.blue.shade900,
+                        label: 'Protein',
+                        data: 900,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: LineIcons.fish,
-                  detailsString: 'Vit A',
-                  value: CurrentUserNutrition.userRecommendedVitaminAIntake!
-                      .toInt(),
-                )),
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: LineIcons.seedling,
-                  detailsString: 'Vit E',
-                  value: CurrentUserNutrition.userRecommendedVitaminEIntake!
-                      .toInt(),
-                )),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: LineIcons.fruitApple,
-                  detailsString: 'Vit C',
-                  value: CurrentUserNutrition.userRecommendedVitaminCIntake!
-                      .toInt(),
-                )),
-                Expanded(
-                    child: userStatisticsTab(
-                  icon: Icons.local_fire_department,
-                  detailsString: 'Protein',
-                  value: (CurrentUser.weight! * 0.65).round(),
-                )),
-              ],
-            ),
-            SizedBox(height: 1),
-            Text('Recents meals',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
-            SizedBox(height: 1),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -132,34 +132,125 @@ class MealPlanView extends StatelessWidget {
                     return Text("Loading");
                   }
 
-                  return new ListView(
-                    children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data =
-                          document.data() as Map<String, dynamic>;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30),
+                      Text(
+                        'Recent Meals',
+                        textScaleFactor: 1.2,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      new GridView.count(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        childAspectRatio: .8,
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
 
-                      return new ListTile(
-                        title: new Text(
-                          data['mealTitle'] == null
-                              ? 'null info'
-                              : data['mealTitle'],
-                        ),
-                        subtitle: Text(
-                          '${data['mealCalories'].toString()} Calories, ${data['mealProtein'].toString()}g Protein -- ${data['mealEntryCreationDateTime']}',
-                          style: TextStyle(
-                            color: Apptheme.mainTextColor,
-                          ),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Apptheme.mainTextColor,
-                        ),
-                      );
-                    }).toList(),
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Apptheme.mainCardColor,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '${data['mealTitle']}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: '${data['mealProtein']}g\n',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Protein',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: '${data['mealCalories']}\n',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Calories',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Apptheme.mainButonColor,
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          bottomRight: Radius.circular(15),
+                                        )),
+                                    width: double.infinity,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList()
+                              ..add(
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Apptheme.mainCardColor,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        LineIcons.plus,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -167,75 +258,39 @@ class MealPlanView extends StatelessWidget {
   }
 }
 
-Padding userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
-  return Padding(
-    padding: EdgeInsets.all(5),
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Apptheme.mainCardColor),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    icon,
-                    color: Apptheme.mainButonColor,
-                  ),
-                  SizedBox(height: 40),
-                  Row(
-                    children: [
-                      Text(value.toString(),
-                          textScaleFactor: 1.5,
-                          style: TextStyle(color: Apptheme.mainTextColor)),
-                      SizedBox(width: 5),
-                      Text(detailsString,
-                          style: TextStyle(color: Apptheme.mainTextColor)),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Padding featuredHorizontalTabCard() {
-  return Padding(
-    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-    child: Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Apptheme.mainCardColor),
-      child: ListTile(
-        title: Text('Meal A'),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.elliptical(15, 15)),
-          child: Image.asset('assets/images/RopeSwings.png'),
-        ),
-        subtitle: Text(
-          '130 G Protein - 1200 cal',
-          style: TextStyle(color: Apptheme.mainTextColor),
-        ),
-        trailing: Container(
-          color: Apptheme.mainButonColor,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              Icons.arrow_forward_ios,
-              size: 15,
-              color: Colors.white,
-            ),
-          ),
-        ),
+statsForConsumption({
+  icon: IconData,
+  color: Colors,
+  data: double,
+  label: String,
+}) {
+  return Row(
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 35,
+          )
+        ],
       ),
-    ),
+      SizedBox(width: 5),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            data.toString(),
+            textScaleFactor: 1.2,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            label,
+            textScaleFactor: 1.1,
+          ),
+        ],
+      ),
+    ],
   );
 }
