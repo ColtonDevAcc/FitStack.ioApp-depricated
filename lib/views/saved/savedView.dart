@@ -71,7 +71,9 @@ class _SavedViewState extends State<SavedView> {
                     padding: const EdgeInsets.all(8.0),
                     child: TabBarView(
                       children: [
-                        savedWorkoutCards(context: context),
+                        Center(
+                          child: savedWorkoutCards(context: context),
+                        ),
                         Text('data'),
                         Text('data'),
                       ],
@@ -90,62 +92,59 @@ savedWorkouts() {
 }
 
 savedWorkoutCards({context: BuildContext}) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-    child: Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 10,
-                  blurRadius: 5,
-                  offset: Offset(0, 7), // changes position of shadow
+  return Row(
+    children: [
+      ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 10,
+                blurRadius: 5,
+                offset: Offset(0, 7), // changes position of shadow
+              ),
+            ],
+          ),
+          height: MediaQuery.of(context).size.height * .33,
+          width: MediaQuery.of(context).size.width - 111,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage('assets/images/gymGirl.png'),
                 ),
-              ],
-            ),
-            height: MediaQuery.of(context).size.height * .33,
-            width: MediaQuery.of(context).size.width - 124,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/gymGirl.png'),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 124,
-                    height: MediaQuery.of(context).size.height * .12,
-                    color: Apptheme.mainCardColor,
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Fat Burn Max',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * .12,
+                  color: Apptheme.mainCardColor,
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Fat Burn Max',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(height: 2),
-                        Text('It is a long established fact that a'),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 2),
+                      Text('It is a long established fact that a'),
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }
