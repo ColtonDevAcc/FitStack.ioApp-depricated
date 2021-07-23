@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/saved/savedMealPlan.dart';
 
 class SavedView extends StatefulWidget {
   const SavedView({Key? key}) : super(key: key);
@@ -13,6 +15,11 @@ class _SavedViewState extends State<SavedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Apptheme.secondaryAccent,
+          child: Icon(LineIcons.plus),
+        ),
         backgroundColor: Apptheme.mainBackgroundColor,
         body: DefaultTabController(
           length: 3,
@@ -71,10 +78,8 @@ class _SavedViewState extends State<SavedView> {
                     padding: const EdgeInsets.all(8.0),
                     child: TabBarView(
                       children: [
-                        Center(
-                          child: savedWorkoutCards(context: context),
-                        ),
-                        Text('data'),
+                        savedWorkouts(context: context),
+                        SavedMealPlanView(),
                         Text('data'),
                       ],
                     ),
@@ -87,44 +92,66 @@ class _SavedViewState extends State<SavedView> {
   }
 }
 
-savedWorkouts() {
-  return Column();
+savedWorkouts({context: BuildContext}) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    shrinkWrap: true,
+    children: [
+      savedWorkoutCards(context: context),
+      savedWorkoutCards(context: context),
+      savedWorkoutCards(context: context),
+    ],
+  );
 }
 
 savedWorkoutCards({context: BuildContext}) {
-  return Row(
-    children: [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 10,
-                blurRadius: 5,
-                offset: Offset(0, 7), // changes position of shadow
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Stack(
+            children: [
+              Image(
+                fit: BoxFit.fill,
+                image: AssetImage('assets/images/gymGirl.png'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: CircleAvatar(
+                    backgroundColor: Apptheme.mainCardColor,
+                    child: Icon(LineIcons.heartAlt, color: Colors.red),
+                  ),
+                ),
               ),
             ],
           ),
-          height: MediaQuery.of(context).size.height * .33,
-          width: MediaQuery.of(context).size.width - 111,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Image(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/images/gymGirl.png'),
-                ),
+          Container(
+            decoration: BoxDecoration(
+              color: Apptheme.mainCardColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * .12,
-                  color: Apptheme.mainCardColor,
-                  padding: EdgeInsets.all(10),
+            ),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * .12,
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CircleAvatar(
+                    backgroundColor: Apptheme.mainButonColor,
+                    child: Icon(Icons.play_arrow, color: Colors.white),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -140,11 +167,11 @@ savedWorkoutCards({context: BuildContext}) {
                     ],
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
+              ],
+            ),
+          )
+        ],
       ),
-    ],
+    ),
   );
 }

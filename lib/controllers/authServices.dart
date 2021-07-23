@@ -66,6 +66,7 @@ class AuthServices extends ChangeNotifier {
       CurrentUser.weight = value.data()!['weight'];
       CurrentUser.mainWorkoutGoal = value.data()!['mainWorkoutGoal'];
       CurrentUser.workoutFrequency = value.data()!['workoutFrequency'];
+      CurrentUser.friends = value.data()!['friends'];
       CurrentUser.workoutExperiencelevel =
           value.data()!['workoutExperiencelevel'];
     });

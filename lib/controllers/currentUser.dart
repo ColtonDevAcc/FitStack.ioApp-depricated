@@ -12,4 +12,6 @@ mixin CurrentUser {
   static String? mainWorkoutGoal = '';
   static int? workoutFrequency = 5;
   static String? workoutExperiencelevel = "";
+
+  static List<String>? friends;
 }

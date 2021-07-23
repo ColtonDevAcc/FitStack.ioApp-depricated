@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/group/groupView.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
-import 'package:workify/views/profile/profileView.dart';
+import 'package:workify/views/recovery/recoveryView.dart';
 import 'package:workify/views/saved/savedView.dart';
-import 'package:workify/views/startWorkout/startWorkoutView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
 
 class MainView extends StatefulWidget {
@@ -27,9 +27,9 @@ class _MainViewState extends State<MainView> {
     MainView(),
     MealPlanView(),
     SavedView(),
-    StartWorkoutView(),
+    GroupView(),
+    RecoveryView(),
     TrainerView(),
-    ProfileView(),
   ];
 
   @override
@@ -121,14 +121,19 @@ class _MainViewState extends State<MainView> {
                     label: Text('Nutrition'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(LineIcons.dumbbell),
-                    selectedIcon: Icon(LineIcons.dumbbell),
+                    icon: Icon(LineIcons.heart),
+                    selectedIcon: Icon(LineIcons.heartAlt),
                     label: Text('Workout'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(LineIcons.users),
                     selectedIcon: Icon(LineIcons.users),
                     label: Text('Group'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.accessibility),
+                    selectedIcon: Icon(Icons.accessibility),
+                    label: Text('Trainers'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(LineIcons.peopleCarry),
@@ -273,7 +278,7 @@ class _MainViewState extends State<MainView> {
                     child: Container(
                       height: MediaQuery.of(context).size.height * .12,
                       color: Apptheme.mainCardColor,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * .445,
                       padding: EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
