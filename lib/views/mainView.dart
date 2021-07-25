@@ -9,6 +9,7 @@ import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/group/groupView.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
+import 'package:workify/views/profile/profileView.dart';
 import 'package:workify/views/recovery/recoveryView.dart';
 import 'package:workify/views/saved/savedView.dart';
 import 'package:workify/views/trainer/trainerView.dart';
@@ -63,10 +64,20 @@ class _MainViewState extends State<MainView> {
                 leading: Column(
                   children: [
                     SizedBox(height: AppBar().preferredSize.height - 5),
-                    CircleAvatar(
-                      backgroundColor: Color.fromRGBO(37, 44, 76, 1),
-                      backgroundImage: NetworkImage(
-                          'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileView(),
+                          ),
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Color.fromRGBO(37, 44, 76, 1),
+                        backgroundImage: NetworkImage(
+                            'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                      ),
                     ),
                     SizedBox(height: 20),
                     RotatedBox(

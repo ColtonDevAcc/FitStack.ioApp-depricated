@@ -1,258 +1,210 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/profile/inboxView.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
-  _ProfileViewState createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.menu,
-                    color: Apptheme.mainTextColor,
-                  ),
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => InboxView(),
                 ),
-                Text('Profile',
-                    textScaleFactor: 1.2,
-                    style: TextStyle(
-                        color: Apptheme.mainTextColor,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  child: Icon(
-                    Icons.more_horiz,
-                    color: Apptheme.mainTextColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(73),
-                color: Apptheme.mainCardColor,
-              ),
-              child: CircleAvatar(
-                foregroundColor: Apptheme.mainCardColor,
-                backgroundColor: Apptheme.mainCardColor,
-                backgroundImage: AssetImage('assets/images/gymGirl.png'),
-                radius: 80,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Column(
-              children: [
-                Text("${CurrentUser.firstName} ${CurrentUser.lastName}",
-                    textScaleFactor: 1.5,
-                    style: TextStyle(
-                        color: Apptheme.mainTextColor,
-                        fontWeight: FontWeight.bold)),
-                Text('${CurrentUser.nationality}  🇺🇲',
-                    textScaleFactor: 1,
-                    style: TextStyle(
-                        color: Apptheme.mainTextColor,
-                        fontWeight: FontWeight.w300)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 20, 0),
-                  child: Column(
-                    children: [
-                      Text('${CurrentUser.weight!.toInt()}',
-                          textScaleFactor: 1.5,
-                          style: TextStyle(
-                              color: Apptheme.mainTextColor,
-                              fontWeight: FontWeight.bold)),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text('Weight',
-                            textScaleFactor: 1,
-                            style: TextStyle(
-                                color: Apptheme.mainTextColor,
-                                fontWeight: FontWeight.w300)),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    color: Apptheme.mainTextColor,
-                    child: SizedBox(width: 1, height: 40)),
-                Column(
-                  children: [
-                    Text(
-                        '${CurrentUser.height! ~/ 12}"${(CurrentUser.height! % 12).round()}',
-                        textScaleFactor: 1.5,
-                        style: TextStyle(
-                            color: Apptheme.mainTextColor,
-                            fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Text('Height',
-                          textScaleFactor: 1,
-                          style: TextStyle(
-                              color: Apptheme.mainTextColor,
-                              fontWeight: FontWeight.w300)),
-                    ),
-                  ],
-                ),
-                Container(
-                    color: Apptheme.mainTextColor,
-                    child: SizedBox(width: 1, height: 40)),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 75, 0),
-                  child: Column(
-                    children: [
-                      Text('${CurrentUser.age}',
-                          textScaleFactor: 1.5,
-                          style: TextStyle(
-                              color: Apptheme.mainTextColor,
-                              fontWeight: FontWeight.bold)),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Text('Age',
-                            textScaleFactor: 1,
-                            style: TextStyle(
-                                color: Apptheme.mainTextColor,
-                                fontWeight: FontWeight.w300)),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 25, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: Icons.favorite,
-                        detailsString: 'bpm',
-                        value: 120)),
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: Icons.local_fire_department,
-                        detailsString: 'kcal',
-                        value: 120)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: Icons.schedule,
-                        detailsString: 'hrs',
-                        value: 120)),
-                Expanded(
-                    child: userStatisticsTab(
-                        icon: Icons.whatshot,
-                        detailsString: 'W streak',
-                        value: 10)),
-              ],
-            ),
-          ),
-          Expanded(
-            child: productivityStatistics(),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-Padding userStatisticsTab({icon: IconData, detailsString: String, value: int}) {
-  return Padding(
-    padding: EdgeInsets.all(5),
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Apptheme.mainCardColor),
+              );
+            },
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              child: Stack(
                 children: [
-                  Icon(
-                    icon,
-                    color: Apptheme.mainButonColor,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      LineIcons.envelope,
+                      color: Colors.black,
+                    ),
                   ),
-                  SizedBox(height: 40),
-                  Row(
-                    children: [
-                      Text(value.toString(),
-                          textScaleFactor: 1.5,
-                          style: TextStyle(color: Apptheme.mainTextColor)),
-                      SizedBox(width: 5),
-                      Text(detailsString,
-                          style: TextStyle(color: Apptheme.mainTextColor)),
-                    ],
-                  )
+                  Positioned(
+                    right: 1,
+                    top: 14,
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                        decoration: BoxDecoration(
+                          color: Apptheme.secondaryAccent,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('UserInfo')
+                              .doc(AuthServices.userUID)
+                              .collection('Inbox')
+                              .doc('relationshipRequest')
+                              .collection('friendRequest')
+                              .snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            return Text("${snapshot.data!.docs.length}");
+                          },
+                        )),
+                  ),
                 ],
               ),
             ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Padding productivityStatistics() {
-  return Padding(
-    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-    child: Container(
-      decoration: BoxDecoration(
-          color: Apptheme.mainCardColor,
-          borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Productivity Statistics',
-                    style: TextStyle(color: Apptheme.mainTextColor)),
-              ],
-            ),
           )
         ],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            LineIcons.arrowLeft,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Apptheme.mainCardColor,
+        title: Text(
+          'PROFILE',
+          style: TextStyle(
+            color: Apptheme.mainButonColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-    ),
-  );
+      backgroundColor: Apptheme.mainBackgroundColor,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: screenWidth),
+                Container(
+                  height: screenHeight * .1,
+                  width: screenHeight * .1,
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(width: 1, color: Apptheme.mainButonColor),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  padding: EdgeInsets.all(5),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                  ),
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  softWrap: true,
+                  text: TextSpan(
+                    text: ' ${CurrentUser.userName}\n',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' Member since 2021\n',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      WidgetSpan(
+                        child: Icon(
+                          LineIcons.alternateMapMarker,
+                          size: 20,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '${CurrentUser.nationality}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    profileStatsHighlightCard(),
+                    profileStatsHighlightCard(),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded profileStatsHighlightCard() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Apptheme.mainCardColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                LineIcons.fire,
+                color: Apptheme.mainButonColor,
+              ),
+              Expanded(
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  maxLines: 2,
+                  softWrap: true,
+                  text: TextSpan(
+                    text: '40',
+                    style: TextStyle(
+                      color: Apptheme.mainButonColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' Days\n',
+                        style: TextStyle(
+                          color: Apptheme.mainButonColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Workouts done in a row',
+                        style: TextStyle(
+                          color: Apptheme.mainButonColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

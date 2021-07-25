@@ -6,36 +6,140 @@ import 'package:workify/controllers/authServices.dart';
 import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/theme/theme.dart';
 
-class GroupView extends StatelessWidget {
+class GroupView extends StatefulWidget {
   const GroupView({Key? key}) : super(key: key);
 
+  @override
+  _GroupViewState createState() => _GroupViewState();
+}
+
+class _GroupViewState extends State<GroupView> {
+  TextEditingController searchController = TextEditingController();
+  String searchValue = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showBottomSheet(
+            backgroundColor: Apptheme.mainBackgroundColor,
             context: context,
             builder: (context) {
-              return Container(
-                height: 100,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          LineIcons.arrowLeft,
-                          size: 30,
-                          color: Apptheme.mainButonColor,
-                        ),
+              return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return Container(
+                    height: 400,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  searchValue = value;
+                                });
+                              },
+                              style: TextStyle(color: Colors.black),
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                fillColor: Apptheme.mainCardColor,
+                                hintText: 'Enter an email',
+                                prefixIcon: Icon(
+                                  Icons.email,
+                                  color: Apptheme.mainButonColor,
+                                ),
+                                icon: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(
+                                    LineIcons.arrowDown,
+                                    color: Apptheme.mainButonColor,
+                                  ),
+                                ),
+                                filled: true,
+                                labelStyle: TextStyle(color: Colors.black),
+                                focusColor: Apptheme.mainCardColor,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Apptheme.mainCardColor),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Apptheme.mainCardColor),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 150,
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('UserInfo')
+                                  .where('email',
+                                      isEqualTo: searchController.text)
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text('Something went wrong');
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Text("Loading");
+                                }
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    new ListView(
+                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                      shrinkWrap: true,
+                                      children: snapshot.data!.docs
+                                          .map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data = document
+                                            .data() as Map<String, dynamic>;
+
+                                        return GestureDetector(
+                                            onTap: () async {
+                                              var friendRequest = data['email'];
+                                              await FirebaseFirestore.instance
+                                                  .collection('UserInfo')
+                                                  .where('email',
+                                                      isEqualTo: data['email'])
+                                                  .get()
+                                                  .then(
+                                                    (querySnapshot) => querySnapshot
+                                                        .docs[0].reference
+                                                        .collection('Inbox')
+                                                        .doc(
+                                                            'relationshipRequest')
+                                                        .collection(
+                                                            'friendRequest')
+                                                        .doc(friendRequest)
+                                                        .set(data),
+                                                  );
+
+                                              print(friendRequest);
+                                            },
+                                            child:
+                                                friendTab(name: data['email']));
+                                      }).toList(),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
           );
@@ -84,7 +188,7 @@ class GroupView extends StatelessWidget {
                     // first tab [you can add an icon using the icon property]
                     Tab(text: 'Friends'),
                     // second tab [you can add an icon using the icon property]
-                    Tab(text: 'Group'),
+                    Tab(text: 'Groups'),
                     Tab(text: 'Trainers'),
                   ],
                 ),
@@ -99,8 +203,10 @@ class GroupView extends StatelessWidget {
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('UserInfo')
-                                .where('email',
-                                    isEqualTo: CurrentUser.friends?[0])
+                                .where(
+                                  'friends',
+                                  arrayContains: CurrentUser.email,
+                                )
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
