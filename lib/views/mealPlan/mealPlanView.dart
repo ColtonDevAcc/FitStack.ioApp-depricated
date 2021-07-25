@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/widgets/qrCodeScanner.dart';
 
 class MealPlanView extends StatelessWidget {
   const MealPlanView({Key? key}) : super(key: key);
@@ -14,7 +15,14 @@ class MealPlanView extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QRCodeScanner(),
+            ),
+          );
+        },
         backgroundColor: Apptheme.secondaryAccent,
         child: Icon(LineIcons.qrcode),
       ),

@@ -20,7 +20,8 @@ dependencies:
   camera: ^0.8.1+3
 
   #Possible solutions
-  #openfoodfacts: ^0.3.15+3 for open food facts api
+  openfoodfacts: ^1.3.1
+  qr_code_scanner: ^0.5.2
 
   #UI
   material_floating_search_bar: ^0.3.4
