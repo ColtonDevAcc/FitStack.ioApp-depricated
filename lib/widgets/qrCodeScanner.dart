@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
 class QRCodeScanner extends StatefulWidget {
@@ -16,7 +18,8 @@ class QRCodeScanner extends StatefulWidget {
 }
 
 class _QRCodeScannerState extends State<QRCodeScanner> {
-  Barcode? result;
+  ProductResult? productResult;
+  Barcode? result = Barcode('234234234', BarcodeFormat.aztec, []);
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -33,20 +36,19 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   @override
   Widget build(BuildContext context) {
-    final List<FloatingActionButtonLocation> centerLocations =
-        <FloatingActionButtonLocation>[
-      FloatingActionButtonLocation.centerDocked,
-      FloatingActionButtonLocation.centerFloat,
-    ];
-
-    FloatingActionButtonLocation _fabLocation =
-        FloatingActionButtonLocation.endDocked;
-
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         shape: null,
-        onPressed: () {},
+        onPressed: () {
+          showBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                    color: Colors.grey[900],
+                    height: 250,
+                  ));
+          getProductResult(qrCode: 'result!.code.toString()');
+        },
         backgroundColor: Apptheme.mainButonColor,
         child: Icon(LineIcons.plus),
       ),
@@ -58,33 +60,41 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
           child: Row(
             children: <Widget>[
               IconButton(
-                tooltip: 'Open navigation menu',
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.black,
-                ),
-                onPressed: () {},
-              ),
-              if (centerLocations.contains(
-                FloatingActionButtonLocation.endDocked,
-              ))
-                const Spacer(),
-              IconButton(
+                onPressed: () async {
+                  await controller?.toggleFlash();
+                  setState(() {});
+                },
                 tooltip: 'Search',
                 icon: const Icon(
-                  Icons.search,
+                  LineIcons.lightningBolt,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+              ),
+              IconButton(
+                onPressed: () async {
+                  await controller?.flipCamera();
+                  setState(() {});
+                },
+                tooltip: 'Favorite',
+                icon: const Icon(
+                  Icons.flip_camera_ios,
+                  color: Colors.black,
+                ),
               ),
               IconButton(
                 tooltip: 'Favorite',
                 icon: const Icon(
-                  Icons.favorite,
+                  LineIcons.pause,
                   color: Colors.black,
                 ),
                 onPressed: () {},
               ),
+              productResult == null
+                  ? Text('Scan the product barcode')
+                  : Text(
+                      'Product Name: ' +
+                          productResult!.product!.productName.toString(),
+                    ),
             ],
           ),
         ),
@@ -97,100 +107,23 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: Icon(
-          LineIcons.arrowLeft,
-          color: Colors.black,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            LineIcons.arrowLeft,
+            color: Colors.black,
+          ),
         ),
         backgroundColor: Apptheme.mainCardColor,
       ),
-      body: Stack(
+      body: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Expanded(
-              flex: 4,
-              child: _buildQrView(context),
-            ),
-          ),
           Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  else
-                    Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
-                                } else {
-                                  return Text('loading');
-                                }
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: Text('pause', style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: Text('resume', style: TextStyle(fontSize: 20)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
+            flex: 4,
+            child: _buildQrView(context),
+          ),
         ],
       ),
     );
@@ -221,7 +154,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
       });
@@ -237,9 +170,49 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     }
   }
 
+  Future<ProductResult?> getProductResult({qrCode: String}) async {
+    log('starting ===================== OPENAPITRACK');
+    String resultString =
+        '01223004'; //! TODO: change this to result!.code.toString()
+    var newProductResult = await OpenFoodAPIClient.getProduct(
+        ProductQueryConfiguration(resultString,
+            language: OpenFoodFactsLanguage.ENGLISH,
+            fields: [ProductField.ALL]));
+
+    log('ending ===================== OPENAPITRACK');
+
+    if (newProductResult == 1) {
+      print("Error retreiving the product : ${productResult!.status}");
+      return newProductResult;
+    } else {
+      setState(() {
+        productResult = newProductResult;
+      });
+      sendProductResults();
+      return newProductResult;
+    }
+  }
+
   @override
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  sendProductResults() async {
+    await FirebaseFirestore.instance
+        .collection('UserInfo')
+        .doc(AuthServices.userUID)
+        .collection('UserAddedProduct')
+        .doc(productResult!.product!.productName)
+        .set(productResult!.product!.toData())
+        .then(
+          (value) => FirebaseFirestore.instance
+              .collection('UserInfo')
+              .doc(AuthServices.userUID)
+              .collection('UserAddedProduct')
+              .doc(productResult!.product!.productName)
+              .update(productResult!.product!.nutriments!.toData()),
+        );
   }
 }
