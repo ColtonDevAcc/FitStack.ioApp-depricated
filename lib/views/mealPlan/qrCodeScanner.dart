@@ -312,8 +312,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
-    String resultString =
-        '01223004'; //! TODO: change this to result!.code.toString()
+    String resultString = result!.code.toString();
     var newProductResult = await OpenFoodAPIClient.getProduct(
         ProductQueryConfiguration(resultString,
             language: OpenFoodFactsLanguage.ENGLISH,
