@@ -81,74 +81,90 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 topRight: Radius.circular(18.0)),
             panel: Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: Column(
-                children: [
-                  //! slide up indicator!
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 100,
-                        child: SizedBox(height: 5),
-                        padding: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(.3),
-                          borderRadius: BorderRadius.circular(24.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, .25),
-                                blurRadius: 16.0)
+              child: productResult!.product != null
+                  ? Column(
+                      children: [
+                        //! slide up indicator!
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              child: SizedBox(height: 5),
+                              padding: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(24.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, .25),
+                                      blurRadius: 16.0)
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  productResult == null
-                      ? Text('Scan In a Product Barcode')
-                      : Text(
+                        SizedBox(height: 10),
+                        Text(
                           productResult!.product!.productName.toString(),
                         ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              productScoreCircle(
+                                score: productResult!.product!.ecoscoreScore,
+                                scoreTitle: 'Eco\nScore',
+                                color: Colors.green,
+                              ),
+                              productScoreCircle(
+                                score: productResult!.product!.nutriscore,
+                                scoreTitle: 'Nutrients\nScore',
+                                color: Colors.green,
+                              ),
+                              productScoreCircle(
+                                score: productResult!
+                                    .product!.nutriments!.novaGroup,
+                                scoreTitle: 'Processed\nScore',
+                                color: novaScoreColor[productResult!
+                                        .product!.nutriments!.novaGroup! -
+                                    1],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  : Column(
                       children: [
-                        productScoreCircle(
-                          score: productResult!.product!.ecoscoreScore,
-                          scoreTitle: 'Eco\nScore',
-                          color: Colors.green,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              child: SizedBox(height: 5),
+                              padding: const EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(24.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, .25),
+                                      blurRadius: 16.0)
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        productScoreCircle(
-                          score: productResult!.product!.nutriscore,
-                          scoreTitle: 'Nutrients\nScore',
-                          color: Colors.green,
-                        ),
-                        productScoreCircle(
-                          score: productResult!.product!.nutriments!.novaGroup,
-                          scoreTitle: 'Processed\nScore',
-                          color: novaScoreColor[
-                              productResult!.product!.nutriments!.novaGroup! -
-                                  1],
-                        ),
-                        productScoreCircle(
-                          score: productResult!.product!
-                                      .ingredientsAnalysisTags!.veganStatus !=
-                                  'VeganStatus: isTrue'
-                              ? 'true'
-                              : 'false',
-                          scoreTitle: 'Vegan\nScore',
-                          color: goodBadScore[productResult!.product!
-                                      .ingredientsAnalysisTags!.veganStatus !=
-                                  'VeganStatus: isTrue'
-                              ? 0
-                              : 1],
-                        ),
+                        SizedBox(height: 10),
+                        productResult == null
+                            ? Text('Scan In a Product Barcode')
+                            : Text(
+                                productResult!.product!.productName.toString(),
+                              ),
                       ],
                     ),
-                  )
-                ],
-              ),
             ),
           )
         ],
