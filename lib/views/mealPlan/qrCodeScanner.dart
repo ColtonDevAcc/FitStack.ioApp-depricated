@@ -66,7 +66,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                   };
 
                   return Container(
-                    height: 400,
+                    height: MediaQuery.of(context).size.height * .5,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -100,7 +100,8 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                           Row(
                             children: [
                               Container(
-                                height: 50,
+                                height:
+                                    MediaQuery.of(context).size.height * .06,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image(
@@ -153,64 +154,36 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                               ),
                             ),
                           ),
-                          Text('Addatives'),
-                          Container(
-                            height: productResult!
-                                    .product!.additives!.names.length
-                                    .toDouble() *
-                                18,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              padding: EdgeInsets.zero,
-                              itemCount: productResult!
-                                  .product!.additives!.names.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Text(
-                                      productResult!
-                                          .product!.additives!.names[index],
-                                      style: TextStyle(
-                                        color: Apptheme.secondaryAccent,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 1,
-                              child: Container(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          Text('Nutrient Levels per 100 g/100ml'),
-                          Container(
-                            height: MediaQuery.of(context).size.height * .215,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              padding: EdgeInsets.zero,
-                              itemCount: 26,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Text(
-                                      productResult!.product!.nutriments!
-                                          .toData()
-                                          .entries
-                                          .map((e) => '${e.key}: ${e.value}')
-                                          .toList()[index],
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
+                          productInformationDisplay(
+                              context: context,
+                              productResult: productResult!.product!.nutriments!
+                                  .toData()
+                                  .entries
+                                  .where((element) => element.value != '0.0')
+                                  .map((e) =>
+                                      '${e.key.toUpperCase()}: ${e.value}  |  ')
+                                  .toList(),
+                              informationBeingDisplayed: 'Nutrition Facts'),
+                          productInformationDisplay(
+                              context: context,
+                              productResult: productResult!
+                                  .product!.additives!.names
+                                  .map((e) => '${e}  |  ')
+                                  .toList(),
+                              informationBeingDisplayed: 'Nutrition Facts'),
+                          productInformationDisplay(
+                              context: context,
+                              productResult: productResult!
+                                  .product!.ingredients!
+                                  .where((element) => element != '0.0')
+                                  .map((e) => '${e.text} |  ')
+                                  .toList(),
+                              informationBeingDisplayed: 'Ingredients'),
+                          productInformationDisplay(
+                              context: context,
+                              productResult: productResult!
+                                  .product!.ingredientsAnalysisTags,
+                              informationBeingDisplayed: 'Barcode'),
                         ],
                       ),
                     ),
@@ -382,4 +355,46 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
               .update(productResult!.product!.nutriments!.toData()),
         );
   }
+}
+
+productInformationDisplay(
+    {context: BuildContext,
+    productResult: List,
+    informationBeingDisplayed: String}) {
+  return Column(
+    children: [
+      Text(
+        informationBeingDisplayed,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 10),
+      Container(
+        height: MediaQuery.of(context).size.height * .03,
+        child: Scrollbar(
+          child: ListView.builder(
+            controller: ScrollController(),
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.zero,
+            itemCount: productResult.length,
+            itemBuilder: (context, index) {
+              return Text(
+                productResult[index],
+                style: TextStyle(color: Apptheme.secondaryAccent),
+              );
+            },
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 1,
+          child: Container(
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    ],
+  );
 }
