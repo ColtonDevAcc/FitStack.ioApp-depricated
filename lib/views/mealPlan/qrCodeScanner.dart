@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -49,127 +51,245 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'QR CODE SCANNER',
-          style: TextStyle(
-            color: Apptheme.mainButonColor,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          title: Text(
+            'QR CODE SCANNER',
+            style: TextStyle(
+              color: Apptheme.mainButonColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              LineIcons.arrowLeft,
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Apptheme.mainCardColor,
         ),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            LineIcons.arrowLeft,
-            color: Colors.black,
+        body: SlidingUpPanel(
+          maxHeight: MediaQuery.of(context).size.height * .7,
+          minHeight: AppBar().preferredSize.height + 10,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(18.0),
+            topRight: Radius.circular(18.0),
           ),
-        ),
-        backgroundColor: Apptheme.mainCardColor,
-      ),
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: _buildQrView(context),
-          ),
-          SlidingUpPanel(
-            maxHeight: 600,
-            minHeight: AppBar().preferredSize.height,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(18.0),
-                topRight: Radius.circular(18.0)),
-            panel: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: productResult!.product != null
-                  ? Column(
-                      children: [
-                        //! slide up indicator!
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              child: SizedBox(height: 5),
-                              padding: const EdgeInsets.all(1),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(.3),
-                                borderRadius: BorderRadius.circular(24.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, .25),
-                                      blurRadius: 16.0)
+          panel: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: productResult != null
+                ? Column(
+                    children: [
+                      //! slide up indicator!
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            child: SizedBox(height: 5),
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(.3),
+                              borderRadius: BorderRadius.circular(24.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, .25),
+                                    blurRadius: 16.0)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        productResult!.product!.productName.toString(),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .65,
+                        child: Scrollbar(
+                          child: ListView(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(30, 30, 30, 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    productScoreCircle(
+                                      score:
+                                          productResult!.product!.ecoscoreScore,
+                                      scoreTitle: 'Eco\nScore',
+                                      color: Colors.green,
+                                    ),
+                                    productScoreCircle(
+                                      score: productResult!.product!.nutriscore,
+                                      scoreTitle: 'Nutrients\nScore',
+                                      color: Colors.green,
+                                    ),
+                                    productScoreCircle(
+                                      score: productResult!
+                                          .product!.nutriments!.novaGroup,
+                                      scoreTitle: 'Processed\nScore',
+                                      color: novaScoreColor[productResult!
+                                              .product!.nutriments!.novaGroup! -
+                                          1],
+                                    ),
+                                    productScoreCircle(
+                                      score: productResult!
+                                                  .product!
+                                                  .ingredientsAnalysisTags!
+                                                  .veganStatus ==
+                                              'VeganStatus: isTrue'
+                                          ? 'Y'
+                                          : 'N',
+                                      scoreTitle: 'Vegan\nStatus',
+                                      color: goodBadScore[productResult!
+                                                  .product!
+                                                  .ingredientsAnalysisTags!
+                                                  .veganStatus ==
+                                              'VeganStatus: isTrue'
+                                          ? 1
+                                          : 0],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  SizedBox(height: 10),
+                                  Text('Nutrition facts'),
+                                  DataTable(
+                                    sortColumnIndex: 0,
+                                    columns: [
+                                      DataColumn(
+                                          label: Text(
+                                        'Nutrition Facts',
+                                        style: TextStyle(color: Colors.black),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        'Per serving',
+                                        style: TextStyle(color: Colors.black),
+                                      )),
+                                    ],
+                                    rows: [
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Calories')),
+                                          DataCell(Text(
+                                              '${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0 g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Fat')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.fatServing} g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Saturated Fat')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.saturatedFatServing} g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Carbs')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.carbohydratesServing} g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('| - Sugars')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.sugarsServing} g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Protein')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.proteinsServing} g')),
+                                        ],
+                                      ),
+                                      DataRow(
+                                        cells: [
+                                          DataCell(Text('Caffine')),
+                                          DataCell(Text(
+                                              '${productResult!.product!.nutriments!.caffeineServing} g')),
+                                        ],
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          productResult!.product!.productName.toString(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              productScoreCircle(
-                                score: productResult!.product!.ecoscoreScore,
-                                scoreTitle: 'Eco\nScore',
-                                color: Colors.green,
+                              SizedBox(height: 10),
+                              Center(
+                                child: Text('Images'),
                               ),
-                              productScoreCircle(
-                                score: productResult!.product!.nutriscore,
-                                scoreTitle: 'Nutrients\nScore',
-                                color: Colors.green,
-                              ),
-                              productScoreCircle(
-                                score: productResult!
-                                    .product!.nutriments!.novaGroup,
-                                scoreTitle: 'Processed\nScore',
-                                color: novaScoreColor[productResult!
-                                        .product!.nutriments!.novaGroup! -
-                                    1],
-                              ),
+                              productResult!.product!.images == null
+                                  ? Text('No images to display')
+                                  : Container(
+                                      height: 200,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder:
+                                            (BuildContext ctx, int index) {
+                                          return Container(
+                                            padding: EdgeInsets.all(5),
+                                            height: 180,
+                                            width: 180,
+                                            child: Image.network(
+                                              productResult!
+                                                  .product!.images![index].url!,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          );
+                                        },
+                                        itemCount: productResult!
+                                            .product!.images!.length,
+                                      ),
+                                    ),
                             ],
                           ),
-                        )
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              child: SizedBox(height: 5),
-                              padding: const EdgeInsets.all(1),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(.3),
-                                borderRadius: BorderRadius.circular(24.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, .25),
-                                      blurRadius: 16.0)
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
-                        SizedBox(height: 10),
-                        productResult == null
-                            ? Text('Scan In a Product Barcode')
-                            : Text(
-                                productResult!.product!.productName.toString(),
-                              ),
-                      ],
-                    ),
-            ),
-          )
-        ],
-      ),
-    );
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            child: SizedBox(height: 5),
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(.3),
+                              borderRadius: BorderRadius.circular(24.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, .25),
+                                    blurRadius: 16.0)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text('Scan In a Product Barcode'),
+                    ],
+                  ),
+          ),
+          body: _buildQrView(context),
+        ));
   }
 
   Column productScoreCircle(
@@ -219,7 +339,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    getProductResult(qrCode: 'asfd');
+    //getProductResult(qrCode: 'asfd');
 
     setState(() {
       this.controller = controller;
@@ -227,6 +347,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
+        getProductResult(qrCode: scanData.code);
       });
     });
   }
@@ -242,7 +363,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
-    String resultString = '022000005120'; //result!.code.toString();
+    String resultString = result!.code.toString();
     var newProductResult = await OpenFoodAPIClient.getProduct(
         ProductQueryConfiguration(resultString,
             language: OpenFoodFactsLanguage.ENGLISH,
