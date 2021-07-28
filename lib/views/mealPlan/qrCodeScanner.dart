@@ -1,13 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -29,6 +27,13 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Map nutrientsScoreColor = {
+    'a': Colors.green,
+    'b': Colors.green.shade200,
+    'c': Colors.yellow.shade200,
+    'd': Colors.yellow,
+    'e': Colors.red,
+  };
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -127,7 +132,8 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                     productScoreCircle(
                                       score: productResult!.product!.nutriscore,
                                       scoreTitle: 'Nutrients\nScore',
-                                      color: Colors.green,
+                                      color: nutrientsScoreColor[
+                                          productResult!.product!.nutriscore],
                                     ),
                                     productScoreCircle(
                                       score: productResult!

@@ -19,6 +19,11 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   TextEditingController emailTextController = new TextEditingController();
   TextEditingController passwordTextController = new TextEditingController();
+  Widget loginWidget = Text(
+    'Login',
+    style: TextStyle(color: Colors.white),
+  );
+
   @override
   Widget build(BuildContext context) {
     double _screenWidth = MediaQuery.of(context).size.width;
@@ -29,6 +34,7 @@ class _LoginViewState extends State<LoginView> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Stack(
               children: [
@@ -152,8 +158,14 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           TextButton(
                             onPressed: () async {
+                              setState(() {
+                                loginWidget = CircularProgressIndicator(
+                                  color: Apptheme.secondaryAccent,
+                                );
+                              });
                               print(emailTextController.text.trim());
                               print(passwordTextController.text.trim());
+
                               await context.read<AuthServices>().signIn(
                                     email: emailTextController.text.trim(),
                                     password:
@@ -173,6 +185,12 @@ class _LoginViewState extends State<LoginView> {
                                     )
                                   // ignore: unnecessary_statements
                                   : null;
+                              setState(() {
+                                loginWidget = Text(
+                                  'Login',
+                                  style: TextStyle(color: Colors.white),
+                                );
+                              });
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -182,10 +200,7 @@ class _LoginViewState extends State<LoginView> {
                               width: _screenWidth,
                               height: _screenHeight * .07,
                               child: Center(
-                                child: Text(
-                                  'Log in',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                child: loginWidget,
                               ),
                             ),
                           ),
