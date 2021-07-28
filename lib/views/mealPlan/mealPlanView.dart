@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/mealPlan/createMealPlanView.dart';
 import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 
 class MealPlanView extends StatelessWidget {
@@ -237,16 +238,27 @@ class MealPlanView extends StatelessWidget {
                               ..add(
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Apptheme.mainCardColor,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        LineIcons.plus,
-                                        size: 50,
-                                        color: Colors.grey,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateMealPlanView(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Apptheme.mainCardColor,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          LineIcons.plus,
+                                          size: 50,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                   ),
