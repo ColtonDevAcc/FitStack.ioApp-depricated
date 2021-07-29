@@ -171,16 +171,21 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: ListTile(
-                            leading: AspectRatio(
-                              aspectRatio: 5.0 / 9.0,
-                              child: Image(
-                                image: NetworkImage(
-                                  searchResult
-                                      .products![index].imageFrontSmallUrl
-                                      .toString(),
-                                ),
-                              ),
-                            ),
+                            leading: searchResult
+                                        .products![index].imageFrontSmallUrl ==
+                                    null
+                                ? Text('?')
+                                : AspectRatio(
+                                    aspectRatio: 5.0 / 9.0,
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        searchResult
+                                            .products![index].imageFrontSmallUrl
+                                            .toString(),
+                                      ),
+                                    ),
+                                  ),
                             title: Text(
                               searchResult.products![index].productName
                                   .toString(),
@@ -219,8 +224,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                                             .toUpperCase()
                                         : 'null',
                                     valueIndicator: '${Emojis.redHeart}'),
-                                Text(
-                                    '| per ${searchResult.products![index].nutrimentDataPer}')
+                                Text('per serving')
                               ],
                             ),
                             trailing: Icon(LineIcons.arrowRight),

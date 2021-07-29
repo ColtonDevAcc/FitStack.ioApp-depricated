@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -22,6 +23,13 @@ class QRCodeScanner extends StatefulWidget {
 class _QRCodeScannerState extends State<QRCodeScanner> {
   //! set this to false if you want to scan in barcodes.
   bool debug = true;
+
+  Map veganScore = {
+    VeganStatus.VEGAN: "Vegan",
+    VeganStatus.MAYBE_VEGAN: "Maybe",
+    VeganStatus.NON_VEGAN: "Non-Vegan",
+    VeganStatus.VEGAN_STATUS_UNKNOWN: "Unknown",
+  };
 
   ProductResult? productResult;
   Barcode? result;
@@ -111,8 +119,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                       Text(
                         productResult!.product!.productName.toString(),
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * .65,
+                      Expanded(
                         child: Scrollbar(
                           child: ListView(
                             children: [
@@ -122,6 +129,8 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     productScoreCircle(
                                       score:
@@ -144,19 +153,16 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                           1],
                                     ),
                                     productScoreCircle(
-                                      score: productResult!
-                                                  .product!
-                                                  .ingredientsAnalysisTags!
-                                                  .veganStatus ==
-                                              'VeganStatus: isTrue'
-                                          ? 'Y'
-                                          : 'N',
+                                      score: veganScore[productResult!
+                                          .product!
+                                          .ingredientsAnalysisTags!
+                                          .veganStatus],
                                       scoreTitle: 'Vegan\nStatus',
                                       color: goodBadScore[productResult!
                                                   .product!
                                                   .ingredientsAnalysisTags!
                                                   .veganStatus ==
-                                              'VeganStatus: isTrue'
+                                              VeganStatus.VEGAN
                                           ? 1
                                           : 0],
                                     ),
@@ -177,7 +183,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                       )),
                                       DataColumn(
                                           label: Text(
-                                        'Per serving',
+                                        'Per serving \n${productResult!.product!.servingSize}',
                                         style: TextStyle(color: Colors.black),
                                       )),
                                     ],
@@ -186,12 +192,12 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                         cells: [
                                           DataCell(Text('Calories')),
                                           DataCell(Text(
-                                              '${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0 g')),
+                                              '${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0')),
                                         ],
                                       ),
                                       DataRow(
                                         cells: [
-                                          DataCell(Text('Fat')),
+                                          DataCell(Text('Total Fat')),
                                           DataCell(Text(
                                               '${productResult!.product!.nutriments!.fatServing} g')),
                                         ],
@@ -199,8 +205,17 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Saturated Fat')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.saturatedFatServing} g')),
+                                          DataCell(
+                                            Text(
+                                              productResult!
+                                                          .product!
+                                                          .nutriments!
+                                                          .saturatedFat !=
+                                                      null
+                                                  ? '${productResult!.product!.nutriments!.saturatedFatServing} g'
+                                                  : 'N/A',
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       DataRow(
@@ -227,8 +242,17 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Caffine')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.caffeineServing} g')),
+                                          DataCell(
+                                            Text(
+                                              productResult!
+                                                          .product!
+                                                          .nutriments!
+                                                          .caffeineServing !=
+                                                      null
+                                                  ? '${productResult!.product!.nutriments!.caffeineServing} g'
+                                                  : 'N/A',
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -236,31 +260,40 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                 ],
                               ),
                               SizedBox(height: 10),
-                              Center(
-                                child: Text('Images'),
-                              ),
                               productResult!.product!.images == null
                                   ? Text('No images to display')
-                                  : Container(
-                                      height: 200,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder:
-                                            (BuildContext ctx, int index) {
-                                          return Container(
-                                            padding: EdgeInsets.all(5),
-                                            height: 180,
-                                            width: 180,
-                                            child: Image.network(
-                                              productResult!
-                                                  .product!.images![index].url!,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          );
-                                        },
-                                        itemCount: productResult!
-                                            .product!.images!.length,
-                                      ),
+                                  : Column(
+                                      children: [
+                                        Center(
+                                          child: Text('Images'),
+                                        ),
+                                        Container(
+                                          height: 150,
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder:
+                                                (BuildContext ctx, int index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                                child: Container(
+                                                  child: AspectRatio(
+                                                    aspectRatio: 6.0 / 5.0,
+                                                    child: Image.network(
+                                                      productResult!.product!
+                                                          .images![index].url!,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            itemCount: productResult!
+                                                .product!.images!.length,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                             ],
                           ),
@@ -303,6 +336,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     return Column(
       children: [
         CircleAvatar(
+          maxRadius: 30,
           backgroundColor: color,
           child: score == null
               ? Text(
@@ -311,14 +345,23 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                 )
               : Text(
                   '${score}',
-                  style: TextStyle(color: Colors.white),
+                  textScaleFactor: score.toString().length > 4 ? .8 : 1,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
         ),
         SizedBox(height: 5),
-        Text(
-          scoreTitle,
+        RichText(
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          softWrap: true,
           textScaleFactor: .8,
-        )
+          text: TextSpan(
+            text: '$scoreTitle',
+            style: TextStyle(color: Colors.black),
+            children: <TextSpan>[],
+          ),
+        ),
       ],
     );
   }
@@ -345,8 +388,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    //getProductResult(qrCode: 'asfd');
-
+    getProductResult(qrCode: '022000005120');
     setState(() {
       this.controller = controller;
     });
@@ -369,7 +411,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
-    String resultString = result!.code.toString();
+    String resultString = qrCode;
     var newProductResult = await OpenFoodAPIClient.getProduct(
         ProductQueryConfiguration(resultString,
             language: OpenFoodFactsLanguage.ENGLISH,
