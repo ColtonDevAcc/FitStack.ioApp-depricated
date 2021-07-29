@@ -1,7 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:openfoodfacts/model/SearchResult.dart';
+import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:workify/theme/theme.dart';
 
 class CreateMealPlanView extends StatelessWidget {
@@ -9,7 +11,26 @@ class CreateMealPlanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController;
+    TextEditingController searchController = new TextEditingController();
+
+    List<Parameter> productSearchParameters = <Parameter>[
+      PageSize(size: 10),
+      SearchTerms(terms: [searchController.text]),
+      const SortBy(option: SortOption.PRODUCT_NAME),
+    ];
+
+    SearchResult searchResult = SearchResult();
+
+    GetSearchResult() async {
+      searchResult = await OpenFoodAPIClient.searchProducts(
+        User(userId: 'cbristow99@gmail.com', password: 'Colton99'),
+        ProductSearchQueryConfiguration(
+          parametersList: productSearchParameters,
+          fields: [ProductField.ALL],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
       appBar: AppBar(
@@ -93,54 +114,34 @@ class CreateMealPlanView extends StatelessWidget {
             ),
           ),
           Container(
-            height: 150,
-            child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('UserInfo').snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
+            height: 300,
+            child: FutureBuilder(
+              future: GetSearchResult(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.none &&
+                    snapshot.hasData == null) {
+                  //print('project snapshot data is: ${projectSnap.data}');
+                  return Text(
+                    'NULL',
+                    style: TextStyle(color: Colors.black),
+                  );
                 }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
-                }
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    new ListView(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      shrinkWrap: true,
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data() as Map<String, dynamic>;
-
-                        return GestureDetector(
-                            onTap: () async {
-                              var friendRequest = data['email'];
-                              await FirebaseFirestore.instance
-                                  .collection('UserInfo')
-                                  .where('email', isEqualTo: data['email'])
-                                  .get()
-                                  .then(
-                                    (querySnapshot) => querySnapshot
-                                        .docs[0].reference
-                                        .collection('Inbox')
-                                        .doc('relationshipRequest')
-                                        .collection('friendRequest')
-                                        .doc(friendRequest)
-                                        .set(data),
-                                  );
-
-                              print(friendRequest);
-                            },
-                            child: productTab(name: data['email']));
-                      }).toList(),
-                    ),
-                  ],
+                return ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: <Widget>[
+                        Text(
+                          searchResult.products![index].productName
+                                      .toString() ==
+                                  'null'
+                              ? 'empty'
+                              : 'notEmpty',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             ),
