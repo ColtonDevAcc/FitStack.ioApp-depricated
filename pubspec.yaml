@@ -33,6 +33,7 @@ dependencies:
   google_fonts: ^2.1.0
   chart_sparkline: ^1.0.5
   sliding_up_panel: ^2.0.0+1
+  awesome_emojis: ^0.1.1
 
   #state/flow managment
   carousel_slider: ^4.0.0
