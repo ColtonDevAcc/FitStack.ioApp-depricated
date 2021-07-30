@@ -106,11 +106,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                             decoration: BoxDecoration(
                               color: Colors.grey.withOpacity(.3),
                               borderRadius: BorderRadius.circular(24.0),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, .25),
-                                    blurRadius: 16.0)
-                              ],
+                              boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
                             ),
                           ),
                         ],
@@ -124,47 +120,31 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                           child: ListView(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(30, 30, 30, 10),
+                                padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     productScoreCircle(
-                                      score:
-                                          productResult!.product!.ecoscoreScore,
+                                      score: productResult!.product!.ecoscoreScore,
                                       scoreTitle: 'Eco\nScore',
                                       color: Colors.green,
                                     ),
                                     productScoreCircle(
                                       score: productResult!.product!.nutriscore,
                                       scoreTitle: 'Nutrients\nScore',
-                                      color: nutrientsScoreColor[
-                                          productResult!.product!.nutriscore],
+                                      color: nutrientsScoreColor[productResult!.product!.nutriscore],
                                     ),
                                     productScoreCircle(
-                                      score: productResult!
-                                          .product!.nutriments!.novaGroup,
+                                      score: productResult!.product!.nutriments!.novaGroup,
                                       scoreTitle: 'Processed\nScore',
-                                      color: novaScoreColor[productResult!
-                                              .product!.nutriments!.novaGroup! -
-                                          1],
+                                      color: novaScoreColor[productResult!.product!.nutriments!.novaGroup! - 1],
                                     ),
                                     productScoreCircle(
-                                      score: veganScore[productResult!
-                                          .product!
-                                          .ingredientsAnalysisTags!
-                                          .veganStatus],
+                                      score: veganScore[productResult!.product!.ingredientsAnalysisTags!.veganStatus],
                                       scoreTitle: 'Vegan\nStatus',
-                                      color: goodBadScore[productResult!
-                                                  .product!
-                                                  .ingredientsAnalysisTags!
-                                                  .veganStatus ==
-                                              VeganStatus.VEGAN
-                                          ? 1
-                                          : 0],
+                                      color: goodBadScore[productResult!.product!.ingredientsAnalysisTags!.veganStatus == VeganStatus.VEGAN ? 1 : 0],
                                     ),
                                   ],
                                 ),
@@ -191,15 +171,13 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Calories')),
-                                          DataCell(Text(
-                                              '${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0')),
+                                          DataCell(Text('${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0')),
                                         ],
                                       ),
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Total Fat')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.fatServing} g')),
+                                          DataCell(Text('${productResult!.product!.nutriments!.fatServing} g')),
                                         ],
                                       ),
                                       DataRow(
@@ -207,13 +185,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                           DataCell(Text('Saturated Fat')),
                                           DataCell(
                                             Text(
-                                              productResult!
-                                                          .product!
-                                                          .nutriments!
-                                                          .saturatedFat !=
-                                                      null
-                                                  ? '${productResult!.product!.nutriments!.saturatedFatServing} g'
-                                                  : 'N/A',
+                                              productResult!.product!.nutriments!.saturatedFat != null ? '${productResult!.product!.nutriments!.saturatedFatServing} g' : 'N/A',
                                             ),
                                           ),
                                         ],
@@ -221,22 +193,19 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Carbs')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.carbohydratesServing} g')),
+                                          DataCell(Text('${productResult!.product!.nutriments!.carbohydratesServing} g')),
                                         ],
                                       ),
                                       DataRow(
                                         cells: [
                                           DataCell(Text('| - Sugars')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.sugarsServing} g')),
+                                          DataCell(Text('${productResult!.product!.nutriments!.sugarsServing} g')),
                                         ],
                                       ),
                                       DataRow(
                                         cells: [
                                           DataCell(Text('Protein')),
-                                          DataCell(Text(
-                                              '${productResult!.product!.nutriments!.proteinsServing} g')),
+                                          DataCell(Text('${productResult!.product!.nutriments!.proteinsServing} g')),
                                         ],
                                       ),
                                       DataRow(
@@ -244,13 +213,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                           DataCell(Text('Caffine')),
                                           DataCell(
                                             Text(
-                                              productResult!
-                                                          .product!
-                                                          .nutriments!
-                                                          .caffeineServing !=
-                                                      null
-                                                  ? '${productResult!.product!.nutriments!.caffeineServing} g'
-                                                  : 'N/A',
+                                              productResult!.product!.nutriments!.caffeineServing != null ? '${productResult!.product!.nutriments!.caffeineServing} g' : 'N/A',
                                             ),
                                           ),
                                         ],
@@ -272,29 +235,40 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                                           child: ListView.builder(
                                             padding: EdgeInsets.zero,
                                             scrollDirection: Axis.horizontal,
-                                            itemBuilder:
-                                                (BuildContext ctx, int index) {
+                                            itemBuilder: (BuildContext ctx, int index) {
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5),
+                                                padding: const EdgeInsets.all(5),
                                                 child: Container(
                                                   child: AspectRatio(
                                                     aspectRatio: 6.0 / 5.0,
                                                     child: Image.network(
-                                                      productResult!.product!
-                                                          .images![index].url!,
+                                                      productResult!.product!.images![index].url!,
                                                       fit: BoxFit.contain,
                                                     ),
                                                   ),
                                                 ),
                                               );
                                             },
-                                            itemCount: productResult!
-                                                .product!.images!.length,
+                                            itemCount: productResult!.product!.images!.length,
                                           ),
                                         ),
                                       ],
                                     ),
+                              productDetailsSmallCardList(
+                                listQuerry: productResult!.product!.additives!.names,
+                                title: 'Addatives List',
+                              ),
+                              productDetailsSmallCardList(
+                                listQuerry: productResult!.product!.allergens!.names,
+                                title: 'Allergens List',
+                              ),
+                              productDetailsSmallCardList(
+                                listQuerry: productResult!.product!.ingredientsTags,
+                                title: 'Allergens List',
+                              ),
+                              SizedBox(
+                                height: AppBar().preferredSize.height + 100,
+                              )
                             ],
                           ),
                         ),
@@ -313,11 +287,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                             decoration: BoxDecoration(
                               color: Colors.grey.withOpacity(.3),
                               borderRadius: BorderRadius.circular(24.0),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, .25),
-                                    blurRadius: 16.0)
-                              ],
+                              boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
                             ),
                           ),
                         ],
@@ -331,8 +301,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
         ));
   }
 
-  Column productScoreCircle(
-      {score: String, scoreTitle: String, color: Colors}) {
+  Column productScoreCircle({score: String, scoreTitle: String, color: Colors}) {
     return Column(
       children: [
         CircleAvatar(
@@ -346,8 +315,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
               : Text(
                   '${score}',
                   textScaleFactor: score.toString().length > 4 ? .8 : 1,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
         ),
         SizedBox(height: 5),
@@ -368,21 +336,13 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+    var scanArea = (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 150.0 : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
+      overlay: QrScannerOverlayShape(borderColor: Colors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
   }
@@ -412,10 +372,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
     String resultString = qrCode;
-    var newProductResult = await OpenFoodAPIClient.getProduct(
-        ProductQueryConfiguration(resultString,
-            language: OpenFoodFactsLanguage.ENGLISH,
-            fields: [ProductField.ALL]));
+    var newProductResult = await OpenFoodAPIClient.getProduct(ProductQueryConfiguration(resultString, language: OpenFoodFactsLanguage.ENGLISH, fields: [ProductField.ALL]));
 
     log('ending ===================== OPENAPITRACK');
 
@@ -452,5 +409,44 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
               .doc(productResult!.product!.productName)
               .update(productResult!.product!.nutriments!.toData()),
         );
+  }
+
+  productDetailsSmallCardList({listQuerry: List, title: String}) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          listQuerry != null
+              ? Container(
+                  child: Wrap(
+                    children: listQuerry
+                        .map(
+                          (item) => Padding(
+                            padding: const EdgeInsets.fromLTRB(2, 2, 0, 0),
+                            child: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Apptheme.secondaryAccent,
+                              ),
+                              child: Text(
+                                '${item}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList()
+                        .cast<Widget>(),
+                  ),
+                )
+              : Text('No $title found'),
+        ],
+      ),
+    );
   }
 }

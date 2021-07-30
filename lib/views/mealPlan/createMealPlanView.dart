@@ -7,7 +7,10 @@ import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
 import 'package:openfoodfacts/model/parameter/TagFilter.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/mealPlan/productView.dart';
+import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 
 class CreateMealPlanView extends StatefulWidget {
   const CreateMealPlanView({Key? key}) : super(key: key);
@@ -20,6 +23,8 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
   TextEditingController searchController = new TextEditingController();
 
   String productSearchTerm = '';
+
+  static List<Widget> productsAdded = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +48,12 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
           language: OpenFoodFactsLanguage.ENGLISH,
           parametersList: productSearchParameters,
           fields: [
-            ProductField.NUTRIMENT_DATA_PER,
             ProductField.NUTRIMENTS,
             ProductField.NAME,
             ProductField.BARCODE,
             ProductField.IMAGE_FRONT_SMALL_URL,
-            ProductField.NUTRISCORE
+            ProductField.NUTRISCORE,
+            ProductField.SERVING_SIZE,
           ],
         ),
         queryType: QueryType.PROD,
@@ -56,12 +61,17 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QRCodeScanner())),
+        backgroundColor: Apptheme.secondaryAccent,
+        child: Icon(LineIcons.qrcode),
+      ),
       backgroundColor: Apptheme.mainBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'CREATE UPLOAD',
+          'ADD A MEAL',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         leading: GestureDetector(
@@ -89,167 +99,249 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: TextField(
-              cursorColor: Colors.grey,
-              decoration: InputDecoration(
-                hintText: 'Add Meal Name',
-                fillColor: Colors.grey,
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: TextField(
-              onChanged: (searchValue) {
-                setState(() {
-                  productSearchTerm = searchValue;
-                });
-              },
-              controller: searchController,
-              style: TextStyle(color: Colors.black),
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: Icon(
-                  LineIcons.search,
-                  color: Apptheme.mainButonColor,
-                ),
-                labelText: 'Search',
-                labelStyle: TextStyle(color: Colors.black),
-                focusColor: Apptheme.mainCardColor,
-                fillColor: Apptheme.mainCardColor,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: GetSearchResult(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  //print('project snapshot data is: ${projectSnap.data}');
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Loading: \"${snapshot.connectionState.toString()}\"',
-                      style: TextStyle(color: Colors.black),
+      body: SlidingUpPanel(
+        maxHeight: MediaQuery.of(context).size.height * .7,
+        minHeight: AppBar().preferredSize.height + 10,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0),
+          topRight: Radius.circular(18.0),
+        ),
+        panel: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 100,
+                    child: SizedBox(height: 5),
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(.3),
+                      borderRadius: BorderRadius.circular(24.0),
+                      boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
                     ),
-                  );
-                }
-                return Scrollbar(
-                  child: ListView.builder(
-                    itemCount: searchResult.count! < 50
-                        ? searchResult.count
-                        : searchResult.pageSize,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Apptheme.mainCardColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: ListTile(
-                            leading: searchResult
-                                        .products![index].imageFrontSmallUrl ==
-                                    null
-                                ? Text('?')
-                                : AspectRatio(
-                                    aspectRatio: 5.0 / 9.0,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        searchResult
-                                            .products![index].imageFrontSmallUrl
-                                            .toString(),
-                                      ),
-                                    ),
-                                  ),
-                            title: Text(
-                              searchResult.products![index].productName
-                                  .toString(),
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                productStatsTab(
-                                    value: searchResult.products![index]
-                                                .nutriments!.energyServing !=
-                                            null
-                                        ? (searchResult
-                                                    .products![index]
-                                                    .nutriments!
-                                                    .energyServing! /
-                                                4.2)
-                                            .round()
-                                        : 'null',
-                                    valueIndicator: '${Emojis.fire}'),
-                                productStatsTab(
-                                    value: searchResult.products![index]
-                                                .nutriments!.energyServing !=
-                                            null
-                                        ? searchResult.products![index]
-                                            .nutriments!.proteinsServing!
-                                            .round()
-                                        : 'null',
-                                    valueIndicator:
-                                        '${Emojis.flexedBiceps}${Emojis.meatOnBone}'),
-                                productStatsTab(
-                                    value: searchResult
-                                                .products![index].nutriscore !=
-                                            null
-                                        ? searchResult
-                                            .products![index].nutriscore!
-                                            .toUpperCase()
-                                        : 'null',
-                                    valueIndicator: '${Emojis.redHeart}'),
-                                Text('per serving')
-                              ],
-                            ),
-                            trailing: Icon(LineIcons.arrowRight),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Text('Products Added ${productsAdded.length}'),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView(
+                children: productsAdded
+                    .map(
+                      (child) => Dismissible(
+                        key: Key('item'),
+                        child: child,
+                        background: Container(
+                          color: Colors.red,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Spacer(flex: 1),
+                              Text('Delete'),
+                              Spacer(
+                                flex: 6,
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
+                        secondaryBackground: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Delete'),
+                          ],
+                        ),
+                        onDismissed: (DismissDirection dismissDirection) {
+                          setState(
+                            () {
+                              productsAdded.remove(child);
+                            },
+                          );
+                        },
+                      ),
+                    )
+                    .toList()
+                    .cast<Widget>(),
+              ),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: TextField(
+                cursorColor: Colors.grey,
+                decoration: InputDecoration(
+                  hintText: 'Add Meal Name (NOT REQUIRED)',
+                  fillColor: Colors.grey,
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
-                );
-              },
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: TextField(
+                onChanged: (searchValue) {
+                  setState(() {
+                    productSearchTerm = searchValue;
+                  });
+                },
+                controller: searchController,
+                style: TextStyle(color: Colors.black),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: Icon(
+                    LineIcons.search,
+                    color: Apptheme.mainButonColor,
+                  ),
+                  labelText: 'Search',
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusColor: Apptheme.mainCardColor,
+                  fillColor: Apptheme.mainCardColor,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: GetSearchResult(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    //print('project snapshot data is: ${projectSnap.data}');
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Loading: \"${snapshot.connectionState.toString()}\"',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    );
+                  }
+                  return Scrollbar(
+                    child: ListView.builder(
+                      itemCount: searchResult.count! < 50 ? searchResult.count : searchResult.pageSize,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Apptheme.mainCardColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductView(
+                                      product: (searchResult.products![index]),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    productsAdded.add(
+                                      productListTile(searchResult.products![index], index),
+                                    );
+                                  });
+                                },
+                                child: productListTile(searchResult.products![index], index),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ListTile productListTile(Product searchResult, int index) {
+    return ListTile(
+      leading: searchResult.imageFrontSmallUrl == null
+          ? Text('?')
+          : AspectRatio(
+              aspectRatio: 5.0 / 9.0,
+              child: Image(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  searchResult.imageFrontSmallUrl.toString(),
+                ),
+              ),
+            ),
+      title: Text(
+        searchResult.productName.toString(),
+        style: TextStyle(color: Colors.black),
+      ),
+      subtitle: Row(
+        children: [
+          productStatsTab(value: searchResult.nutriments!.energyServing != null ? (searchResult.nutriments!.energyServing! / 4.2).round() : 'null', valueIndicator: '${Emojis.fire}'),
+          productStatsTab(value: searchResult.nutriments!.energyServing != null ? searchResult.nutriments!.proteinsServing!.round() : 'null', valueIndicator: '${Emojis.flexedBiceps}'),
+          productStatsTab(value: searchResult.nutriscore != null ? searchResult.nutriscore!.toUpperCase() : 'null', valueIndicator: '${Emojis.redHeart}'),
+        ],
+      ),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(LineIcons.plus),
         ],
       ),
     );
   }
 
-  Padding productStatsTab({value: String, valueIndicator: String}) {
+  productStatsTab({value: String, valueIndicator: String}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
-      child: Text(
-        value == 'null'
-            ? '${Emojis.noEntry}: N -'
-            : '${valueIndicator}: ${value} ',
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      child: Chip(
+        elevation: 3,
+        avatar: Center(
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Text(
+              valueIndicator,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ),
+        label: Text(value != 'null' ? '$value' : 'n/a'),
+        backgroundColor: Apptheme.mainCardColor,
+        shape: StadiumBorder(
+            side: BorderSide(
+          width: 1,
+          color: Colors.redAccent,
+        )),
       ),
     );
   }

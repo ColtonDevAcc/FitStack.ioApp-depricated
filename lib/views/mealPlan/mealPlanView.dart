@@ -4,7 +4,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/createMealPlanView.dart';
-import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 
 class MealPlanView extends StatelessWidget {
   const MealPlanView({Key? key}) : super(key: key);
@@ -15,18 +14,6 @@ class MealPlanView extends StatelessWidget {
     double _screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QRCodeScanner(),
-            ),
-          );
-        },
-        backgroundColor: Apptheme.secondaryAccent,
-        child: Icon(LineIcons.qrcode),
-      ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -125,13 +112,8 @@ class MealPlanView extends StatelessWidget {
             ),
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('UserInfo')
-                    .doc(AuthServices.userUID)
-                    .collection('UserAddedMeal')
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream: FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
                   }
@@ -154,10 +136,8 @@ class MealPlanView extends StatelessWidget {
                         childAspectRatio: .8,
                         crossAxisCount: 2,
                         shrinkWrap: true,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot document) {
-                          Map<String, dynamic> data =
-                              document.data() as Map<String, dynamic>;
+                        children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
@@ -167,31 +147,26 @@ class MealPlanView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       '${data['mealTitle']}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                    padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                                     child: Text.rich(
                                       TextSpan(
                                         text: '${data['mealProtein']}g\n',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                         children: [
                                           TextSpan(
                                             text: 'Protein',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
+                                            style: TextStyle(fontWeight: FontWeight.normal),
                                           )
                                         ],
                                       ),
@@ -202,13 +177,11 @@ class MealPlanView extends StatelessWidget {
                                     child: Text.rich(
                                       TextSpan(
                                         text: '${data['mealCalories']}\n',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                         children: [
                                           TextSpan(
                                             text: 'Calories',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
+                                            style: TextStyle(fontWeight: FontWeight.normal),
                                           )
                                         ],
                                       ),
@@ -235,35 +208,34 @@ class MealPlanView extends StatelessWidget {
                             ),
                           );
                         }).toList()
-                              ..add(
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CreateMealPlanView(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Apptheme.mainCardColor,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Center(
-                                        child: Icon(
-                                          LineIcons.plus,
-                                          size: 50,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
+                          ..add(
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CreateMealPlanView(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Apptheme.mainCardColor,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      LineIcons.plus,
+                                      size: 50,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
                       ),
                     ],
                   );
