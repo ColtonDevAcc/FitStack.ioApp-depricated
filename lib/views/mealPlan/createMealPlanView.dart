@@ -8,7 +8,7 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan/productView.dart';
+import 'package:workify/views/mealPlan/productOverview.dart';
 import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 
 class CreateMealPlanView extends StatefulWidget {
@@ -247,23 +247,11 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProductView(
-                                      product: (searchResult.products![index]),
-                                    ),
-                                  ),
-                                );
+                                setState(() {
+                                  productsAdded.add(searchResult.products![index]);
+                                });
                               },
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    productsAdded.add(searchResult.products![index]);
-                                  });
-                                },
-                                child: productListTile(searchResult.products![index]),
-                              ),
+                              child: productListTile(searchResult.products![index]),
                             ),
                           ),
                         );
@@ -330,10 +318,11 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
         label: Text(value != 'null' ? '$value' : 'n/a'),
         backgroundColor: Apptheme.mainCardColor,
         shape: StadiumBorder(
-            side: BorderSide(
-          width: 1,
-          color: Colors.redAccent,
-        )),
+          side: BorderSide(
+            width: 1,
+            color: Colors.redAccent,
+          ),
+        ),
       ),
     );
   }

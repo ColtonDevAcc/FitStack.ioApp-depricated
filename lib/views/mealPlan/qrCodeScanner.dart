@@ -12,6 +12,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/mealPlan/productOverview.dart';
 
 class QRCodeScanner extends StatefulWidget {
   const QRCodeScanner({Key? key}) : super(key: key);
@@ -90,213 +91,29 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
             topLeft: Radius.circular(18.0),
             topRight: Radius.circular(18.0),
           ),
-          panel: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: productResult != null
-                ? Column(
-                    children: [
-                      //! slide up indicator!
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 100,
-                            child: SizedBox(height: 5),
-                            padding: const EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(.3),
-                              borderRadius: BorderRadius.circular(24.0),
-                              boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        productResult!.product!.productName.toString(),
-                      ),
-                      Expanded(
-                        child: Scrollbar(
-                          child: ListView(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    productScoreCircle(
-                                      score: productResult!.product!.ecoscoreScore,
-                                      scoreTitle: 'Eco\nScore',
-                                      color: Colors.green,
-                                    ),
-                                    productScoreCircle(
-                                      score: productResult!.product!.nutriscore,
-                                      scoreTitle: 'Nutrients\nScore',
-                                      color: nutrientsScoreColor[productResult!.product!.nutriscore],
-                                    ),
-                                    productScoreCircle(
-                                      score: productResult!.product!.nutriments!.novaGroup,
-                                      scoreTitle: 'Processed\nScore',
-                                      color: novaScoreColor[productResult!.product!.nutriments!.novaGroup! - 1],
-                                    ),
-                                    productScoreCircle(
-                                      score: veganScore[productResult!.product!.ingredientsAnalysisTags!.veganStatus],
-                                      scoreTitle: 'Vegan\nStatus',
-                                      color: goodBadScore[productResult!.product!.ingredientsAnalysisTags!.veganStatus == VeganStatus.VEGAN ? 1 : 0],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Text('Nutrition facts'),
-                                  DataTable(
-                                    sortColumnIndex: 0,
-                                    columns: [
-                                      DataColumn(
-                                          label: Text(
-                                        'Nutrition Facts',
-                                        style: TextStyle(color: Colors.black),
-                                      )),
-                                      DataColumn(
-                                          label: Text(
-                                        'Per serving \n${productResult!.product!.servingSize}',
-                                        style: TextStyle(color: Colors.black),
-                                      )),
-                                    ],
-                                    rows: [
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Calories')),
-                                          DataCell(Text('${(productResult!.product!.nutriments!.energyServing! / 4.2).round()}.0')),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Total Fat')),
-                                          DataCell(Text('${productResult!.product!.nutriments!.fatServing} g')),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Saturated Fat')),
-                                          DataCell(
-                                            Text(
-                                              productResult!.product!.nutriments!.saturatedFat != null ? '${productResult!.product!.nutriments!.saturatedFatServing} g' : 'N/A',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Carbs')),
-                                          DataCell(Text('${productResult!.product!.nutriments!.carbohydratesServing} g')),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('| - Sugars')),
-                                          DataCell(Text('${productResult!.product!.nutriments!.sugarsServing} g')),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Protein')),
-                                          DataCell(Text('${productResult!.product!.nutriments!.proteinsServing} g')),
-                                        ],
-                                      ),
-                                      DataRow(
-                                        cells: [
-                                          DataCell(Text('Caffine')),
-                                          DataCell(
-                                            Text(
-                                              productResult!.product!.nutriments!.caffeineServing != null ? '${productResult!.product!.nutriments!.caffeineServing} g' : 'N/A',
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              productResult!.product!.images == null
-                                  ? Text('No images to display')
-                                  : Column(
-                                      children: [
-                                        Center(
-                                          child: Text('Images'),
-                                        ),
-                                        Container(
-                                          height: 150,
-                                          child: ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (BuildContext ctx, int index) {
-                                              return Padding(
-                                                padding: const EdgeInsets.all(5),
-                                                child: Container(
-                                                  child: AspectRatio(
-                                                    aspectRatio: 6.0 / 5.0,
-                                                    child: Image.network(
-                                                      productResult!.product!.images![index].url!,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            itemCount: productResult!.product!.images!.length,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                              productDetailsSmallCardList(
-                                listQuerry: productResult!.product!.additives!.names,
-                                title: 'Addatives List',
-                              ),
-                              productDetailsSmallCardList(
-                                listQuerry: productResult!.product!.allergens!.names,
-                                title: 'Allergens List',
-                              ),
-                              productDetailsSmallCardList(
-                                listQuerry: productResult!.product!.ingredientsTags,
-                                title: 'Allergens List',
-                              ),
-                              SizedBox(
-                                height: AppBar().preferredSize.height + 100,
-                              )
-                            ],
+          panel: productResult != null
+              ? ProductOverView(product: productResult!.product!)
+              : Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 100,
+                          child: SizedBox(height: 5),
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(.3),
+                            borderRadius: BorderRadius.circular(24.0),
+                            boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
                           ),
                         ),
-                      )
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 100,
-                            child: SizedBox(height: 5),
-                            padding: const EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(.3),
-                              borderRadius: BorderRadius.circular(24.0),
-                              boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text('Scan In a Product Barcode'),
-                    ],
-                  ),
-          ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text('Scan In a Product Barcode'),
+                  ],
+                ),
           body: _buildQrView(context),
         ));
   }
@@ -348,7 +165,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    getProductResult(qrCode: '022000005120');
+    getProductResult(qrCode: '047495013054');
     setState(() {
       this.controller = controller;
     });
@@ -361,7 +178,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('no Permission')),
