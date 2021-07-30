@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:openfoodfacts/model/SearchResult.dart';
 import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
-import 'package:openfoodfacts/model/parameter/TagFilter.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -24,19 +23,14 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
 
   String productSearchTerm = '';
 
-  static List<Widget> productsAdded = [];
+  static List<Product> productsAdded = [];
 
   @override
   Widget build(BuildContext context) {
     List<Parameter> productSearchParameters = <Parameter>[
       SearchTerms(terms: [productSearchTerm]),
       const SortBy(option: SortOption.POPULARITY),
-      const PageSize(size: 50),
-      TagFilter(
-        tagType: 'countries',
-        contains: true,
-        tagName: 'united_states',
-      ),
+      const PageSize(size: 25),
     ];
 
     SearchResult searchResult = SearchResult();
@@ -134,23 +128,25 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                 children: productsAdded
                     .map(
                       (child) => Dismissible(
-                        key: Key('item'),
-                        child: child,
-                        background: Container(
+                        direction: DismissDirection.endToStart,
+                        key: UniqueKey(),
+                        child: productListTile(child),
+                        secondaryBackground: Container(
                           color: Colors.red,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Spacer(flex: 1),
-                              Text('Delete'),
-                              Spacer(
-                                flex: 6,
+                              Spacer(flex: 6),
+                              Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
                               ),
+                              Spacer(flex: 1),
                             ],
                           ),
                         ),
-                        secondaryBackground: Row(
+                        background: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -158,11 +154,9 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                           ],
                         ),
                         onDismissed: (DismissDirection dismissDirection) {
-                          setState(
-                            () {
-                              productsAdded.remove(child);
-                            },
-                          );
+                          setState(() {
+                            productsAdded.remove(child);
+                          });
                         },
                       ),
                     )
@@ -265,12 +259,10 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    productsAdded.add(
-                                      productListTile(searchResult.products![index], index),
-                                    );
+                                    productsAdded.add(searchResult.products![index]);
                                   });
                                 },
-                                child: productListTile(searchResult.products![index], index),
+                                child: productListTile(searchResult.products![index]),
                               ),
                             ),
                           ),
@@ -287,7 +279,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
     );
   }
 
-  ListTile productListTile(Product searchResult, int index) {
+  ListTile productListTile(Product searchResult) {
     return ListTile(
       leading: searchResult.imageFrontSmallUrl == null
           ? Text('?')
