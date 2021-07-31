@@ -167,6 +167,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
+      getProductResult(qrCode: '0049022861954');
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {

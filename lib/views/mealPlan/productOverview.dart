@@ -141,8 +141,10 @@ class ProductOverView extends StatelessWidget {
                         runSpacing: 5,
                         alignment: WrapAlignment.center,
                         children: [
-                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus!),
-                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
+                          product.ingredientsAnalysisTags!.veganStatus != null
+                              ? veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus)
+                              : Text('Vegan information unavaliable'),
+                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore}'),
                         ],
                       ),
                     ),
@@ -172,18 +174,28 @@ class ProductOverView extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Divider(height: 1, color: Colors.grey),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AspectRatio(
-                        aspectRatio: 1.91 / .6,
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            product.imageNutritionUrl.toString(),
+                    product.imageNutritionUrl != null
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AspectRatio(
+                              aspectRatio: 1.91 / .6,
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  product.imageNutritionUrl.toString(),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(
+                                'No images to display for nutrition label',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     Center(
                       child: Text(
                         'Per Serving: ${product.servingSize}',
@@ -238,13 +250,11 @@ class ProductOverView extends StatelessWidget {
                         runSpacing: 5,
                         alignment: WrapAlignment.center,
                         children: [
-                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus!),
+                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus),
                           nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
-                          palmOilStatusChip(label: 'Palm Oil Free?', value: product.ingredientsAnalysisTags!.palmOilFreeStatus!),
-                          vegetarianStatusChip(
-                            label: 'Vegetarian Status',
-                            value: product.ingredientsAnalysisTags!.vegetarianStatus!,
-                          )
+                          palmOilStatusChip(label: 'Palm Oil Free?', value: product.ingredientsAnalysisTags!.palmOilFreeStatus),
+                          vegetarianStatusChip(label: 'Vegetarian Status', value: product.ingredientsAnalysisTags!.vegetarianStatus),
+                          novaGroupChip(label: 'Proccesed Score', value: product.nutriments!.novaGroup),
                         ],
                       ),
                     ),
@@ -257,7 +267,7 @@ class ProductOverView extends StatelessWidget {
                       children: product.additives!.names.map(
                         (e) {
                           return Chip(
-                            backgroundColor: Colors.amber,
+                            backgroundColor: Colors.red,
                             label: Text(
                               e,
                               style: TextStyle(color: Colors.white),
@@ -310,12 +320,22 @@ class ProductOverView extends StatelessWidget {
                 ),
                 ListView(
                   children: [
-                    Image(
-                      image: NetworkImage(product.imageIngredientsUrl!),
-                    ),
+                    product.imageIngredientsUrl != null
+                        ? Image(
+                            image: NetworkImage(product.imageIngredientsUrl!),
+                          )
+                        : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'No image to display for ingredients',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ),
                     novaGroupChip(
                       label: 'Proccesed Score',
-                      value: product.nutriments!.novaGroup!,
+                      value: product.nutriments!.novaGroup,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -350,7 +370,7 @@ class nutrientsLevelsChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final Level value;
+  final Level? value;
 
   @override
   Widget build(BuildContext context) {
@@ -359,12 +379,14 @@ class nutrientsLevelsChip extends StatelessWidget {
       Level.MODERATE: Colors.orange,
       Level.HIGH: Colors.red,
       Level.UNDEFINED: Colors.grey,
+      null: Colors.grey,
     };
     Map nutrientsLevelIcons = {
       Level.LOW: LineIcons.check,
       Level.MODERATE: LineIcons.exclamation,
       Level.HIGH: LineIcons.skull,
       Level.UNDEFINED: LineIcons.question,
+      null: LineIcons.question,
     };
 
     return Chip(
@@ -400,7 +422,7 @@ class veganStatusChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final VeganStatus value;
+  final VeganStatus? value;
 
   @override
   Widget build(BuildContext context) {
@@ -409,18 +431,21 @@ class veganStatusChip extends StatelessWidget {
       VeganStatus.MAYBE_VEGAN: Colors.orange,
       VeganStatus.NON_VEGAN: Colors.red,
       VeganStatus.VEGAN_STATUS_UNKNOWN: Colors.grey,
+      null: Colors.grey,
     };
     Map nutrientsLevelIcons = {
       VeganStatus.VEGAN: LineIcons.check,
       VeganStatus.MAYBE_VEGAN: LineIcons.exclamation,
       VeganStatus.NON_VEGAN: LineIcons.skull,
       VeganStatus.VEGAN_STATUS_UNKNOWN: LineIcons.question,
+      null: LineIcons.question,
     };
     Map veganStatusLabel = {
       VeganStatus.VEGAN: 'Vegan',
       VeganStatus.MAYBE_VEGAN: 'Maybe Vegan',
       VeganStatus.NON_VEGAN: 'Non-Vegan',
       VeganStatus.VEGAN_STATUS_UNKNOWN: 'Uknown',
+      null: 'Uknown',
     };
 
     return Chip(
@@ -456,7 +481,7 @@ class nutritionSCoreChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final String value;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -466,7 +491,7 @@ class nutritionSCoreChip extends StatelessWidget {
       'c': Colors.yellow.shade600,
       'd': Colors.orange,
       'e': Colors.red,
-      'null': Colors.grey,
+      null: Colors.grey,
     };
 
     return Chip(
@@ -475,13 +500,13 @@ class nutritionSCoreChip extends StatelessWidget {
       avatar: CircleAvatar(
         backgroundColor: nutrientsScoreColor[value],
         child: Text(
-          '${value.toUpperCase()}',
+          '${value!.toUpperCase()}',
           style: TextStyle(color: Colors.white),
         ),
       ),
       backgroundColor: Apptheme.mainCardColor,
       label: Text(
-        '$label - ${value.toUpperCase()}',
+        '$label - ${value!.toUpperCase()}',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       shape: StadiumBorder(
@@ -501,7 +526,7 @@ class palmOilStatusChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final PalmOilFreeStatus value;
+  final PalmOilFreeStatus? value;
 
   @override
   Widget build(BuildContext context) {
@@ -509,14 +534,16 @@ class palmOilStatusChip extends StatelessWidget {
       PalmOilFreeStatus.PALM_OIL_FREE: Colors.green,
       PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: Colors.orange,
       PalmOilFreeStatus.PALM_OIL: Colors.red,
-      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: Colors.grey
+      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: Colors.grey,
+      null: Colors.grey,
     };
 
     Map palmOilLabel = {
       PalmOilFreeStatus.PALM_OIL_FREE: 'Palm Oil Free',
       PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: 'May Contain Palm Oil',
       PalmOilFreeStatus.PALM_OIL: 'Contains Palm Oil',
-      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: 'Unknown'
+      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: 'Unknown',
+      Null: 'Unknown',
     };
 
     return Chip(
@@ -551,7 +578,7 @@ class vegetarianStatusChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final VegetarianStatus value;
+  final VegetarianStatus? value;
 
   @override
   Widget build(BuildContext context) {
@@ -559,14 +586,16 @@ class vegetarianStatusChip extends StatelessWidget {
       VegetarianStatus.VEGETARIAN: Colors.green,
       VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
       VegetarianStatus.NON_VEGETARIAN: Colors.red,
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: Colors.grey
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: Colors.grey,
+      null: Colors.grey,
     };
 
     Map palmOilLabel = {
       VegetarianStatus.VEGETARIAN: 'Vegetarian',
       VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
       VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown'
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown',
+      null: 'Unknown',
     };
 
     return Chip(
@@ -575,7 +604,8 @@ class vegetarianStatusChip extends StatelessWidget {
       avatar: CircleAvatar(
         backgroundColor: nutrientsScoreColor[value],
         child: Icon(
-          LineIcons.paw,
+          LineIcons.egg,
+          size: 18,
           color: Colors.white,
         ),
       ),
@@ -601,7 +631,7 @@ class enviromentStatusChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final String value;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -610,13 +640,15 @@ class enviromentStatusChip extends StatelessWidget {
       VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
       VegetarianStatus.NON_VEGETARIAN: Colors.red,
       'unknown': Colors.grey,
+      null: Colors.grey,
     };
 
     Map palmOilLabel = {
       VegetarianStatus.VEGETARIAN: 'Vegetarian',
       VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
       VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown'
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown',
+      null: 'Unknown',
     };
 
     return Chip(
@@ -651,7 +683,7 @@ class novaGroupChip extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final int value;
+  final int? value;
 
   @override
   Widget build(BuildContext context) {
@@ -666,9 +698,10 @@ class novaGroupChip extends StatelessWidget {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       elevation: 3,
       avatar: CircleAvatar(
-        backgroundColor: nutrientsScoreColor[value - 1],
+        backgroundColor: value != null ? nutrientsScoreColor[value! - 1] : Colors.grey,
         child: Icon(
-          LineIcons.leaf,
+          LineIcons.heartAlt,
+          size: 15,
           color: Colors.white,
         ),
       ),
@@ -679,7 +712,7 @@ class novaGroupChip extends StatelessWidget {
       ),
       shape: StadiumBorder(
         side: BorderSide(
-          color: nutrientsScoreColor[value - 1],
+          color: nutrientsScoreColor[value! - 1],
         ),
       ),
     );

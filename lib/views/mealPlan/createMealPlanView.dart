@@ -236,7 +236,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                   }
                   return Scrollbar(
                     child: ListView.builder(
-                      itemCount: searchResult.count! < 50 ? searchResult.count : searchResult.pageSize,
+                      itemCount: searchResult.pageSize! < 25 ? searchResult.count : searchResult.pageSize,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -251,7 +251,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                                   productsAdded.add(searchResult.products![index]);
                                 });
                               },
-                              child: productListTile(searchResult.products![index]),
+                              child: searchResult.products![index].productName != null ? productListTile(searchResult.products![index]) : Text(''),
                             ),
                           ),
                         );
@@ -270,7 +270,9 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
   ListTile productListTile(Product searchResult) {
     return ListTile(
       leading: searchResult.imageFrontSmallUrl == null
-          ? Text('?')
+          ? Center(
+              child: Text('?'),
+            )
           : AspectRatio(
               aspectRatio: 5.0 / 9.0,
               child: Image(
@@ -281,14 +283,31 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
               ),
             ),
       title: Text(
-        searchResult.productName.toString(),
+        searchResult.productName != null ? '${searchResult.productName}' : '?',
         style: TextStyle(color: Colors.black),
       ),
       subtitle: Row(
         children: [
-          productStatsTab(value: searchResult.nutriments!.energyServing != null ? (searchResult.nutriments!.energyServing! / 4.2).round() : 'null', valueIndicator: '${Emojis.fire}'),
-          productStatsTab(value: searchResult.nutriments!.energyServing != null ? searchResult.nutriments!.proteinsServing!.round() : 'null', valueIndicator: '${Emojis.flexedBiceps}'),
-          productStatsTab(value: searchResult.nutriscore != null ? searchResult.nutriscore!.toUpperCase() : 'null', valueIndicator: '${Emojis.redHeart}'),
+          productStatsTab(
+            value: searchResult.nutriments!.energyServing != null
+                ? (searchResult.nutriments!.energyServing! / 4.2).round()
+                : searchResult.nutriments!.energyKcal100g != null
+                    ? '${searchResult.nutriments!.energyKcal100g!.round()}'
+                    : '?',
+            valueIndicator: '${Emojis.fire}',
+          ),
+          productStatsTab(
+            value: searchResult.nutriments!.energyServing != null
+                ? searchResult.nutriments!.proteinsServing!.round()
+                : searchResult.nutriments!.proteins != null
+                    ? '${searchResult.nutriments!.proteins!.round()}'
+                    : '?',
+            valueIndicator: '${Emojis.flexedBiceps}',
+          ),
+          productStatsTab(
+            value: searchResult.nutriscore != null ? '${searchResult.nutriscore!.toUpperCase()}' : '?',
+            valueIndicator: '${Emojis.redHeart}',
+          ),
         ],
       ),
       trailing: Column(
@@ -315,7 +334,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
             ),
           ),
         ),
-        label: Text(value != 'null' ? '$value' : 'n/a'),
+        label: Text(value != 'null' ? '$value' : '?'),
         backgroundColor: Apptheme.mainCardColor,
         shape: StadiumBorder(
           side: BorderSide(
@@ -326,8 +345,4 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
       ),
     );
   }
-}
-
-productTab({name: String}) {
-  return ListTile();
 }
