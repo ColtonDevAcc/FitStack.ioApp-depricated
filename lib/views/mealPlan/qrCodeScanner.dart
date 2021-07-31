@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -165,7 +166,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    getProductResult(qrCode: '047495013054');
     setState(() {
       this.controller = controller;
     });

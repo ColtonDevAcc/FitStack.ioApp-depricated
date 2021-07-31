@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:openfoodfacts/model/EnvironmentImpactLevels.dart';
+import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/model/NutrientLevels.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:workify/theme/theme.dart';
@@ -11,15 +13,8 @@ class ProductOverView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map nutrientsScoreColor = {
-      'a': Colors.green,
-      'b': Colors.green.shade200,
-      'c': Colors.yellow.shade600,
-      'd': Colors.orange,
-      'e': Colors.red,
-    };
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Column(
         children: [
           //! slide up indicator!
@@ -58,7 +53,7 @@ class ProductOverView extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                        text: product.nutriments!.energyServing != null ? '${product.nutriments!.energyServing}' : '?',
+                        text: product.nutriments!.energyServing != null ? '${(product.nutriments!.energyServing! / 4.2).round()}' : '?',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -132,9 +127,6 @@ class ProductOverView extends StatelessWidget {
               Tab(
                 text: 'Ingredients',
               ),
-              Tab(
-                text: 'Enviroment',
-              ),
             ],
           ),
           Expanded(
@@ -142,49 +134,41 @@ class ProductOverView extends StatelessWidget {
               children: [
                 ListView(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Chip(
-                          backgroundColor: Apptheme.mainCardColor,
-                          avatar: CircleAvatar(
-                            backgroundColor: nutrientsScoreColor[product.nutriscore],
-                            child: Text(
-                              product.nutriscore != null ? '${product.nutriscore!.toUpperCase()}' : '?',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          shape: StadiumBorder(
-                            side: BorderSide(
-                              width: 1,
-                              color: product.nutriscore != null ? nutrientsScoreColor[product.nutriscore] : Colors.grey,
-                            ),
-                          ),
-                          label: Text(
-                            'Nutrition Score',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus!),
+                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
+                        ],
+                      ),
                     ),
                     Divider(height: 1, color: Colors.grey),
                     SizedBox(height: 8),
-                    Text(
-                      'Nutrients Levels per 100 g/100 mL',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Center(
+                      child: Text(
+                        'Nutrients Levels per 100 g/100 mL',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     SizedBox(height: 8),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: product.nutrientLevels!.levels.entries.map(
-                        (e) {
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                            child: nutrientsLevelsChip(label: e.key, value: e.value),
-                          );
-                        },
-                      ).toList(),
+                    Center(
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        alignment: WrapAlignment.center,
+                        children: product.nutrientLevels!.levels.entries.map(
+                          (e) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                              child: nutrientsLevelsChip(label: '${e.key} - ${e.value.value.toUpperCase()}', value: e.value),
+                            );
+                          },
+                        ).toList(),
+                      ),
                     ),
                     SizedBox(height: 8),
                     Divider(height: 1, color: Colors.grey),
@@ -209,10 +193,16 @@ class ProductOverView extends StatelessWidget {
                     DataTable(
                       columns: [
                         DataColumn(
-                          label: Text('Per Serving'),
+                          label: Text(
+                            'Raw Nutrition Labels',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                         DataColumn(
-                          label: Text('Per Serving'),
+                          label: Text(
+                            'Raw Nutrition Data',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ],
                       rows: product.nutriments!.toData().entries.map(
@@ -238,15 +228,111 @@ class ProductOverView extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  child: Text('data'),
+                ListView(
+                  children: [
+                    Center(child: Text('Ingredients Analysis', style: TextStyle(fontWeight: FontWeight.bold))),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus!),
+                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
+                          palmOilStatusChip(label: 'Palm Oil Free?', value: product.ingredientsAnalysisTags!.palmOilFreeStatus!),
+                          vegetarianStatusChip(
+                            label: 'Vegetarian Status',
+                            value: product.ingredientsAnalysisTags!.vegetarianStatus!,
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(height: 1, color: Colors.grey),
+                    Center(child: Text('Addatives', style: TextStyle(fontWeight: FontWeight.bold))),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: product.additives!.names.map(
+                        (e) {
+                          return Chip(
+                            backgroundColor: Colors.amber,
+                            label: Text(
+                              e,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                    Divider(height: 1, color: Colors.grey),
+                    Center(child: Text('Enviroment Impact Level', style: TextStyle(fontWeight: FontWeight.bold))),
+                    SizedBox(height: 8),
+                    Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        alignment: WrapAlignment.center,
+                        children: product.environmentImpactLevels != null
+                            ? product.environmentImpactLevels!.levels.asMap().entries.map(
+                                (e) {
+                                  return Text('null');
+                                },
+                              ).toList()
+                            : [
+                                enviromentStatusChip(label: 'Envrioment Impact Level', value: 'unknown'),
+                              ]),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                      child: Divider(height: 1, color: Colors.grey),
+                    ),
+                    Center(
+                        child: Text(
+                      'Category Tags',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: product.categoriesTags!.asMap().entries.map((e) => Text('${e.value}, ')).toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                      child: Divider(height: 1, color: Colors.grey),
+                    ),
+                    Center(
+                      child: Text(
+                        'Barcode:\n${product.barcode}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  child: Text('data'),
-                ),
-                Container(
-                  child: Text('data'),
-                ),
+                ListView(
+                  children: [
+                    Image(
+                      image: NetworkImage(product.imageIngredientsUrl!),
+                    ),
+                    novaGroupChip(
+                      label: 'Proccesed Score',
+                      value: product.nutriments!.novaGroup!,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Divider(height: 1, color: Colors.grey),
+                    ),
+                    Center(child: Text('List of ingredients', style: TextStyle(fontWeight: FontWeight.bold))),
+                    SizedBox(height: 8),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: product.ingredients!
+                          .map(
+                            (e) => Text('${e.text}, '),
+                          )
+                          .toList(),
+                    )
+                  ],
+                )
               ],
             ),
           )
@@ -294,12 +380,306 @@ class nutrientsLevelsChip extends StatelessWidget {
       ),
       backgroundColor: Apptheme.mainCardColor,
       label: Text(
-        '${label} - ${value.value.toUpperCase()}',
+        '$label',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       shape: StadiumBorder(
         side: BorderSide(
           color: nutrientsLevelColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class veganStatusChip extends StatelessWidget {
+  const veganStatusChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final VeganStatus value;
+
+  @override
+  Widget build(BuildContext context) {
+    Map nutrientsLevelColor = {
+      VeganStatus.VEGAN: Colors.green,
+      VeganStatus.MAYBE_VEGAN: Colors.orange,
+      VeganStatus.NON_VEGAN: Colors.red,
+      VeganStatus.VEGAN_STATUS_UNKNOWN: Colors.grey,
+    };
+    Map nutrientsLevelIcons = {
+      VeganStatus.VEGAN: LineIcons.check,
+      VeganStatus.MAYBE_VEGAN: LineIcons.exclamation,
+      VeganStatus.NON_VEGAN: LineIcons.skull,
+      VeganStatus.VEGAN_STATUS_UNKNOWN: LineIcons.question,
+    };
+    Map veganStatusLabel = {
+      VeganStatus.VEGAN: 'Vegan',
+      VeganStatus.MAYBE_VEGAN: 'Maybe Vegan',
+      VeganStatus.NON_VEGAN: 'Non-Vegan',
+      VeganStatus.VEGAN_STATUS_UNKNOWN: 'Uknown',
+    };
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsLevelColor[value],
+        child: Icon(
+          nutrientsLevelIcons[value],
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${veganStatusLabel[value]}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsLevelColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class nutritionSCoreChip extends StatelessWidget {
+  const nutritionSCoreChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    Map nutrientsScoreColor = {
+      'a': Colors.green,
+      'b': Colors.green.shade200,
+      'c': Colors.yellow.shade600,
+      'd': Colors.orange,
+      'e': Colors.red,
+      'null': Colors.grey,
+    };
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsScoreColor[value],
+        child: Text(
+          '${value.toUpperCase()}',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${value.toUpperCase()}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsScoreColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class palmOilStatusChip extends StatelessWidget {
+  const palmOilStatusChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final PalmOilFreeStatus value;
+
+  @override
+  Widget build(BuildContext context) {
+    Map nutrientsScoreColor = {
+      PalmOilFreeStatus.PALM_OIL_FREE: Colors.green,
+      PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: Colors.orange,
+      PalmOilFreeStatus.PALM_OIL: Colors.red,
+      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: Colors.grey
+    };
+
+    Map palmOilLabel = {
+      PalmOilFreeStatus.PALM_OIL_FREE: 'Palm Oil Free',
+      PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: 'May Contain Palm Oil',
+      PalmOilFreeStatus.PALM_OIL: 'Contains Palm Oil',
+      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: 'Unknown'
+    };
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsScoreColor[value],
+        child: Icon(
+          LineIcons.paw,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${palmOilLabel[value].toString().toUpperCase()}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsScoreColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class vegetarianStatusChip extends StatelessWidget {
+  const vegetarianStatusChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final VegetarianStatus value;
+
+  @override
+  Widget build(BuildContext context) {
+    Map nutrientsScoreColor = {
+      VegetarianStatus.VEGETARIAN: Colors.green,
+      VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
+      VegetarianStatus.NON_VEGETARIAN: Colors.red,
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: Colors.grey
+    };
+
+    Map palmOilLabel = {
+      VegetarianStatus.VEGETARIAN: 'Vegetarian',
+      VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
+      VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown'
+    };
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsScoreColor[value],
+        child: Icon(
+          LineIcons.paw,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${palmOilLabel[value].toString().toUpperCase()}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsScoreColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class enviromentStatusChip extends StatelessWidget {
+  const enviromentStatusChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    Map nutrientsScoreColor = {
+      EnvironmentImpactLevels: Colors.green,
+      VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
+      VegetarianStatus.NON_VEGETARIAN: Colors.red,
+      'unknown': Colors.grey,
+    };
+
+    Map palmOilLabel = {
+      VegetarianStatus.VEGETARIAN: 'Vegetarian',
+      VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
+      VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
+      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown'
+    };
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsScoreColor[value],
+        child: Icon(
+          LineIcons.leaf,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${value}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsScoreColor[value],
+        ),
+      ),
+    );
+  }
+}
+
+class novaGroupChip extends StatelessWidget {
+  const novaGroupChip({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final int value;
+
+  @override
+  Widget build(BuildContext context) {
+    List nutrientsScoreColor = [
+      Colors.green,
+      Colors.green.shade300,
+      Colors.orange,
+      Colors.red,
+    ];
+
+    return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      elevation: 3,
+      avatar: CircleAvatar(
+        backgroundColor: nutrientsScoreColor[value - 1],
+        child: Icon(
+          LineIcons.leaf,
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: Apptheme.mainCardColor,
+      label: Text(
+        '$label - ${value}',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: nutrientsScoreColor[value - 1],
         ),
       ),
     );
