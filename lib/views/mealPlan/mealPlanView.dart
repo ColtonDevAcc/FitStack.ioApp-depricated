@@ -110,7 +110,7 @@ class MealPlanView extends StatelessWidget {
                 ],
               ),
             ),
-            Flexible(
+            Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -122,122 +122,110 @@ class MealPlanView extends StatelessWidget {
                     return Text("Loading");
                   }
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 30),
-                      Text(
-                        'Recent Meals',
-                        textScaleFactor: 1.2,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      new GridView.count(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        childAspectRatio: .8,
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                  return new GridView.count(
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: .8,
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Apptheme.mainCardColor,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${data['mealTitle']}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                              child: Text.rich(
+                                TextSpan(
+                                  text: '${data['mealProtein']}g\n',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Protein',
+                                      style: TextStyle(fontWeight: FontWeight.normal),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text.rich(
+                                TextSpan(
+                                  text: '${data['mealCalories']}\n',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Calories',
+                                      style: TextStyle(fontWeight: FontWeight.normal),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Apptheme.mainButonColor,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
+                                  )),
+                              width: double.infinity,
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }).toList()
+                      ..add(
+                        Container(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateMealPlanView(),
+                                ),
+                              );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Apptheme.mainCardColor,
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${data['mealTitle']}',
-                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: '${data['mealProtein']}g\n',
-                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                        children: [
-                                          TextSpan(
-                                            text: 'Protein',
-                                            style: TextStyle(fontWeight: FontWeight.normal),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: '${data['mealCalories']}\n',
-                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                        children: [
-                                          TextSpan(
-                                            text: 'Calories',
-                                            style: TextStyle(fontWeight: FontWeight.normal),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Apptheme.mainButonColor,
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(15),
-                                          bottomRight: Radius.circular(15),
-                                        )),
-                                    width: double.infinity,
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Edit',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList()
-                          ..add(
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CreateMealPlanView(),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Apptheme.mainCardColor,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      LineIcons.plus,
-                                      size: 50,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                              child: Center(
+                                child: Icon(
+                                  LineIcons.plus,
+                                  size: 50,
+                                  color: Colors.grey,
                                 ),
                               ),
                             ),
                           ),
+                        ),
                       ),
-                    ],
                   );
                 },
               ),

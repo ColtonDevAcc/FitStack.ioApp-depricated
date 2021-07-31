@@ -1,4 +1,5 @@
 import 'package:awesome_emojis/emojis.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -7,8 +8,8 @@ import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan/productOverview.dart';
 import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 
 class CreateMealPlanView extends StatefulWidget {
@@ -130,7 +131,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                       (child) => Dismissible(
                         direction: DismissDirection.endToStart,
                         key: UniqueKey(),
-                        child: productListTile(child),
+                        child: productListTile(product: child),
                         secondaryBackground: Container(
                           color: Colors.red,
                           child: Row(
@@ -162,6 +163,28 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                     )
                     .toList()
                     .cast<Widget>(),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                print('start');
+                productsAdded.map((e) {
+                  print('object');
+                  FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').doc(DateTime.now().toString()).collection('${e.productName}');
+                  return FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').doc(DateTime.now().toString()).collection('${e.productName}');
+                });
+                print('end');
+              },
+              child: Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(color: Apptheme.mainButonColor),
+                child: Center(
+                  child: Text(
+                    'Add to meal plan',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             )
           ],
@@ -251,7 +274,7 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                                   productsAdded.add(searchResult.products![index]);
                                 });
                               },
-                              child: searchResult.products![index].productName != null ? productListTile(searchResult.products![index]) : Text(''),
+                              child: searchResult.products![index].productName != null ? productListTile(product: searchResult.products![index]) : Text(''),
                             ),
                           ),
                         );
@@ -266,10 +289,16 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
       ),
     );
   }
+}
 
-  ListTile productListTile(Product searchResult) {
+class productListTile extends StatelessWidget {
+  const productListTile({Key? key, required this.product}) : super(key: key);
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
-      leading: searchResult.imageFrontSmallUrl == null
+      leading: product.imageFrontSmallUrl == null
           ? Center(
               child: Text('?'),
             )
@@ -278,34 +307,34 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
               child: Image(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  searchResult.imageFrontSmallUrl.toString(),
+                  product.imageFrontSmallUrl.toString(),
                 ),
               ),
             ),
       title: Text(
-        searchResult.productName != null ? '${searchResult.productName}' : '?',
+        product.productName != null ? '${product.productName}' : '?',
         style: TextStyle(color: Colors.black),
       ),
       subtitle: Row(
         children: [
           productStatsTab(
-            value: searchResult.nutriments!.energyServing != null
-                ? (searchResult.nutriments!.energyServing! / 4.2).round()
-                : searchResult.nutriments!.energyKcal100g != null
-                    ? '${searchResult.nutriments!.energyKcal100g!.round()}'
+            value: product.nutriments!.energyServing != null
+                ? (product.nutriments!.energyServing! / 4.2).round()
+                : product.nutriments!.energyKcal100g != null
+                    ? '${product.nutriments!.energyKcal100g!.round()}'
                     : '?',
             valueIndicator: '${Emojis.fire}',
           ),
           productStatsTab(
-            value: searchResult.nutriments!.energyServing != null
-                ? searchResult.nutriments!.proteinsServing!.round()
-                : searchResult.nutriments!.proteins != null
-                    ? '${searchResult.nutriments!.proteins!.round()}'
+            value: product.nutriments!.energyServing != null
+                ? product.nutriments!.proteinsServing!.round()
+                : product.nutriments!.proteins != null
+                    ? '${product.nutriments!.proteins!.round()}'
                     : '?',
             valueIndicator: '${Emojis.flexedBiceps}',
           ),
           productStatsTab(
-            value: searchResult.nutriscore != null ? '${searchResult.nutriscore!.toUpperCase()}' : '?',
+            value: product.nutriscore != null ? '${product.nutriscore!.toUpperCase()}' : '?',
             valueIndicator: '${Emojis.redHeart}',
           ),
         ],

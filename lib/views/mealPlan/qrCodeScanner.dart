@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     VeganStatus.NON_VEGAN: "Non-Vegan",
     VeganStatus.VEGAN_STATUS_UNKNOWN: "Unknown",
   };
+  IconData cameraState = LineIcons.pause;
 
   ProductResult? productResult;
   Barcode? result;
@@ -63,60 +63,44 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     Colors.red,
   ];
   List<Color> goodBadScore = [Colors.red, Colors.green];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'QR CODE SCANNER',
-            style: TextStyle(
-              color: Apptheme.mainButonColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              LineIcons.arrowLeft,
-              color: Colors.black,
-            ),
-          ),
-          backgroundColor: Apptheme.mainCardColor,
+      body: SlidingUpPanel(
+        maxHeight: MediaQuery.of(context).size.height * .7,
+        minHeight: AppBar().preferredSize.height + 10,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0),
+          topRight: Radius.circular(18.0),
         ),
-        body: SlidingUpPanel(
-          maxHeight: MediaQuery.of(context).size.height * .7,
-          minHeight: AppBar().preferredSize.height + 10,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(18.0),
-            topRight: Radius.circular(18.0),
-          ),
-          panel: productResult != null
-              ? ProductOverView(product: productResult!.product!)
-              : Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 100,
-                          child: SizedBox(height: 5),
-                          padding: const EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(.3),
-                            borderRadius: BorderRadius.circular(24.0),
-                            boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
-                          ),
+        panel: productResult != null
+            ? ProductOverView(product: productResult!.product!)
+            : Column(
+                children: [
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        child: SizedBox(height: 5),
+                        padding: const EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(24.0),
+                          boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Text('Scan In a Product Barcode'),
-                  ],
-                ),
-          body: _buildQrView(context),
-        ));
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text('Scan In a Product Barcode'),
+                ],
+              ),
+        body: _buildQrView(context),
+      ),
+    );
   }
 
   Column productScoreCircle({score: String, scoreTitle: String, color: Colors}) {
@@ -157,11 +141,104 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     var scanArea = (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 150.0 : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(borderColor: Colors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(borderColor: Colors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: scanArea),
+            onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.5),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      LineIcons.times,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await controller?.pauseCamera();
+                          if (cameraState == LineIcons.pause) {
+                            await controller?.pauseCamera();
+                            setState(() {
+                              cameraState = LineIcons.play;
+                            });
+                          } else {
+                            await controller?.pauseCamera();
+                            setState(() {
+                              cameraState = LineIcons.pause;
+                            });
+                          }
+                        },
+                        child: Icon(
+                          cameraState,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          LineIcons.heart,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          LineIcons.plus,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -173,6 +250,8 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
+        controller.pauseCamera();
+        cameraState = LineIcons.play;
         getProductResult(qrCode: scanData.code);
       });
     });
