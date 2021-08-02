@@ -14,6 +14,8 @@ class FirebaseUser {
   String mainWorkoutGoal;
   String workoutFrequency;
   String workoutExperiencelevel;
+  List? tags = [];
+
   FirebaseUser({
     required this.gender,
     required this.userName,
@@ -28,10 +30,12 @@ class FirebaseUser {
     required this.mainWorkoutGoal,
     required this.workoutFrequency,
     required this.workoutExperiencelevel,
+    this.tags,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'tags': tags,
       'userName': userName,
       'firstName': firstName,
       'lastName': lastName,
@@ -50,6 +54,7 @@ class FirebaseUser {
 
   factory FirebaseUser.fromMap(Map<String, dynamic> map) {
     return FirebaseUser(
+      tags: map['tags'],
       userName: map['userName'],
       firstName: map['firstName'],
       lastName: map['lastName'],
@@ -68,8 +73,7 @@ class FirebaseUser {
 
   String toJson() => json.encode(toMap());
 
-  factory FirebaseUser.fromJson(String source) =>
-      FirebaseUser.fromMap(json.decode(source));
+  factory FirebaseUser.fromJson(String source) => FirebaseUser.fromMap(json.decode(source));
 }
 
 //  Map<String, dynamic> toJson() => {

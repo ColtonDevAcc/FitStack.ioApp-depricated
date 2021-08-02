@@ -61,13 +61,11 @@ class _GroupViewState extends State<GroupView> {
                                 labelStyle: TextStyle(color: Colors.black),
                                 focusColor: Apptheme.mainCardColor,
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Apptheme.mainCardColor),
+                                  borderSide: BorderSide(color: Apptheme.mainCardColor),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Apptheme.mainCardColor),
+                                  borderSide: BorderSide(color: Apptheme.mainCardColor),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
@@ -78,17 +76,15 @@ class _GroupViewState extends State<GroupView> {
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection('UserInfo')
-                                  .where('email',
-                                      isEqualTo: searchController.text)
+                                  .where('email', isEqualTo: searchController.text)
                                   .snapshots(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                              builder:
+                                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (snapshot.hasError) {
                                   return Text('Something went wrong');
                                 }
 
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
                                   return Text("Loading");
                                 }
 
@@ -98,35 +94,31 @@ class _GroupViewState extends State<GroupView> {
                                     new ListView(
                                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                       shrinkWrap: true,
-                                      children: snapshot.data!.docs
-                                          .map((DocumentSnapshot document) {
-                                        Map<String, dynamic> data = document
-                                            .data() as Map<String, dynamic>;
+                                      children:
+                                          snapshot.data!.docs.map((DocumentSnapshot document) {
+                                        Map<String, dynamic> data =
+                                            document.data() as Map<String, dynamic>;
 
                                         return GestureDetector(
                                             onTap: () async {
                                               var friendRequest = data['email'];
                                               await FirebaseFirestore.instance
                                                   .collection('UserInfo')
-                                                  .where('email',
-                                                      isEqualTo: data['email'])
+                                                  .where('email', isEqualTo: data['email'])
                                                   .get()
                                                   .then(
                                                     (querySnapshot) => querySnapshot
                                                         .docs[0].reference
                                                         .collection('Inbox')
-                                                        .doc(
-                                                            'relationshipRequest')
-                                                        .collection(
-                                                            'friendRequest')
+                                                        .doc('relationshipRequest')
+                                                        .collection('friendRequest')
                                                         .doc(friendRequest)
                                                         .set(data),
                                                   );
 
                                               print(friendRequest);
                                             },
-                                            child:
-                                                friendTab(name: data['email']));
+                                            child: friendTab(name: data['email']));
                                       }).toList(),
                                     ),
                                   ],
@@ -202,19 +194,14 @@ class _GroupViewState extends State<GroupView> {
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('UserInfo')
-                                .where(
-                                  'friends',
-                                  arrayContains: CurrentUser.email,
-                                )
+                                .where('friends', arrayContains: CurrentUser.email)
                                 .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {
                                 return Text('Something went wrong');
                               }
 
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
                                 return Text("Loading");
                               }
 
@@ -224,12 +211,11 @@ class _GroupViewState extends State<GroupView> {
                                   new ListView(
                                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     shrinkWrap: true,
-                                    children: snapshot.data!.docs
-                                        .map((DocumentSnapshot document) {
-                                      Map<String, dynamic> data = document
-                                          .data() as Map<String, dynamic>;
+                                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                                      Map<String, dynamic> data =
+                                          document.data() as Map<String, dynamic>;
 
-                                      return friendTab(name: data['email']);
+                                      return friendTab(name: data['email'], tags: data['tags']);
                                     }).toList(),
                                   ),
                                 ],
@@ -251,7 +237,9 @@ class _GroupViewState extends State<GroupView> {
     );
   }
 
-  Padding friendTab({name: String}) {
+  Padding friendTab({name: String, tags: List}) {
+    List newTag = tags;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: Container(
@@ -268,7 +256,15 @@ class _GroupViewState extends State<GroupView> {
               color: Colors.black,
             ),
           ),
-          subtitle: Text('Admin, Creator, Trainer'),
+          subtitle: Wrap(
+            children: newTag.map((e) {
+              return Chip(
+                label: Text(
+                  e.toString(),
+                ),
+              );
+            }).toList(),
+          ),
           trailing: Icon(LineIcons.arrowRight),
         ),
       ),

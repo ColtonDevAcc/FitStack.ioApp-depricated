@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
-import 'package:workify/nutritionState.dart';
+import 'package:workify/providers/nutritionState.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/createMealPlanView.dart';
 import 'package:provider/provider.dart';
@@ -12,29 +13,39 @@ class MealPlanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+
     double _screenHeight = MediaQuery.of(context).size.height;
     double totalCalorie = 0;
-    int index = 0;
+    double totalCarbs = 0;
+    double totalSugar = 0;
+    double totalFiber = 0;
+    double totalProtein = 0;
 
     updateCalorie({
       calories: double,
-      indexEnd: int,
+      state: String,
       fiber: double,
       protein: double,
       carbs: double,
       sugar: double,
-      caffine: double,
-    }) {
+    }) async {
       totalCalorie += calories;
+      totalCarbs += carbs;
+      totalSugar += sugar;
+      totalFiber += fiber;
+      totalProtein += protein;
       index++;
 
-      if (index == indexEnd) {
-        context.watch<NutritionState>().Calories = totalCalorie;
-        context.watch<NutritionState>().Caffine = caffine;
-        context.watch<NutritionState>().Carbs = carbs;
-        context.watch<NutritionState>().Sugars = sugar;
-        context.watch<NutritionState>().Fiber = fiber;
-        context.watch<NutritionState>().Proteins = protein;
+      var push = Provider.of<NutritionState>(context, listen: false);
+
+      if (state == 'ConnectionState.done') {
+        print('Starting push');
+        push.Calories = totalCalorie;
+        push.Carbs = totalCarbs;
+        push.Sugars = totalSugar;
+        push.Fiber = totalFiber;
+        push.Proteins = totalProtein;
       }
     }
 
@@ -88,13 +99,13 @@ class MealPlanView extends StatelessWidget {
                         icon: Icons.local_fire_department,
                         color: Colors.red,
                         label: 'Calories',
-                        data: context.watch<NutritionState>().Calories,
+                        data: context.watch<NutritionState>().Calories.round(),
                       ),
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.green,
                         label: 'Fiber',
-                        data: context.watch<NutritionState>().Fiber,
+                        data: context.watch<NutritionState>().Fiber.round(),
                       ),
                     ],
                   ),
@@ -105,13 +116,13 @@ class MealPlanView extends StatelessWidget {
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.blue.shade900,
                         label: 'Caffine',
-                        data: context.watch<NutritionState>().Proteins,
+                        data: context.watch<NutritionState>().Proteins.round(),
                       ),
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.red.shade300,
                         label: 'Carbs',
-                        data: context.watch<NutritionState>().Carbs,
+                        data: context.watch<NutritionState>().Carbs.round(),
                       ),
                     ],
                   ),
@@ -122,13 +133,13 @@ class MealPlanView extends StatelessWidget {
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.orange.shade700,
                         label: 'Sugars',
-                        data: context.watch<NutritionState>().Sugars,
+                        data: context.watch<NutritionState>().Sugars.round(),
                       ),
                       statsForConsumption(
                         icon: LineIcons.drumstickWithBiteTakenOut,
                         color: Colors.blue.shade900,
                         label: 'Protein',
-                        data: context.watch<NutritionState>().Proteins,
+                        data: context.watch<NutritionState>().Proteins.round(),
                       ),
                     ],
                   ),
@@ -146,6 +157,16 @@ class MealPlanView extends StatelessWidget {
                         'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    SchedulerBinding.instance!.addPostFrameCallback((_) => updateCalorie(
+                          state: 'ConnectionState.done',
+                          calories: 0.0,
+                          carbs: 0.0,
+                          fiber: 0.0,
+                          sugar: 0.0,
+                          protein: 0.0,
+                        ));
+                  }
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
                   }
@@ -164,14 +185,15 @@ class MealPlanView extends StatelessWidget {
                     children: snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                       //set calories here for each meal
+
                       updateCalorie(
-                          calories: double.parse(data['energy_serving']),
-                          carbs: double.parse(data['carbohydrates_serving']),
-                          fiber: double.parse(data['fiber_serving']),
-                          sugar: double.parse(data['sugars_serving']),
-                          protein: double.parse(data['proteins_serving']),
-                          caffine: double.parse(data['proteins_serving']),
-                          indexEnd: snapshot.data!.docs.length);
+                        calories: double.tryParse(data['energy_serving'] ?? '0') ?? 0.0,
+                        carbs: double.tryParse(data['carbohydrates_serving']) ?? 0.0,
+                        fiber: double.tryParse(data['fiber_serving'] ?? '0') ?? 0.0,
+                        sugar: double.tryParse(data['sugars_serving'] ?? '0') ?? 0.0,
+                        protein: double.tryParse(data['proteins_serving'] ?? '0') ?? 0.0,
+                        state: "notDone",
+                      );
 
                       return Container(
                         decoration: BoxDecoration(
