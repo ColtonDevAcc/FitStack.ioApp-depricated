@@ -2,16 +2,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/authServices.dart';
+import 'package:workify/nutritionState.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/createMealPlanView.dart';
+import 'package:provider/provider.dart';
 
 class MealPlanView extends StatelessWidget {
   const MealPlanView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width;
     double _screenHeight = MediaQuery.of(context).size.height;
+    double totalCalorie = 0;
+    int index = 0;
+
+    updateCalorie({
+      calories: double,
+      indexEnd: int,
+      fiber: double,
+      protein: double,
+      carbs: double,
+      sugar: double,
+      caffine: double,
+    }) {
+      totalCalorie += calories;
+      index++;
+
+      if (index == indexEnd) {
+        context.watch<NutritionState>().Calories = totalCalorie;
+        context.watch<NutritionState>().Caffine = caffine;
+        context.watch<NutritionState>().Carbs = carbs;
+        context.watch<NutritionState>().Sugars = sugar;
+        context.watch<NutritionState>().Fiber = fiber;
+        context.watch<NutritionState>().Proteins = protein;
+      }
+    }
 
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
@@ -63,13 +88,13 @@ class MealPlanView extends StatelessWidget {
                         icon: Icons.local_fire_department,
                         color: Colors.red,
                         label: 'Calories',
-                        data: 900,
+                        data: context.watch<NutritionState>().Calories,
                       ),
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.green,
-                        label: 'Vitamin D',
-                        data: 35,
+                        label: 'Fiber',
+                        data: context.watch<NutritionState>().Fiber,
                       ),
                     ],
                   ),
@@ -79,14 +104,14 @@ class MealPlanView extends StatelessWidget {
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.blue.shade900,
-                        label: 'Vitamin A',
-                        data: 3,
+                        label: 'Caffine',
+                        data: context.watch<NutritionState>().Proteins,
                       ),
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.red.shade300,
-                        label: 'Vitamin E',
-                        data: 44,
+                        label: 'Carbs',
+                        data: context.watch<NutritionState>().Carbs,
                       ),
                     ],
                   ),
@@ -96,14 +121,14 @@ class MealPlanView extends StatelessWidget {
                       statsForConsumption(
                         icon: LineIcons.prescriptionBottle,
                         color: Colors.orange.shade700,
-                        label: 'Vitamin C',
-                        data: 6,
+                        label: 'Sugars',
+                        data: context.watch<NutritionState>().Sugars,
                       ),
                       statsForConsumption(
                         icon: LineIcons.drumstickWithBiteTakenOut,
                         color: Colors.blue.shade900,
                         label: 'Protein',
-                        data: 80,
+                        data: context.watch<NutritionState>().Proteins,
                       ),
                     ],
                   ),
@@ -112,7 +137,14 @@ class MealPlanView extends StatelessWidget {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('UserInfo')
+                    .doc(AuthServices.userUID)
+                    .collection('UserEvents')
+                    .doc('AddMealEvent')
+                    .collection(
+                        'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
+                    .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
@@ -123,15 +155,23 @@ class MealPlanView extends StatelessWidget {
                   }
 
                   return new GridView.count(
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 20),
                     childAspectRatio: .8,
                     crossAxisCount: 2,
                     shrinkWrap: true,
                     children: snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      //set calories here for each meal
+                      updateCalorie(
+                          calories: double.parse(data['energy_serving']),
+                          carbs: double.parse(data['carbohydrates_serving']),
+                          fiber: double.parse(data['fiber_serving']),
+                          sugar: double.parse(data['sugars_serving']),
+                          protein: double.parse(data['proteins_serving']),
+                          caffine: double.parse(data['proteins_serving']),
+                          indexEnd: snapshot.data!.docs.length);
 
                       return Container(
                         decoration: BoxDecoration(
@@ -145,7 +185,7 @@ class MealPlanView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${data['mealTitle']}',
+                                data['product_name'] != null ? '${data['product_name']}' : '?',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -153,7 +193,9 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: '${data['mealProtein']}g\n',
+                                  text: data['proteins_serving'] != null
+                                      ? '${data['proteins_serving']}g\n'
+                                      : '?',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(
@@ -168,7 +210,7 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: '${data['mealCalories']}\n',
+                                  text: '${data['energy_serving']}\n',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(

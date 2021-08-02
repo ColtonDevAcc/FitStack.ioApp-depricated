@@ -51,8 +51,7 @@ class _MainViewState extends State<MainView> {
               child: NavigationRail(
                 backgroundColor: Apptheme.mainCardColor,
                 selectedIndex: _currentIndex,
-                unselectedIconTheme:
-                    IconThemeData(color: Apptheme.mainIconColor, size: 30),
+                unselectedIconTheme: IconThemeData(color: Apptheme.mainIconColor, size: 30),
                 selectedIconTheme: IconThemeData(
                   color: Apptheme.mainButonColor,
                 ),
@@ -84,9 +83,8 @@ class _MainViewState extends State<MainView> {
                       quarterTurns: 3,
                       child: Text(
                         CurrentUser.userName,
-                        style: TextStyle(
-                            color: Apptheme.mainButonColor,
-                            fontWeight: FontWeight.bold),
+                        style:
+                            TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
@@ -102,9 +100,8 @@ class _MainViewState extends State<MainView> {
                       quarterTurns: 3,
                       child: Text(
                         'OverView',
-                        style: TextStyle(
-                            color: Apptheme.mainButonColor,
-                            fontWeight: FontWeight.bold),
+                        style:
+                            TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(height: 25),
@@ -112,9 +109,8 @@ class _MainViewState extends State<MainView> {
                       quarterTurns: 3,
                       child: Text(
                         'Feed',
-                        style: TextStyle(
-                            color: Apptheme.mainButonColor,
-                            fontWeight: FontWeight.bold),
+                        style:
+                            TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -161,9 +157,7 @@ class _MainViewState extends State<MainView> {
               height: size.height,
               width: size.width * .82,
               color: Apptheme.mainBackgroundColor,
-              child: _currentIndex == 0
-                  ? homeView(context: context)
-                  : _children[_currentIndex],
+              child: _currentIndex == 0 ? homeView(context: context) : _children[_currentIndex],
             ),
           ),
         ],
@@ -412,8 +406,7 @@ class _MainViewState extends State<MainView> {
                         color: Color.fromRGBO(41, 69, 142, 1),
                         data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),
                     listViewCards(
-                        color: Color.fromRGBO(200, 138, 133, 1),
-                        data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
+                        color: Color.fromRGBO(200, 138, 133, 1), data: [1, 1, 2, 3, 2, 2, 2, 2, 3]),
                     listViewCards(
                         color: Color.fromRGBO(41, 69, 142, 1),
                         data: [1, 5, -6, 0, 1, -2, 7, -7, -4]),

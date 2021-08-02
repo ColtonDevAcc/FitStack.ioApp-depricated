@@ -89,7 +89,9 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(.3),
                           borderRadius: BorderRadius.circular(24.0),
-                          boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)],
+                          boxShadow: [
+                            BoxShadow(color: Color.fromRGBO(0, 0, 0, .25), blurRadius: 16.0)
+                          ],
                         ),
                       ),
                     ],
@@ -138,7 +140,10 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 150.0 : 300.0;
+    var scanArea =
+        (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400)
+            ? 150.0
+            : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return Stack(
@@ -148,14 +153,19 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
           child: QRView(
             key: qrKey,
             onQRViewCreated: _onQRViewCreated,
-            overlay: QrScannerOverlayShape(borderColor: Colors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: scanArea),
+            overlay: QrScannerOverlayShape(
+                borderColor: Colors.red,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: scanArea),
             onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
           ),
         ),
         Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -187,11 +197,13 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
                           if (cameraState == LineIcons.pause) {
                             await controller?.pauseCamera();
                             setState(() {
+                              controller!.pauseCamera();
                               cameraState = LineIcons.play;
                             });
                           } else {
                             await controller?.pauseCamera();
                             setState(() {
+                              controller!.resumeCamera();
                               cameraState = LineIcons.pause;
                             });
                           }
@@ -244,7 +256,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
-      getProductResult(qrCode: '0049022861954');
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {
@@ -268,7 +279,10 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
     String resultString = qrCode;
-    var newProductResult = await OpenFoodAPIClient.getProduct(ProductQueryConfiguration(resultString, language: OpenFoodFactsLanguage.ENGLISH, fields: [ProductField.ALL]));
+    var newProductResult = await OpenFoodAPIClient.getProduct(ProductQueryConfiguration(
+        resultString,
+        language: OpenFoodFactsLanguage.ENGLISH,
+        fields: [ProductField.ALL]));
 
     log('ending ===================== OPENAPITRACK');
 

@@ -57,7 +57,8 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QRCodeScanner())),
+        onPressed: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (context) => QRCodeScanner())),
         backgroundColor: Apptheme.secondaryAccent,
         child: Icon(LineIcons.qrcode),
       ),
@@ -168,10 +169,55 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
             GestureDetector(
               onTap: () {
                 print('start');
-                productsAdded.map((e) {
-                  print('object');
-                  FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').doc(DateTime.now().toString()).collection('${e.productName}');
-                  return FirebaseFirestore.instance.collection('UserInfo').doc(AuthServices.userUID).collection('UserAddedMeal').doc(DateTime.now().toString()).collection('${e.productName}');
+                productsAdded.forEach((e) async {
+                  int getWeekNumber({day: int}) {
+                    if (day >= 1 && day <= 7) {
+                      return 1;
+                    } else if (day >= 8 && day <= 15) {
+                      return 2;
+                    } else if (day >= 16 && day <= 23) {
+                      return 3;
+                    } else if (day >= 24 && day <= 31) {
+                      return 4;
+                    } else {
+                      return 1;
+                    }
+                  }
+
+                  Map<String, dynamic> structuredProductMap = {};
+                  structuredProductMap.addAll(e.nutriments!.toData());
+                  structuredProductMap.addAll(e.toData());
+                  var newEntries = {'dateTimeSubmitted': DateTime.now()};
+                  structuredProductMap.addEntries(newEntries.entries);
+
+                  await FirebaseFirestore.instance
+                      .collection('UserInfo')
+                      .doc(AuthServices.userUID)
+                      .collection('UserEvents')
+                      .doc('AddMealEvent')
+                      .collection(
+                          'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
+                      .doc()
+                      .set(structuredProductMap);
+
+                  await FirebaseFirestore.instance
+                      .collection('UserInfo')
+                      .doc(AuthServices.userUID)
+                      .collection('UserEvents')
+                      .doc('AddMealEvent')
+                      .collection(
+                          'Y${DateTime.now().year}-M${DateTime.now().month}-W${getWeekNumber(day: DateTime.now().day.toInt())}')
+                      .doc()
+                      .set(structuredProductMap);
+
+                  await FirebaseFirestore.instance
+                      .collection('UserInfo')
+                      .doc(AuthServices.userUID)
+                      .collection('UserEvents')
+                      .doc('AddMealEvent')
+                      .collection('Y${DateTime.now().year}-M${DateTime.now().month}')
+                      .doc()
+                      .set(structuredProductMap);
                 });
                 print('end');
               },
@@ -259,7 +305,8 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                   }
                   return Scrollbar(
                     child: ListView.builder(
-                      itemCount: searchResult.pageSize! < 25 ? searchResult.count : searchResult.pageSize,
+                      itemCount:
+                          searchResult.pageSize! < 25 ? searchResult.count : searchResult.pageSize,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -274,7 +321,9 @@ class _CreateMealPlanViewState extends State<CreateMealPlanView> {
                                   productsAdded.add(searchResult.products![index]);
                                 });
                               },
-                              child: searchResult.products![index].productName != null ? productListTile(product: searchResult.products![index]) : Text(''),
+                              child: searchResult.products![index].productName != null
+                                  ? productListTile(product: searchResult.products![index])
+                                  : Text(''),
                             ),
                           ),
                         );

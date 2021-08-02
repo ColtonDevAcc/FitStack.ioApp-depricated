@@ -53,7 +53,9 @@ class ProductOverView extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                        text: product.nutriments!.energyServing != null ? '${(product.nutriments!.energyServing! / 4.2).round()}' : '?',
+                        text: product.nutriments!.energyServing != null
+                            ? '${(product.nutriments!.energyServing! / 4.2).round()}'
+                            : '?',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -69,7 +71,9 @@ class ProductOverView extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                        text: product.nutriments!.carbohydratesServing != null ? '${product.nutriments!.carbohydratesServing}' : '?',
+                        text: product.nutriments!.carbohydratesServing != null
+                            ? '${product.nutriments!.carbohydratesServing}'
+                            : '?',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -85,7 +89,9 @@ class ProductOverView extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                        text: product.nutriments!.proteinsServing != null ? '${product.nutriments!.proteinsServing}' : '?',
+                        text: product.nutriments!.proteinsServing != null
+                            ? '${product.nutriments!.proteinsServing}'
+                            : '?',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -101,7 +107,9 @@ class ProductOverView extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                        text: product.nutriments!.fiberServing != null ? '${product.nutriments!.fiberServing}' : '?',
+                        text: product.nutriments!.fiberServing != null
+                            ? '${product.nutriments!.fiberServing}'
+                            : '?',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -142,9 +150,12 @@ class ProductOverView extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         children: [
                           product.ingredientsAnalysisTags!.veganStatus != null
-                              ? veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus)
+                              ? veganStatusChip(
+                                  label: 'Vegan Status',
+                                  value: product.ingredientsAnalysisTags!.veganStatus)
                               : Text('Vegan information unavaliable'),
-                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore}'),
+                          nutritionSCoreChip(
+                              label: 'Nutrition Score', value: '${product.nutriscore}'),
                         ],
                       ),
                     ),
@@ -166,7 +177,9 @@ class ProductOverView extends StatelessWidget {
                           (e) {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: nutrientsLevelsChip(label: '${e.key} - ${e.value.value.toUpperCase()}', value: e.value),
+                              child: nutrientsLevelsChip(
+                                  label: '${e.key} - ${e.value.value.toUpperCase()}',
+                                  value: e.value),
                             );
                           },
                         ).toList(),
@@ -242,7 +255,9 @@ class ProductOverView extends StatelessWidget {
                 ),
                 ListView(
                   children: [
-                    Center(child: Text('Ingredients Analysis', style: TextStyle(fontWeight: FontWeight.bold))),
+                    Center(
+                        child: Text('Ingredients Analysis',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Wrap(
@@ -250,11 +265,20 @@ class ProductOverView extends StatelessWidget {
                         runSpacing: 5,
                         alignment: WrapAlignment.center,
                         children: [
-                          veganStatusChip(label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus),
-                          nutritionSCoreChip(label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
-                          palmOilStatusChip(label: 'Palm Oil Free?', value: product.ingredientsAnalysisTags!.palmOilFreeStatus),
-                          vegetarianStatusChip(label: 'Vegetarian Status', value: product.ingredientsAnalysisTags!.vegetarianStatus),
-                          novaGroupChip(label: 'Proccesed Score', value: product.nutriments!.novaGroup),
+                          veganStatusChip(
+                              label: 'Vegan Status',
+                              value: product.ingredientsAnalysisTags!.veganStatus),
+                          nutritionSCoreChip(
+                              label: 'Nutrition Score',
+                              value: '${product.nutriscore!.toLowerCase()}'),
+                          palmOilStatusChip(
+                              label: 'Palm Oil Free?',
+                              value: product.ingredientsAnalysisTags!.palmOilFreeStatus),
+                          vegetarianStatusChip(
+                              label: 'Vegetarian Status',
+                              value: product.ingredientsAnalysisTags!.vegetarianStatus),
+                          novaGroupChip(
+                              label: 'Proccesed Score', value: product.nutriments!.novaGroup),
                         ],
                       ),
                     ),
@@ -277,7 +301,9 @@ class ProductOverView extends StatelessWidget {
                       ).toList(),
                     ),
                     Divider(height: 1, color: Colors.grey),
-                    Center(child: Text('Enviroment Impact Level', style: TextStyle(fontWeight: FontWeight.bold))),
+                    Center(
+                        child: Text('Enviroment Impact Level',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
                     SizedBox(height: 8),
                     Wrap(
                         spacing: 5,
@@ -290,7 +316,8 @@ class ProductOverView extends StatelessWidget {
                                 },
                               ).toList()
                             : [
-                                enviromentStatusChip(label: 'Envrioment Impact Level', value: 'unknown'),
+                                enviromentStatusChip(
+                                    label: 'Envrioment Impact Level', value: 'unknown'),
                               ]),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -303,7 +330,11 @@ class ProductOverView extends StatelessWidget {
                     )),
                     Wrap(
                       alignment: WrapAlignment.center,
-                      children: product.categoriesTags!.asMap().entries.map((e) => Text('${e.value}, ')).toList(),
+                      children: product.categoriesTags!
+                          .asMap()
+                          .entries
+                          .map((e) => Text('${e.value}, '))
+                          .toList(),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -341,7 +372,9 @@ class ProductOverView extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Divider(height: 1, color: Colors.grey),
                     ),
-                    Center(child: Text('List of ingredients', style: TextStyle(fontWeight: FontWeight.bold))),
+                    Center(
+                        child: Text('List of ingredients',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
                     SizedBox(height: 8),
                     Wrap(
                       alignment: WrapAlignment.center,
@@ -641,14 +674,6 @@ class enviromentStatusChip extends StatelessWidget {
       VegetarianStatus.NON_VEGETARIAN: Colors.red,
       'unknown': Colors.grey,
       null: Colors.grey,
-    };
-
-    Map palmOilLabel = {
-      VegetarianStatus.VEGETARIAN: 'Vegetarian',
-      VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
-      VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown',
-      null: 'Unknown',
     };
 
     return Chip(

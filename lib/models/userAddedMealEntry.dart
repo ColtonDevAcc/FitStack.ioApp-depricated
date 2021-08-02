@@ -1,65 +1,50 @@
 import 'dart:convert';
 
-class UserAddedMealEntry {
-  final String mealTitle;
-  final int mealCalories;
-  final int mealTransFat;
-  final int mealCholesterol;
-  final int mealSodium;
-  final int mealTotalCarbs;
-  final int mealProtein;
-  final int mealVitaminA;
-  final int mealVitaminC;
-  final int mealCalcium;
-  final int mealIron;
-  final String mealEntryCreationDateTime;
+import 'package:openfoodfacts/model/Nutriments.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 
-  UserAddedMealEntry({
-    required this.mealCalories,
-    required this.mealTransFat,
-    required this.mealCholesterol,
-    required this.mealSodium,
-    required this.mealTotalCarbs,
-    required this.mealProtein,
-    required this.mealVitaminA,
-    required this.mealVitaminC,
-    required this.mealCalcium,
-    required this.mealIron,
-    required this.mealTitle,
-    required this.mealEntryCreationDateTime,
-  });
+class UserAddedMealEntry {
+  final String barcode;
+  final Nutriments nutrients;
+  final String productName;
+  final Product product;
+
+  UserAddedMealEntry(
+    this.barcode,
+    this.nutrients,
+    this.productName,
+    this.product,
+  );
+
+  UserAddedMealEntry copyWith({
+    String? barcode,
+    Nutriments? nutrients,
+    String? productName,
+    Product? product,
+  }) {
+    return UserAddedMealEntry(
+      barcode ?? this.barcode,
+      nutrients ?? this.nutrients,
+      productName ?? this.productName,
+      product ?? this.product,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
-      'mealTitle': mealTitle,
-      'mealCalories': mealCalories,
-      'mealTransFat': mealTransFat,
-      'mealCholesterol': mealCholesterol,
-      'mealSodium': mealSodium,
-      'mealTotalCarbs': mealTotalCarbs,
-      'mealProtein': mealProtein,
-      'mealVitaminA': mealVitaminA,
-      'mealVitaminC': mealVitaminC,
-      'mealCalcium': mealCalcium,
-      'mealIron': mealIron,
-      'mealEntryCreationDateTime': mealEntryCreationDateTime,
+      'barcode': barcode,
+      'nutrients': nutrients.toData(),
+      'productName': productName,
+      'product': product.toData(),
     };
   }
 
   factory UserAddedMealEntry.fromMap(Map<String, dynamic> map) {
     return UserAddedMealEntry(
-      mealTitle: map['mealTitle'],
-      mealCalories: map['mealCalories'],
-      mealTransFat: map['mealTransFat'],
-      mealCholesterol: map['mealCholesterol'],
-      mealSodium: map['mealSodium'],
-      mealTotalCarbs: map['mealTotalCarbs'],
-      mealProtein: map['mealProtein'],
-      mealVitaminA: map['mealVitaminA'],
-      mealVitaminC: map['mealVitaminC'],
-      mealCalcium: map['mealCalcium'],
-      mealIron: map['mealIron'],
-      mealEntryCreationDateTime: map['mealEntryCreationDateTime'],
+      map['barcode'],
+      Nutriments.fromJson(map['nutrients']),
+      map['productName'],
+      Product.fromJson(map['product']),
     );
   }
 

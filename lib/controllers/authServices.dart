@@ -5,8 +5,6 @@ import 'package:workify/controllers/currentUser.dart';
 import 'package:workify/controllers/currentUserNutrition.dart';
 import 'package:workify/models/userAddWorkout.dart';
 import 'package:workify/models/userAddWorkoutDetails.dart';
-import 'package:workify/models/userAddedMealEntry.dart';
-import 'package:intl/intl.dart';
 
 class AuthServices extends ChangeNotifier {
   bool userLoggedIn = false;
@@ -20,8 +18,7 @@ class AuthServices extends ChangeNotifier {
 
   Future<String> signIn({email: String, password: String}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       userLoggedIn = true;
       userUID = _firebaseAuth.currentUser!.uid;
       await getUserInfo(userUID: userUID);
@@ -36,8 +33,7 @@ class AuthServices extends ChangeNotifier {
 
   Future<String> signUp({email: String, password: String}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       userLoggedIn = true;
       userUID = _firebaseAuth.currentUser!.uid;
       return "Signed Up";
@@ -50,11 +46,7 @@ class AuthServices extends ChangeNotifier {
   Future<void> getUserInfo({userUID: String}) async {
     print('START');
     print('User ID == $userUID');
-    await FirebaseFirestore.instance
-        .collection('UserInfo')
-        .doc(userUID)
-        .get()
-        .then((value) {
+    await FirebaseFirestore.instance.collection('UserInfo').doc(userUID).get().then((value) {
       CurrentUser.userName = value.data()!['userName'];
       CurrentUser.firstName = value.data()!['firstName'];
       CurrentUser.lastName = value.data()!['lastName'];
@@ -67,8 +59,7 @@ class AuthServices extends ChangeNotifier {
       CurrentUser.mainWorkoutGoal = value.data()!['mainWorkoutGoal'];
       CurrentUser.workoutFrequency = value.data()!['workoutFrequency'];
       CurrentUser.friends = value.data()!['friends'];
-      CurrentUser.workoutExperiencelevel =
-          value.data()!['workoutExperiencelevel'];
+      CurrentUser.workoutExperiencelevel = value.data()!['workoutExperiencelevel'];
     });
     print('END');
   }
@@ -99,52 +90,7 @@ class AuthServices extends ChangeNotifier {
     }
   }
 
-  static Future<String> addUserMealEntry({
-    mealTitle: String,
-    mealCalories: int,
-    mealTransFat: int,
-    mealCholesterol: int,
-    mealSodium: int,
-    mealTotalCarbs: int,
-    mealProtein: int,
-    mealVitaminA: int,
-    mealVitaminC: int,
-    mealCalcium: int,
-    mealIron: int,
-  }) async {
-    try {
-      print('Start 2');
-      UserAddedMealEntry userAddedMealEntry = UserAddedMealEntry(
-        mealCalories: mealCalories,
-        mealTransFat: mealTransFat,
-        mealCholesterol: mealCholesterol,
-        mealSodium: mealSodium,
-        mealTotalCarbs: mealTotalCarbs,
-        mealProtein: mealProtein,
-        mealVitaminA: mealVitaminA,
-        mealVitaminC: mealVitaminC,
-        mealCalcium: mealCalcium,
-        mealIron: mealIron,
-        mealTitle: mealTitle,
-        mealEntryCreationDateTime:
-            DateFormat('MM-dd-yy').format(DateTime.now()),
-      );
-
-      await FirebaseFirestore.instance
-          .collection('UserInfo')
-          .doc(AuthServices.userUID)
-          .collection('UserAddedMeal')
-          .doc(mealTitle)
-          .set(userAddedMealEntry.toMap());
-      print('End 2');
-      return "Signed Up";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
-  }
-
-  static Future<String> addUserWorkoutDetails(
-      {workoutCategoryTitle: String}) async {
+  static Future<String> addUserWorkoutDetails({workoutCategoryTitle: String}) async {
     try {
       print('Start 2');
       UserAddWorkoutDetails addUserWorkoutDetails =
