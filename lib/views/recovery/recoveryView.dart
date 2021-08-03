@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
 
@@ -25,7 +26,7 @@ class RecoveryView extends StatelessWidget {
             children: [
               SizedBox(height: AppBar().preferredSize.height),
               Text(
-                'MY WORKOUTS',
+                'Recovery',
                 textScaleFactor: 1.4,
                 style: TextStyle(
                   color: Colors.black,
@@ -54,14 +55,14 @@ class RecoveryView extends StatelessWidget {
                   tabs: [
                     // first tab [you can add an icon using the icon property]
                     Tab(
-                      text: 'Friends',
+                      text: 'Upper',
                     ),
                     // second tab [you can add an icon using the icon property]
                     Tab(
-                      text: 'Trainers',
+                      text: 'Lower',
                     ),
                     Tab(
-                      text: 'Discover',
+                      text: 'Recommendation',
                     ),
                   ],
                 ),
@@ -72,7 +73,16 @@ class RecoveryView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: TabBarView(
                     children: [
-                      Text('data'),
+                      Column(
+                        children: [
+                          Text('Rec'),
+                          SvgPicture.asset(
+                            'assets/images/BodyRecovery/Back/Back_Of_Head.svg',
+                            fit: BoxFit.contain,
+                            color: Colors.red,
+                          )
+                        ],
+                      ),
                       Text('data'),
                       Text('data'),
                     ],

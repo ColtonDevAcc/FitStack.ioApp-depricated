@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/providers/nutritionState.dart';
 import 'package:workify/theme/theme.dart';
@@ -16,8 +15,6 @@ class MealPlanView extends StatelessWidget {
     int index = 0;
 
     double _screenHeight = MediaQuery.of(context).size.height;
-
-    var subject = BehaviorSubject<int>().done;
 
     double totalCalorie = 0;
     double totalCarbs = 0;
@@ -42,7 +39,7 @@ class MealPlanView extends StatelessWidget {
 
       var push = Provider.of<NutritionState>(context, listen: false);
 
-      if (subject == 'ConnectionState.done') {
+      if (state == 'ConnectionState.done') {
         print('Starting push');
         push.Calories = totalCalorie;
         push.Carbs = totalCarbs;
@@ -156,8 +153,7 @@ class MealPlanView extends StatelessWidget {
                     .doc(AuthServices.userUID)
                     .collection('UserEvents')
                     .doc('AddMealEvent')
-                    .collection(
-                        'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
+                    .collection('Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
@@ -191,7 +187,7 @@ class MealPlanView extends StatelessWidget {
 
                       updateCalorie(
                         calories: double.tryParse(data['energy_serving'] ?? '0') ?? 0.0,
-                        carbs: double.tryParse(data['carbohydrates_serving']) ?? 0.0,
+                        carbs: double.tryParse(data['carbohydrates_serving'] ?? '0') ?? 0.0,
                         fiber: double.tryParse(data['fiber_serving'] ?? '0') ?? 0.0,
                         sugar: double.tryParse(data['sugars_serving'] ?? '0') ?? 0.0,
                         protein: double.tryParse(data['proteins_serving'] ?? '0') ?? 0.0,
@@ -218,9 +214,7 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: data['proteins_serving'] != null
-                                      ? '${data['proteins_serving']}g\n'
-                                      : '?',
+                                  text: data['proteins_serving'] != null ? '${data['proteins_serving']}g\n' : '0\n',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(
@@ -235,7 +229,7 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: '${data['energy_serving']}\n',
+                                  text: data['energy_serving'] != null ? '${data['energy_serving']}\n' : '0\n',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(
