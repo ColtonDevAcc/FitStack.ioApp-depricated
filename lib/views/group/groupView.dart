@@ -118,7 +118,8 @@ class _GroupViewState extends State<GroupView> {
 
                                               print(friendRequest);
                                             },
-                                            child: friendTab(name: data['email']));
+                                            child:
+                                                friendTab(name: data['email'], tags: data['tags']));
                                       }).toList(),
                                     ),
                                   ],
@@ -248,7 +249,7 @@ class _GroupViewState extends State<GroupView> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: ListTile(
-          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          visualDensity: VisualDensity(horizontal: -4, vertical: -4),
           leading: CircleAvatar(),
           title: Text(
             name,
@@ -256,14 +257,39 @@ class _GroupViewState extends State<GroupView> {
               color: Colors.black,
             ),
           ),
-          subtitle: Wrap(
-            children: newTag.map((e) {
-              return Chip(
-                label: Text(
-                  e.toString(),
-                ),
-              );
-            }).toList(),
+          subtitle: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: Transform(
+              transform: Matrix4.identity()..scale(0.8),
+              child: Wrap(
+                spacing: 2,
+                direction: Axis.horizontal,
+                children: newTag.map((e) {
+                  return Chip(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    elevation: 3,
+                    avatar: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: Icon(
+                        LineIcons.user,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    backgroundColor: Apptheme.mainCardColor,
+                    label: Text(
+                      e,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           ),
           trailing: Icon(LineIcons.arrowRight),
         ),

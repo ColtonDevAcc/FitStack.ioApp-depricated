@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:workify/controllers/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/saved/savedMealPlan.dart';
+import 'package:workify/views/saved/workoutView.dart';
 
 class SavedView extends StatefulWidget {
   const SavedView({Key? key}) : super(key: key);
@@ -76,11 +79,65 @@ class _SavedViewState extends State<SavedView> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TabBarView(
+                    child: Column(
                       children: [
-                        savedWorkouts(context: context),
-                        SavedMealPlanView(),
-                        Text('data'),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              ListView(
+                                padding: EdgeInsets.zero,
+                                children: [
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('UserInfo')
+                                        .doc(AuthServices.userUID)
+                                        .collection('UserAddedWorkout')
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Text('Something went wrong');
+                                      }
+
+                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                        return Text("Loading");
+                                      }
+
+                                      return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: snapshot.data!.docs.map(
+                                            (DocumentSnapshot document) {
+                                              Map<String, dynamic> data =
+                                                  document.data() as Map<String, dynamic>;
+
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => WorkoutView(
+                                                        title: data['userAddedWorkoutTitle'],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: savedWorkoutCards(
+                                                  context: context,
+                                                  title: data['userAddedWorkoutTitle'],
+                                                  description: data['userAddedWorkoutDescription'],
+                                                ),
+                                              );
+                                            },
+                                          ).toList());
+                                    },
+                                  ),
+                                ],
+                              ),
+                              SavedMealPlanView(),
+                              Text('data'),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -92,19 +149,7 @@ class _SavedViewState extends State<SavedView> {
   }
 }
 
-savedWorkouts({context: BuildContext}) {
-  return ListView(
-    padding: EdgeInsets.zero,
-    shrinkWrap: true,
-    children: [
-      savedWorkoutCards(context: context),
-      savedWorkoutCards(context: context),
-      savedWorkoutCards(context: context),
-    ],
-  );
-}
-
-savedWorkoutCards({context: BuildContext}) {
+savedWorkoutCards({context: BuildContext, title: String, description: String}) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
     child: ClipRRect(
@@ -156,14 +201,14 @@ savedWorkoutCards({context: BuildContext}) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Fat Burn Max',
+                        title,
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: 2),
-                      Text('It is a long established fact that a'),
+                      Text(description),
                     ],
                   ),
                 ),

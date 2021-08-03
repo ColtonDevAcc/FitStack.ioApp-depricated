@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:workify/controllers/authServices.dart';
 import 'package:workify/providers/nutritionState.dart';
 import 'package:workify/theme/theme.dart';
@@ -16,6 +16,9 @@ class MealPlanView extends StatelessWidget {
     int index = 0;
 
     double _screenHeight = MediaQuery.of(context).size.height;
+
+    var subject = BehaviorSubject<int>().done;
+
     double totalCalorie = 0;
     double totalCarbs = 0;
     double totalSugar = 0;
@@ -39,7 +42,7 @@ class MealPlanView extends StatelessWidget {
 
       var push = Provider.of<NutritionState>(context, listen: false);
 
-      if (state == 'ConnectionState.done') {
+      if (subject == 'ConnectionState.done') {
         print('Starting push');
         push.Calories = totalCalorie;
         push.Carbs = totalCarbs;
@@ -157,15 +160,15 @@ class MealPlanView extends StatelessWidget {
                         'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.active) {
-                    SchedulerBinding.instance!.addPostFrameCallback((_) => updateCalorie(
-                          state: 'ConnectionState.done',
-                          calories: 0.0,
-                          carbs: 0.0,
-                          fiber: 0.0,
-                          sugar: 0.0,
-                          protein: 0.0,
-                        ));
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    updateCalorie(
+                      calories: 0.0,
+                      carbs: 0.0,
+                      fiber: 0.0,
+                      sugar: 0.0,
+                      protein: 0.0,
+                      state: "done",
+                    );
                   }
                   if (snapshot.hasError) {
                     return Text('Something went wrong');

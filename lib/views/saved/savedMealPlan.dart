@@ -33,252 +33,260 @@ class SavedMealPlanView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'MealPlan',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                CircleAvatar(
-                  backgroundColor: Apptheme.mainCardColor,
-                  child: Icon(
-                    LineIcons.heartAlt,
-                    color: Colors.red,
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'MealPlan',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                )
-              ],
+                  CircleAvatar(
+                    backgroundColor: Apptheme.mainCardColor,
+                    child: Icon(
+                      LineIcons.heartAlt,
+                      color: Colors.red,
+                    ),
+                  )
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-              ],
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-              ],
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: '45\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Eggs!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-              ],
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: '45\n',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Eggs!',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
