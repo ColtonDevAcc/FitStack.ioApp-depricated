@@ -1,5 +1,3 @@
-import 'package:workify/controllers/currentUser.dart';
-
 class CurrentUserNutrition {
   static double? userCurrentCalorieIntake;
   static double? userCurrentProteinIntake;
