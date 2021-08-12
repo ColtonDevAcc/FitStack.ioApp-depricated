@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/widgets/workoutCatTypesButton.dart';
 
@@ -43,8 +43,7 @@ class AddWorkoutFAB extends StatelessWidget {
   addWorkoutTags() {
     return TextFieldTags(
       tagsStyler: TagsStyler(
-          tagTextStyle:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          tagTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           tagDecoration: BoxDecoration(
             color: Apptheme.mainCardColor,
             borderRadius: BorderRadius.circular(8.0),
@@ -107,23 +106,19 @@ class AddWorkoutFAB extends StatelessWidget {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(LineIcons.times,
-                              color: Apptheme.mainTextColor)),
-                      Text('Create Your Workout',
-                          style: TextStyle(color: Apptheme.mainTextColor)),
+                          child: Icon(LineIcons.times, color: Apptheme.mainTextColor)),
+                      Text('Create Your Workout', style: TextStyle(color: Apptheme.mainTextColor)),
                       GestureDetector(
                           onTap: () {
                             print('Add Image');
                           },
-                          child: Icon(LineIcons.camera,
-                              color: Apptheme.mainTextColor)),
+                          child: Icon(LineIcons.camera, color: Apptheme.mainTextColor)),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 13, 0, 13),
                     child: Text('Workout Type',
-                        textScaleFactor: 1.2,
-                        style: TextStyle(color: Apptheme.mainTextColor)),
+                        textScaleFactor: 1.2, style: TextStyle(color: Apptheme.mainTextColor)),
                   ),
                   Row(
                     children: [
@@ -179,14 +174,12 @@ class AddWorkoutFAB extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                       child: Text('Workout Title',
-                          textScaleFactor: 1.2,
-                          style: TextStyle(color: Apptheme.mainTextColor))),
+                          textScaleFactor: 1.2, style: TextStyle(color: Apptheme.mainTextColor))),
                   TextField(
                     controller: workoutTitleTextController,
                     decoration: (InputDecoration(
                       hintText: 'Workout 1',
-                      hintStyle: TextStyle(
-                          color: Apptheme.mainTextColor.withOpacity(0.2)),
+                      hintStyle: TextStyle(color: Apptheme.mainTextColor.withOpacity(0.2)),
                       fillColor: Apptheme.mainTextColor,
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Apptheme.mainTextColor),
@@ -202,14 +195,12 @@ class AddWorkoutFAB extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 10),
                       child: Text('Workout Title',
-                          textScaleFactor: 1.2,
-                          style: TextStyle(color: Apptheme.mainTextColor))),
+                          textScaleFactor: 1.2, style: TextStyle(color: Apptheme.mainTextColor))),
                   TextField(
                     controller: workoutDescriptionTextController,
                     decoration: (InputDecoration(
                       hintText: 'Brief description',
-                      hintStyle: TextStyle(
-                          color: Apptheme.mainTextColor.withOpacity(0.2)),
+                      hintStyle: TextStyle(color: Apptheme.mainTextColor.withOpacity(0.2)),
                       fillColor: Apptheme.mainTextColor,
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Apptheme.mainTextColor),
@@ -233,13 +224,12 @@ class AddWorkoutFAB extends StatelessWidget {
                   addWorkoutTags(),
                   ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            Apptheme.mainButonColor.withOpacity(.2))),
+                        backgroundColor:
+                            MaterialStateProperty.all(Apptheme.mainButonColor.withOpacity(.2))),
                     onPressed: () async {
                       //print
                       await AuthServices.addUserWorkout(
-                        workoutDescription:
-                            workoutDescriptionTextController.text,
+                        workoutDescription: workoutDescriptionTextController.text,
                         workoutTags: workoutTags,
                         workoutTitle: workoutTitleTextController.text,
                         workoutType: workoutType,

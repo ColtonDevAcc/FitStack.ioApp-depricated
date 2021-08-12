@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
 class InboxView extends StatelessWidget {
@@ -50,11 +50,9 @@ class InboxView extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             shrinkWrap: true,
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data =
-                  document.data() as Map<String, dynamic>;
+              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-              return friendTab(
-                  name: '${data['userName']}', substring: 'Friend Request');
+              return friendTab(name: '${data['userName']}', substring: 'Friend Request');
             }).toList(),
           );
         },

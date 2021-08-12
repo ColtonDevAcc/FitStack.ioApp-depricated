@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workify/providers/nutritionState.dart';
+import 'package:workify/providers/nutritionProvider.dart';
 import 'package:workify/providers/themeProvider.dart';
+import 'package:workify/providers/userProvider.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
-import 'controllers/authServices.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ Future<void> main() async {
         initialData: null,
       ),
       ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider())
     ],
     child: MyApp(),
   ));

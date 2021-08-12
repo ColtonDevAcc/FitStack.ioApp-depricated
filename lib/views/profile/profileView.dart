@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/authServices.dart';
-import 'package:workify/controllers/currentUser.dart';
+import 'package:provider/provider.dart';
+import 'package:workify/providers/userProvider.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/profile/inboxView.dart';
 
@@ -12,6 +13,8 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context);
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -54,8 +57,7 @@ class ProfileView extends StatelessWidget {
                               .doc('relationshipRequest')
                               .collection('friendRequest')
                               .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             return Text("${snapshot.data!.docs.length}");
                           },
                         )),
@@ -96,8 +98,7 @@ class ProfileView extends StatelessWidget {
                   height: screenHeight * .1,
                   width: screenHeight * .1,
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 1, color: Apptheme.mainButonColor),
+                    border: Border.all(width: 1, color: Apptheme.mainButonColor),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   padding: EdgeInsets.all(5),
@@ -111,7 +112,7 @@ class ProfileView extends StatelessWidget {
                   maxLines: 3,
                   softWrap: true,
                   text: TextSpan(
-                    text: ' ${CurrentUser.userName}\n',
+                    text: ' ${user.userName}\n',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -131,7 +132,7 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: '${CurrentUser.nationality}',
+                        text: '${user.nationality}',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.normal,

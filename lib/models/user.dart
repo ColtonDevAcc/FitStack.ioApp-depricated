@@ -52,7 +52,7 @@ class FirebaseUser {
     };
   }
 
-  factory FirebaseUser.fromMap(Map<String, dynamic> map) {
+  factory FirebaseUser.fromMap(Map<dynamic, dynamic> map) {
     return FirebaseUser(
       tags: map['tags'],
       userName: map['userName'],
@@ -75,13 +75,3 @@ class FirebaseUser {
 
   factory FirebaseUser.fromJson(String source) => FirebaseUser.fromMap(json.decode(source));
 }
-
-//  Map<String, dynamic> toJson() => {
-//       'userName': userName,
-//       'firstName': firstName,
-//       'lastName': lastName,
-//       'heightInches': height,
-//       'nationality': nationality,
-//       'email': email,
-//       'admin': admin,
-//     };

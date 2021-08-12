@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/authServices.dart';
-import 'package:workify/providers/nutritionState.dart';
+import 'package:workify/providers/nutritionProvider.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/createMealPlanView.dart';
 import 'package:provider/provider.dart';
@@ -153,7 +153,8 @@ class MealPlanView extends StatelessWidget {
                     .doc(AuthServices.userUID)
                     .collection('UserEvents')
                     .doc('AddMealEvent')
-                    .collection('Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
+                    .collection(
+                        'Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')
                     .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
@@ -214,7 +215,9 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: data['proteins_serving'] != null ? '${data['proteins_serving']}g\n' : '0\n',
+                                  text: data['proteins_serving'] != null
+                                      ? '${data['proteins_serving']}g\n'
+                                      : '0\n',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(
@@ -229,7 +232,9 @@ class MealPlanView extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Text.rich(
                                 TextSpan(
-                                  text: data['energy_serving'] != null ? '${data['energy_serving']}\n' : '0\n',
+                                  text: data['energy_serving'] != null
+                                      ? '${data['energy_serving']}\n'
+                                      : '0\n',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   children: [
                                     TextSpan(

@@ -8,7 +8,7 @@ import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan/qrCodeScanner.dart';
 

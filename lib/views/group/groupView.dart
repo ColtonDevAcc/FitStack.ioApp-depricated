@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/currentUser.dart';
+import 'package:provider/provider.dart';
+import 'package:workify/providers/userProvider.dart';
 import 'package:workify/theme/theme.dart';
 
 class GroupView extends StatefulWidget {
@@ -17,6 +18,8 @@ class _GroupViewState extends State<GroupView> {
   String searchValue = '';
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -195,7 +198,7 @@ class _GroupViewState extends State<GroupView> {
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('UserInfo')
-                                .where('friends', arrayContains: CurrentUser.email)
+                                .where('friends', arrayContains: user.email)
                                 .snapshots(),
                             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {

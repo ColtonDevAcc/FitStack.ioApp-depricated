@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/authServices.dart';
 import 'package:workify/models/user.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
 
@@ -13,8 +13,7 @@ class SignUpWandNDetails extends StatefulWidget {
   final email;
   final password;
 
-  const SignUpWandNDetails(
-      {Key? key, this.firstName, this.lastName, this.email, this.password})
+  const SignUpWandNDetails({Key? key, this.firstName, this.lastName, this.email, this.password})
       : super(key: key);
 
   @override
@@ -28,8 +27,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
   int workoutExperiencelevelSelectedButton = 0;
 
   //text controllers start
-  TextEditingController calorieConsumptionTextController =
-      TextEditingController();
+  TextEditingController calorieConsumptionTextController = TextEditingController();
   TextEditingController heightTextController = TextEditingController();
   TextEditingController weightTextController = TextEditingController();
   TextEditingController nationalityTextController = TextEditingController();
@@ -129,12 +127,10 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                     height: double.tryParse(heightTextController.text)!,
                     age: int.tryParse(ageTextController.text)!,
                     weight: double.tryParse(weightTextController.text)!,
-                    mainWorkoutGoal:
-                        mainWorkoutGoalList[workoutGoalSelectedButton],
-                    workoutFrequency:
-                        workoutFrequencyList[workoutFrequencySelectedButton],
-                    workoutExperiencelevel: liftingExperienceList[
-                        workoutExperiencelevelSelectedButton],
+                    mainWorkoutGoal: mainWorkoutGoalList[workoutGoalSelectedButton],
+                    workoutFrequency: workoutFrequencyList[workoutFrequencySelectedButton],
+                    workoutExperiencelevel:
+                        liftingExperienceList[workoutExperiencelevelSelectedButton],
                     gender: 'Male',
                   );
                   await FirebaseFirestore.instance
@@ -162,9 +158,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        taskIndex + 1 != onBoardingTask.length
-                            ? 'Continue'
-                            : 'Create your account',
+                        taskIndex + 1 != onBoardingTask.length ? 'Continue' : 'Create your account',
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(width: 5),
@@ -449,9 +443,8 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutGoalSelectedButton == 1
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
+                color:
+                    workoutGoalSelectedButton == 1 ? Apptheme.mainButonColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 300,
@@ -460,9 +453,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                 child: Text(
                   'I want to get stronger',
                   style: TextStyle(
-                    color: workoutGoalSelectedButton == 1
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
+                    color: workoutGoalSelectedButton == 1 ? Colors.white : Apptheme.mainButonColor,
                   ),
                 ),
               ),
@@ -481,9 +472,8 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutGoalSelectedButton == 2
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
+                color:
+                    workoutGoalSelectedButton == 2 ? Apptheme.mainButonColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 300,
@@ -492,9 +482,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                 child: Text(
                   'I want to lose weight',
                   style: TextStyle(
-                    color: workoutGoalSelectedButton == 2
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
+                    color: workoutGoalSelectedButton == 2 ? Colors.white : Apptheme.mainButonColor,
                   ),
                 ),
               ),
@@ -513,9 +501,8 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutGoalSelectedButton == 3
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
+                color:
+                    workoutGoalSelectedButton == 3 ? Apptheme.mainButonColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 300,
@@ -524,9 +511,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                 child: Text(
                   'I want to gain more muscle',
                   style: TextStyle(
-                    color: workoutGoalSelectedButton == 3
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
+                    color: workoutGoalSelectedButton == 3 ? Colors.white : Apptheme.mainButonColor,
                   ),
                 ),
               ),
@@ -545,9 +530,8 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutGoalSelectedButton == 4
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
+                color:
+                    workoutGoalSelectedButton == 4 ? Apptheme.mainButonColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 300,
@@ -556,9 +540,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                 child: Text(
                   'Just to improve my health',
                   style: TextStyle(
-                    color: workoutGoalSelectedButton == 4
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
+                    color: workoutGoalSelectedButton == 4 ? Colors.white : Apptheme.mainButonColor,
                   ),
                 ),
               ),

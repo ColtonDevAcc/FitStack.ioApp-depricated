@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:workify/controllers/currentUser.dart';
+import 'package:provider/provider.dart';
+import 'package:workify/providers/userProvider.dart';
 import 'package:workify/theme/theme.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,6 +14,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context);
+
     double _screenHeight = MediaQuery.of(context).size.height.toDouble();
     TextEditingController _searchcontroller = TextEditingController();
 
@@ -37,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
                                 style: TextStyle(color: Apptheme.mainTextColor),
                               ),
                               Text(
-                                CurrentUser.firstName.toString(),
+                                user.firstName.toString(),
                                 style: TextStyle(
                                     color: Apptheme.mainTextColor,
                                     fontWeight: FontWeight.bold,
@@ -46,8 +49,7 @@ class _HomeViewState extends State<HomeView> {
                             ],
                           ),
                           CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/RopeSwings.png'),
+                            backgroundImage: AssetImage('assets/images/RopeSwings.png'),
                           )
                         ],
                       ),
@@ -80,14 +82,10 @@ class _HomeViewState extends State<HomeView> {
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      recommendationTab(
-                          text: "Weight Traning", icon: Icons.fitness_center),
-                      recommendationTab(
-                          text: "Yoga", icon: Icons.self_improvement),
-                      recommendationTab(
-                          text: "Cardio", icon: Icons.directions_run),
-                      recommendationTab(
-                          text: "Meal Plan", icon: Icons.restaurant),
+                      recommendationTab(text: "Weight Traning", icon: Icons.fitness_center),
+                      recommendationTab(text: "Yoga", icon: Icons.self_improvement),
+                      recommendationTab(text: "Cardio", icon: Icons.directions_run),
+                      recommendationTab(text: "Meal Plan", icon: Icons.restaurant),
                     ],
                   ),
                 ),
@@ -104,8 +102,7 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Featured',
                                       textScaleFactor: 1.3,
@@ -114,14 +111,12 @@ class _HomeViewState extends State<HomeView> {
                                           color: Apptheme.mainTextColor)),
                                   Text('Show all',
                                       textScaleFactor: .7,
-                                      style: TextStyle(
-                                          color: Apptheme.mainTextColor))
+                                      style: TextStyle(color: Apptheme.mainTextColor))
                                 ],
                               ),
                               featuredCard(context: context),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Trending',
                                       textScaleFactor: 1.3,
@@ -130,8 +125,7 @@ class _HomeViewState extends State<HomeView> {
                                           color: Apptheme.mainTextColor)),
                                   Text('Show all',
                                       textScaleFactor: .7,
-                                      style: TextStyle(
-                                          color: Apptheme.mainTextColor))
+                                      style: TextStyle(color: Apptheme.mainTextColor))
                                 ],
                               ),
                               SizedBox(height: 10),
@@ -181,9 +175,8 @@ class _HomeViewState extends State<HomeView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Apptheme.mainCardColor),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
         height: 340,
         width: MediaQuery.of(context).size.width.toDouble(),
         child: Column(
@@ -206,8 +199,7 @@ class _HomeViewState extends State<HomeView> {
               subtitle: Text('8 Exercieses   -   1 hr 45 min',
                   style: TextStyle(color: Apptheme.mainTextColor)),
               trailing: ElevatedButton.icon(
-                style:
-                    ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
+                style: ElevatedButton.styleFrom(primary: Apptheme.mainButonColor),
                 onPressed: () {},
                 icon: Text('Start Now'),
                 label: Icon(
@@ -226,9 +218,8 @@ class _HomeViewState extends State<HomeView> {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Apptheme.mainCardColor),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(20), color: Apptheme.mainCardColor),
         child: ListTile(
           title: Text('Weightlifting'),
           leading: ClipRRect(

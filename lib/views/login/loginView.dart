@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/models/user.dart';
+import 'package:workify/providers/userProvider.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mainView.dart';
 import 'package:workify/views/signUp/signUpView.dart';
@@ -77,9 +80,7 @@ class _LoginViewState extends State<LoginView> {
                           Text(
                             'Username',
                             textScaleFactor: 1.4,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 15,
@@ -105,9 +106,7 @@ class _LoginViewState extends State<LoginView> {
                           Text(
                             'Password',
                             textScaleFactor: 1.4,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 15,
@@ -148,8 +147,7 @@ class _LoginViewState extends State<LoginView> {
                                     ..onTap = () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SignUpView()),
+                                        MaterialPageRoute(builder: (context) => SignUpView()),
                                       );
                                     },
                                 ),
@@ -163,34 +161,43 @@ class _LoginViewState extends State<LoginView> {
                                   color: Apptheme.secondaryAccent,
                                 );
                               });
-                              print(emailTextController.text.trim());
-                              print(passwordTextController.text.trim());
 
                               await context.read<AuthServices>().signIn(
                                     email: emailTextController.text.trim(),
-                                    password:
-                                        passwordTextController.text.trim(),
+                                    password: passwordTextController.text.trim(),
                                   );
-                              context.read<AuthServices>().userLoggedIn
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChangeNotifierProvider(
-                                          child: MainView(),
-                                          create: (context) => AuthServices(
-                                              FirebaseAuth.instance),
-                                        ),
+
+                              if (context.read<AuthServices>().userLoggedIn == true) {
+                                try {
+                                  var userMap = await FirebaseFirestore.instance
+                                      .collection('UserInfo')
+                                      .doc(AuthServices.userUID)
+                                      .get();
+
+                                  context
+                                      .read<UserProvider>()
+                                      .setUserModel(firebaseUserSnapShot: userMap.data());
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChangeNotifierProvider(
+                                        child: MainView(),
+                                        create: (context) => AuthServices(FirebaseAuth.instance),
                                       ),
-                                    )
-                                  // ignore: unnecessary_statements
-                                  : null;
-                              setState(() {
-                                loginWidget = Text(
-                                  'Login',
-                                  style: TextStyle(color: Colors.white),
-                                );
-                              });
+                                    ),
+                                  );
+                                } catch (e) {
+                                  print(e);
+                                }
+                              } else {
+                                setState(() {
+                                  loginWidget = Text(
+                                    'Login',
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                });
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -217,8 +224,7 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                                 SizedBox(width: 8),
                                 CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromRGBO(254, 78, 78, 1),
+                                  backgroundColor: Color.fromRGBO(254, 78, 78, 1),
                                   child: SvgPicture.asset(
                                     'assets/images/GoogleCircle.svg',
                                   ),

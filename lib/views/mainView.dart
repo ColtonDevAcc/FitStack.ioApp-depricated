@@ -5,7 +5,8 @@ import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/currentUser.dart';
+import 'package:provider/provider.dart';
+import 'package:workify/providers/userProvider.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/group/groupView.dart';
 import 'package:workify/views/mealPlan/mealPlanView.dart';
@@ -35,6 +36,8 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context);
+
     double _screenHeight = MediaQuery.of(context).size.width.toDouble();
 
     Size size = MediaQuery.of(context).size;
@@ -82,7 +85,7 @@ class _MainViewState extends State<MainView> {
                     RotatedBox(
                       quarterTurns: 3,
                       child: Text(
-                        CurrentUser.userName,
+                        user.userName ?? 'null',
                         style:
                             TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
                       ),

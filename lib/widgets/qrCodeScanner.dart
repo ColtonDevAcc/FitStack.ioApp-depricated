@@ -1,13 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
 class QRCodeScanner extends StatefulWidget {
@@ -92,8 +91,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
               productResult == null
                   ? Text('Scan the product barcode')
                   : Text(
-                      'Product Name: ' +
-                          productResult!.product!.productName.toString(),
+                      'Product Name: ' + productResult!.product!.productName.toString(),
                     ),
             ],
           ),
@@ -131,10 +129,10 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+    var scanArea =
+        (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400)
+            ? 150.0
+            : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
@@ -172,12 +170,11 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
 
   Future<ProductResult?> getProductResult({qrCode: String}) async {
     log('starting ===================== OPENAPITRACK');
-    String resultString =
-        '01223004'; //! TODO: change this to result!.code.toString()
-    var newProductResult = await OpenFoodAPIClient.getProduct(
-        ProductQueryConfiguration(resultString,
-            language: OpenFoodFactsLanguage.ENGLISH,
-            fields: [ProductField.ALL]));
+    String resultString = '01223004'; //! TODO: change this to result!.code.toString()
+    var newProductResult = await OpenFoodAPIClient.getProduct(ProductQueryConfiguration(
+        resultString,
+        language: OpenFoodFactsLanguage.ENGLISH,
+        fields: [ProductField.ALL]));
 
     log('ending ===================== OPENAPITRACK');
 

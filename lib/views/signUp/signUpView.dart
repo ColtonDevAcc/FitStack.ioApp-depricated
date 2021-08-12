@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/authServices.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/signUp/signUpWandNDetails.dart';
 
@@ -20,8 +20,7 @@ class _SigUupViewState extends State<SignUpView> {
   TextEditingController lastNameTextController = new TextEditingController();
   TextEditingController emailTextController = new TextEditingController();
   TextEditingController passwordTextController = new TextEditingController();
-  TextEditingController passwordConfirmationTextController =
-      new TextEditingController();
+  TextEditingController passwordConfirmationTextController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +71,7 @@ class _SigUupViewState extends State<SignUpView> {
                           Text(
                             'First Name',
                             textScaleFactor: 1.1,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10,
@@ -100,9 +97,7 @@ class _SigUupViewState extends State<SignUpView> {
                           Text(
                             'Last Name',
                             textScaleFactor: 1.1,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 15,
@@ -128,9 +123,7 @@ class _SigUupViewState extends State<SignUpView> {
                           Text(
                             'Email',
                             textScaleFactor: 1.1,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10,
@@ -156,9 +149,7 @@ class _SigUupViewState extends State<SignUpView> {
                           Text(
                             'Password',
                             textScaleFactor: 1.1,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10,
@@ -185,9 +176,7 @@ class _SigUupViewState extends State<SignUpView> {
                           Text(
                             'Confirm password',
                             textScaleFactor: 1.1,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10,
@@ -235,8 +224,7 @@ class _SigUupViewState extends State<SignUpView> {
                               //! Sign the user up with the current info and push the extra info into firestore
                               if (passwordTextController.text ==
                                   passwordConfirmationTextController.text) {
-                                await AuthServices(FirebaseAuth.instance)
-                                    .signUp(
+                                await AuthServices(FirebaseAuth.instance).signUp(
                                   email: emailTextController.text,
                                   password: passwordTextController.text,
                                 );
@@ -247,15 +235,12 @@ class _SigUupViewState extends State<SignUpView> {
                                       firstName: firstNameTextController.text,
                                       lastName: lastNameTextController.text,
                                       email: emailTextController.text,
-                                      password:
-                                          passwordConfirmationTextController
-                                              .text,
+                                      password: passwordConfirmationTextController.text,
                                     ),
                                   ),
                                 );
                               } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             },
                             child: Container(
@@ -296,8 +281,7 @@ class _SigUupViewState extends State<SignUpView> {
                                 ),
                                 SizedBox(width: 8),
                                 CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromRGBO(254, 78, 78, 1),
+                                  backgroundColor: Color.fromRGBO(254, 78, 78, 1),
                                   child: SvgPicture.asset(
                                     'assets/images/GoogleCircle.svg',
                                   ),
