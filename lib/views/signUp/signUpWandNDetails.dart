@@ -83,9 +83,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: _screenHeight * .4,
-              width: _screenWidth - 30,
+            Expanded(
               child: onBoardingTask[taskIndex],
             ),
             Spacer(flex: 10),
