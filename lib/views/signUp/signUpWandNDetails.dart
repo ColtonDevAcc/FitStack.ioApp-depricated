@@ -78,102 +78,109 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(13, 0, 10, 0),
               child: onBoardingTask[taskIndex],
             ),
-            Spacer(flex: 10),
-            TextButton(
-              onPressed: () async {
-                //! Sign the user up with the current info and push the extra info into firestore
-                if (taskIndex + 1 != onBoardingTask.length) {
-                  setState(() {
-                    taskIndex++;
-                  });
-                } else {
-                  List<String> mainWorkoutGoalList = [
-                    'I want to get stronger',
-                    'I want to lose weight',
-                    'I want to gain weight',
-                    'Just to improve my health'
-                  ];
-                  List<String> workoutFrequencyList = [
-                    'Daily',
-                    '1 - 2 days a week',
-                    '3 - 4 days a week',
-                    '5 - 6 days a week'
-                  ];
-                  List<String> liftingExperienceList = [
-                    'Beginner',
-                    'Moderate',
-                    'Experienced',
-                    'Professinal'
-                  ];
+          ),
+          Container(
+            height: 80,
+            width: double.infinity,
+            decoration: BoxDecoration(color: Apptheme.mainButonColor),
+            child: Center(
+              child: TextButton(
+                onPressed: () async {
+                  //! Sign the user up with the current info and push the extra info into firestore
+                  if (taskIndex + 1 != onBoardingTask.length) {
+                    setState(() {
+                      taskIndex++;
+                    });
+                  } else {
+                    List<String> mainWorkoutGoalList = [
+                      'I want to get stronger',
+                      'I want to lose weight',
+                      'I want to gain weight',
+                      'Just to improve my health'
+                    ];
+                    List<String> workoutFrequencyList = [
+                      'Daily',
+                      '1 - 2 days a week',
+                      '3 - 4 days a week',
+                      '5 - 6 days a week'
+                    ];
+                    List<String> liftingExperienceList = [
+                      'Beginner',
+                      'Moderate',
+                      'Experienced',
+                      'Professinal'
+                    ];
 
-                  //! NEED TO IMPLEMENT TO AUTH USER
-                  var user = new FirebaseUser(
-                    userName: 'this.widget.userName!',
-                    firstName: this.widget.firstName!,
-                    lastName: this.widget.lastName!,
-                    nationality: nationalityTextController.text,
-                    email: this.widget.email!,
-                    admin: false,
-                    height: double.tryParse(heightTextController.text)!,
-                    age: int.tryParse(ageTextController.text)!,
-                    weight: double.tryParse(weightTextController.text)!,
-                    mainWorkoutGoal: mainWorkoutGoalList[workoutGoalSelectedButton],
-                    workoutFrequency: workoutFrequencyList[workoutFrequencySelectedButton],
-                    workoutExperiencelevel:
-                        liftingExperienceList[workoutExperiencelevelSelectedButton],
-                    gender: 'Male',
-                  );
-                  await FirebaseFirestore.instance
-                      .collection('UserInfo')
-                      .doc(AuthServices.userUID)
-                      .set(user.toMap());
+                    //! NEED TO IMPLEMENT TO AUTH USER
+                    var user = new FirebaseUser(
+                      userName: 'this.widget.userName!',
+                      firstName: this.widget.firstName!,
+                      lastName: this.widget.lastName!,
+                      nationality: nationalityTextController.text,
+                      email: this.widget.email!,
+                      admin: false,
+                      height: double.tryParse(heightTextController.text)!,
+                      age: int.tryParse(ageTextController.text)!,
+                      weight: double.tryParse(weightTextController.text)!,
+                      mainWorkoutGoal: mainWorkoutGoalList[workoutGoalSelectedButton],
+                      workoutFrequency: workoutFrequencyList[workoutFrequencySelectedButton],
+                      workoutExperiencelevel:
+                          liftingExperienceList[workoutExperiencelevelSelectedButton],
+                      gender: 'Male',
+                    );
+                    await FirebaseFirestore.instance
+                        .collection('UserInfo')
+                        .doc(AuthServices.userUID)
+                        .set(user.toMap());
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginView(),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginView(),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Apptheme.mainButonColor,
+                  ),
+                  width: _screenWidth,
+                  height: _screenHeight * .07,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          taskIndex + 1 != onBoardingTask.length
+                              ? 'Continue'
+                              : 'Create your account',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(width: 5),
+                        Icon(
+                          taskIndex + 1 != onBoardingTask.length
+                              ? LineIcons.arrowRight
+                              : LineIcons.check,
+                          color: Colors.white,
+                        ),
+                      ],
                     ),
-                  );
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Apptheme.mainButonColor,
-                ),
-                width: _screenWidth,
-                height: _screenHeight * .07,
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        taskIndex + 1 != onBoardingTask.length ? 'Continue' : 'Create your account',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(width: 5),
-                      Icon(
-                        taskIndex + 1 != onBoardingTask.length
-                            ? LineIcons.arrowRight
-                            : LineIcons.check,
-                        color: Colors.white,
-                      ),
-                    ],
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 10),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -229,14 +236,13 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             ),
           ),
         ),
+        Spacer(flex: 2),
       ],
     );
   }
 
   Column workoutFrequency() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -254,146 +260,131 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Enter how often you workout',
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.black.withOpacity(.7),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Enter how often you workout',
+                textScaleFactor: 1.3,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(.7),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         Spacer(flex: 1),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutFrequencySelectedButton = 1;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutFrequencySelectedButton == 1
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              workoutFrequencySelectedButton = 1;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Apptheme.mainButonColor),
+              color: workoutFrequencySelectedButton == 1
+                  ? Apptheme.mainButonColor
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 300,
+            height: 50,
+            child: Center(
+              child: Text(
+                'Daily',
+                style: TextStyle(
+                  color:
+                      workoutFrequencySelectedButton == 1 ? Colors.white : Apptheme.mainButonColor,
+                ),
               ),
-              width: 300,
-              height: 50,
-              child: Center(
-                child: Text(
-                  'Daily',
-                  style: TextStyle(
-                    color: workoutFrequencySelectedButton == 1
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
-                  ),
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              workoutFrequencySelectedButton = 2;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Apptheme.mainButonColor),
+              color: workoutFrequencySelectedButton == 2
+                  ? Apptheme.mainButonColor
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 300,
+            height: 50,
+            child: Center(
+              child: Text(
+                '1 - 2 days a week',
+                style: TextStyle(
+                  color:
+                      workoutFrequencySelectedButton == 2 ? Colors.white : Apptheme.mainButonColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              workoutFrequencySelectedButton = 3;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Apptheme.mainButonColor),
+              color: workoutFrequencySelectedButton == 3
+                  ? Apptheme.mainButonColor
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 300,
+            height: 50,
+            child: Center(
+              child: Text(
+                '3 - 4 days a week',
+                style: TextStyle(
+                  color:
+                      workoutFrequencySelectedButton == 3 ? Colors.white : Apptheme.mainButonColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              workoutFrequencySelectedButton = 4;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Apptheme.mainButonColor),
+              color: workoutFrequencySelectedButton == 4
+                  ? Apptheme.mainButonColor
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 300,
+            height: 50,
+            child: Center(
+              child: Text(
+                '5 - 6 days a week',
+                style: TextStyle(
+                  color:
+                      workoutFrequencySelectedButton == 4 ? Colors.white : Apptheme.mainButonColor,
                 ),
               ),
             ),
           ),
         ),
         SizedBox(height: 10),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutFrequencySelectedButton = 2;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutFrequencySelectedButton == 2
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 300,
-              height: 50,
-              child: Center(
-                child: Text(
-                  '1 - 2 days a week',
-                  style: TextStyle(
-                    color: workoutFrequencySelectedButton == 2
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutFrequencySelectedButton = 3;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutFrequencySelectedButton == 3
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 300,
-              height: 50,
-              child: Center(
-                child: Text(
-                  '3 - 4 days a week',
-                  style: TextStyle(
-                    color: workoutFrequencySelectedButton == 3
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutFrequencySelectedButton = 4;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Apptheme.mainButonColor),
-                color: workoutFrequencySelectedButton == 4
-                    ? Apptheme.mainButonColor
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 300,
-              height: 50,
-              child: Center(
-                child: Text(
-                  '5 - 6 days a week',
-                  style: TextStyle(
-                    color: workoutFrequencySelectedButton == 4
-                        ? Colors.white
-                        : Apptheme.mainButonColor,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Spacer(flex: 3)
+        Spacer(flex: 2)
       ],
     );
   }
@@ -546,7 +537,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ),
         SizedBox(height: 10),
-        Spacer(flex: 3)
+        Spacer(flex: 2)
       ],
     );
   }
@@ -711,7 +702,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ),
         SizedBox(height: 10),
-        Spacer(flex: 3)
+        Spacer(flex: 2)
       ],
     );
   }
@@ -795,7 +786,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
             ),
           ),
         ),
-        Spacer(flex: 3)
+        Spacer(flex: 2)
       ],
     );
   }

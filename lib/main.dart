@@ -12,21 +12,23 @@ import 'package:workify/views/login/loginView.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => NutritionState()),
-      Provider<AuthServices>(
-        create: (context) => AuthServices(FirebaseAuth.instance),
-      ),
-      StreamProvider(
-        create: (context) => context.read<AuthServices>().authStateChanges,
-        initialData: null,
-      ),
-      ChangeNotifierProvider(create: (_) => ThemeProvider()),
-      ChangeNotifierProvider(create: (_) => UserProvider())
-    ],
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NutritionState()),
+        Provider<AuthServices>(
+          create: (context) => AuthServices(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<AuthServices>().authStateChanges,
+          initialData: null,
+        ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider())
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

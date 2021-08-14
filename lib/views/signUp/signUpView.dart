@@ -21,6 +21,8 @@ class _SigUupViewState extends State<SignUpView> {
   TextEditingController emailTextController = new TextEditingController();
   TextEditingController passwordTextController = new TextEditingController();
   TextEditingController passwordConfirmationTextController = new TextEditingController();
+  TextEditingController userNameTextController = new TextEditingController();
+  TextEditingController phoneNumberTextController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +66,40 @@ class _SigUupViewState extends State<SignUpView> {
                       ),
                     ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'First Name'),
+                    userDetailField(
+                      title: 'First Name',
+                      textEditingController: firstNameTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Last Name'),
+                    userDetailField(
+                      title: 'Last Name',
+                      textEditingController: lastNameTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Username'),
+                    userDetailField(
+                      title: 'Username',
+                      textEditingController: userNameTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Phone Number'),
+                    userDetailField(
+                      title: 'Phone Number',
+                      textEditingController: phoneNumberTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Email'),
+                    userDetailField(
+                      title: 'Email',
+                      textEditingController: emailTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Password'),
+                    userDetailField(
+                      title: 'Password',
+                      textEditingController: passwordTextController,
+                    ),
                     SizedBox(height: 13),
-                    userDetailField(title: 'Confirm Password'),
+                    userDetailField(
+                      title: 'Confirm Password',
+                      textEditingController: passwordConfirmationTextController,
+                    ),
                     SizedBox(height: 30),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,51 +123,58 @@ class _SigUupViewState extends State<SignUpView> {
                             ],
                           ),
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            //! Sign the user up with the current info and push the extra info into firestore
-                            if (passwordTextController.text ==
-                                passwordConfirmationTextController.text) {
-                              await AuthServices(FirebaseAuth.instance).signUp(
-                                email: emailTextController.text,
-                                password: passwordTextController.text,
-                              );
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpWandNDetails(
-                                    firstName: firstNameTextController.text,
-                                    lastName: lastNameTextController.text,
+                        Container(
+                          height: 80,
+                          width: double.infinity,
+                          decoration: BoxDecoration(color: Apptheme.mainButonColor),
+                          child: Center(
+                            child: TextButton(
+                              onPressed: () async {
+                                //! Sign the user up with the current info and push the extra info into firestore
+                                if (passwordTextController.text ==
+                                    passwordConfirmationTextController.text) {
+                                  await AuthServices(FirebaseAuth.instance).signUp(
                                     email: emailTextController.text,
-                                    password: passwordConfirmationTextController.text,
+                                    password: passwordTextController.text,
+                                  );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignUpWandNDetails(
+                                        firstName: firstNameTextController.text,
+                                        lastName: lastNameTextController.text,
+                                        email: emailTextController.text,
+                                        password: passwordConfirmationTextController.text,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Apptheme.mainButonColor,
+                                ),
+                                width: _screenWidth,
+                                height: _screenHeight * .07,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Continue',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(
+                                        LineIcons.arrowRight,
+                                        color: Colors.white,
+                                      )
+                                    ],
                                   ),
                                 ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Apptheme.mainButonColor,
-                            ),
-                            width: _screenWidth,
-                            height: _screenHeight * .07,
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Continue',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    LineIcons.arrowRight,
-                                    color: Colors.white,
-                                  )
-                                ],
                               ),
                             ),
                           ),
@@ -183,7 +213,7 @@ class _SigUupViewState extends State<SignUpView> {
     );
   }
 
-  Column userDetailField({title: String}) {
+  Column userDetailField({title: String, textEditingController: TextEditingController}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
