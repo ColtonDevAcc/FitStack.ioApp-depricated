@@ -10,7 +10,7 @@ import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan/qrCodeScanner.dart';
+import 'package:workify/views/mealPlan_View/children/productScanner_View.dart';
 
 class CreateMealPlanView extends StatefulWidget {
   const CreateMealPlanView({Key? key}) : super(key: key);

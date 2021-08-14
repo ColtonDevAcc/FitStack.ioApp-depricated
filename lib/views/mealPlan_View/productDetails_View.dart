@@ -7,9 +7,9 @@ import 'package:openfoodfacts/model/NutrientLevels.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:workify/theme/theme.dart';
 
-class ProductOverView extends StatelessWidget {
+class ProductDetails_View extends StatelessWidget {
   final Product product;
-  const ProductOverView({Key? key, required this.product}) : super(key: key);
+  const ProductDetails_View({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

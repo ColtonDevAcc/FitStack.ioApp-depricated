@@ -12,7 +12,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan/productOverview.dart';
+import 'package:workify/views/mealPlan_View/productDetails_View.dart';
 
 class QRCodeScanner extends StatefulWidget {
   const QRCodeScanner({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
           topRight: Radius.circular(18.0),
         ),
         panel: productResult != null
-            ? ProductOverView(product: productResult!.product!)
+            ? ProductDetails_View(product: productResult!.product!)
             : Column(
                 children: [
                   SizedBox(height: 10),

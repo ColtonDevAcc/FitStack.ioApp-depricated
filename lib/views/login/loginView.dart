@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:workify/providers/userProvider.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mainView.dart';
+import 'package:workify/views/home_View/mainHome_View.dart';
 import 'package:workify/views/signUp/signUpView.dart';
 
 class LoginView extends StatefulWidget {
