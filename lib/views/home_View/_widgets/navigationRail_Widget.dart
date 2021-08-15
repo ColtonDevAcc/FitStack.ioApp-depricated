@@ -14,7 +14,11 @@ import 'package:workify/views/trainer/trainerView.dart';
 import '../mainHome_View.dart';
 
 class NavigationRail_Widget extends StatefulWidget {
-  const NavigationRail_Widget({Key? key}) : super(key: key);
+  final void Function(int) onDestinationSelected;
+  final int currentIndex;
+  const NavigationRail_Widget(
+      {Key? key, required this.onDestinationSelected, required this.currentIndex})
+      : super(key: key);
 
   @override
   _NavigationRail_WidgetState createState() => _NavigationRail_WidgetState();
@@ -24,30 +28,16 @@ class _NavigationRail_WidgetState extends State<NavigationRail_Widget> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context);
-    final List<Widget> _children = [
-      MainView(),
-      Nutrition_View(),
-      SavedView(),
-      GroupView(),
-      RecoveryView(),
-      TrainerView(),
-    ];
-    int indexSelected = 1;
-    var _currentIndex = 0;
     double _screenHeight = MediaQuery.of(context).size.width.toDouble();
 
     return NavigationRail(
       backgroundColor: Apptheme.mainCardColor,
-      selectedIndex: _currentIndex,
+      selectedIndex: this.widget.currentIndex,
       unselectedIconTheme: IconThemeData(color: Apptheme.mainIconColor, size: 30),
       selectedIconTheme: IconThemeData(
         color: Apptheme.mainButonColor,
       ),
-      onDestinationSelected: (int index) {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
+      onDestinationSelected: this.widget.onDestinationSelected,
       leading: Column(
         children: [
           SizedBox(height: AppBar().preferredSize.height - 5),

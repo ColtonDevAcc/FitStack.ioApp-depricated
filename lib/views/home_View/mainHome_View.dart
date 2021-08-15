@@ -44,7 +44,15 @@ class _MainViewState extends State<MainView> {
               color: Apptheme.mainBackgroundColor,
               width: size.width * .2,
               height: size.height,
-              child: NavigationRail_Widget(),
+              child: NavigationRail_Widget(
+                currentIndex: _currentIndex,
+                onDestinationSelected: (selected) {
+                  setState(() {
+                    //sets the screen that is being displayed
+                    _currentIndex = selected;
+                  });
+                },
+              ),
             ),
           ),
           Align(

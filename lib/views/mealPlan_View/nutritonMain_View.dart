@@ -36,6 +36,7 @@ class Nutrition_View extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Expanded(
+              flex: 0,
               child: Container(
                 decoration: BoxDecoration(
                   boxShadow: [
