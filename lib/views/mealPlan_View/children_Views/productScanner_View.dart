@@ -216,7 +216,12 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    productResult = await GetProductResult(qrCode: '610764028495'); //use scanData.code
+    //productResult = await GetProductResult(qrCode: '610764028495'); //use scanData.code
+
+    Future<void> pullProduct() async {
+      productResult = await GetProductResult(qrCode: result!.code);
+    }
+
     setState(() {
       this.controller = controller;
       productResult;
@@ -229,7 +234,8 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
       setState(() {
         controller.pauseCamera();
         cameraState = LineIcons.play;
-        //productResult = await GetProductResult(qrCode: scanData.code);
+        result = scanData;
+        pullProduct();
       });
     });
   }

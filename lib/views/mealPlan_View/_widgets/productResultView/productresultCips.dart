@@ -134,7 +134,7 @@ class NutritionSCoreChip extends StatelessWidget {
       'c': Colors.yellow.shade600,
       'd': Colors.orange,
       'e': Colors.red,
-      null: Colors.grey,
+      'null': Colors.grey,
     };
 
     return Chip(
@@ -143,7 +143,7 @@ class NutritionSCoreChip extends StatelessWidget {
       avatar: CircleAvatar(
         backgroundColor: nutrientsScoreColor[value],
         child: Text(
-          '${value!.toUpperCase()}',
+          value == 'null' ? '?' : '${value!.toUpperCase()}',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -186,7 +186,7 @@ class PalmOilStatusChip extends StatelessWidget {
       PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: 'May Contain Palm Oil',
       PalmOilFreeStatus.PALM_OIL: 'Contains Palm Oil',
       PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: 'Unknown',
-      Null: 'Unknown',
+      null: 'Unknown',
     };
 
     return Chip(
@@ -322,18 +322,19 @@ class NovaGroupChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List nutrientsScoreColor = [
-      Colors.green,
-      Colors.green.shade300,
-      Colors.orange,
-      Colors.red,
-    ];
+    Map nutrientsScoreColor = {
+      1: Colors.green,
+      2: Colors.green.shade300,
+      3: Colors.orange,
+      4: Colors.red,
+      null: Colors.grey
+    };
 
     return Chip(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       elevation: 3,
       avatar: CircleAvatar(
-        backgroundColor: value != null ? nutrientsScoreColor[value! - 1] : Colors.grey,
+        backgroundColor: nutrientsScoreColor[value],
         child: Icon(
           LineIcons.heartAlt,
           size: 15,
@@ -347,7 +348,7 @@ class NovaGroupChip extends StatelessWidget {
       ),
       shape: StadiumBorder(
         side: BorderSide(
-          color: nutrientsScoreColor[value! - 1],
+          color: nutrientsScoreColor[value],
         ),
       ),
     );

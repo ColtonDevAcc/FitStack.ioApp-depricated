@@ -14,11 +14,11 @@ class ProductNutritionTab extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Wrap(
-            spacing: 5,
+            spacing: 15,
             runSpacing: 5,
             alignment: WrapAlignment.center,
             children: [
-              product.ingredientsAnalysisTags!.veganStatus != null
+              product.ingredientsAnalysisTags != null
                   ? VeganStatusChip(
                       label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus)
                   : Text('Vegan information unavaliable'),
@@ -45,7 +45,7 @@ class ProductNutritionTab extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                   child: NutrientsLevelsChip(
-                    label: '${e.key} - ${e.value.toString().toUpperCase()}',
+                    label: '${e.key} - ${e.value}',
                     value: e.value,
                   ),
                 );

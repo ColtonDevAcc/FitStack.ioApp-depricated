@@ -19,16 +19,31 @@ class ProductOverViewTab extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: [
               VeganStatusChip(
-                  label: 'Vegan Status', value: product.ingredientsAnalysisTags!.veganStatus),
+                label: 'Vegan Status',
+                value: product.ingredientsAnalysisTags != null
+                    ? product.ingredientsAnalysisTags!.veganStatus
+                    : null,
+              ),
               NutritionSCoreChip(
-                  label: 'Nutrition Score', value: '${product.nutriscore!.toLowerCase()}'),
+                  label: 'Nutrition Score',
+                  value:
+                      '${product.nutriscore != null ? product.nutriscore!.toLowerCase() : 'null'}'),
               PalmOilStatusChip(
-                  label: 'Palm Oil Free?',
-                  value: product.ingredientsAnalysisTags!.palmOilFreeStatus),
+                label: 'Palm Oil Free?',
+                value: product.ingredientsAnalysisTags != null
+                    ? product.ingredientsAnalysisTags!.palmOilFreeStatus
+                    : null,
+              ),
               VegetarianStatusChip(
-                  label: 'Vegetarian Status',
-                  value: product.ingredientsAnalysisTags!.vegetarianStatus),
-              NovaGroupChip(label: 'Proccesed Score', value: product.nutriments!.novaGroup),
+                label: 'Vegetarian Status',
+                value: product.ingredientsAnalysisTags != null
+                    ? product.ingredientsAnalysisTags!.vegetarianStatus
+                    : null,
+              ),
+              NovaGroupChip(
+                label: 'Proccesed Score',
+                value: product.nutriments != null ? product.nutriments!.novaGroup : null,
+              ),
             ],
           ),
         ),
@@ -38,17 +53,21 @@ class ProductOverViewTab extends StatelessWidget {
           alignment: WrapAlignment.center,
           spacing: 5,
           runSpacing: 5,
-          children: product.additives!.names.map(
-            (e) {
-              return Chip(
-                backgroundColor: Colors.red,
-                label: Text(
-                  e,
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
-            },
-          ).toList(),
+          children: product.additives != null
+              ? product.additives!.names.map(
+                  (e) {
+                    return Chip(
+                      backgroundColor: Colors.red,
+                      label: Text(
+                        e,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  },
+                ).toList()
+              : [
+                  Text('no info to display'),
+                ],
         ),
         Divider(height: 1, color: Colors.grey),
         Center(
@@ -78,8 +97,11 @@ class ProductOverViewTab extends StatelessWidget {
         )),
         Wrap(
           alignment: WrapAlignment.center,
-          children:
-              product.categoriesTags!.asMap().entries.map((e) => Text('${e.value}, ')).toList(),
+          children: product.categoriesTags != null
+              ? product.categoriesTags!.asMap().entries.map((e) => Text('${e.value}, ')).toList()
+              : [
+                  Text('no info to display'),
+                ],
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
