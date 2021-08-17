@@ -7,6 +7,8 @@ import 'package:openfoodfacts/model/NutrientLevels.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:workify/theme/theme.dart';
 
+import '_widgets/productResultView/productresultCips.dart';
+
 class ProductDetails_View extends StatelessWidget {
   final Product product;
   const ProductDetails_View({Key? key, required this.product}) : super(key: key);
@@ -150,11 +152,11 @@ class ProductDetails_View extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         children: [
                           product.ingredientsAnalysisTags!.veganStatus != null
-                              ? veganStatusChip(
+                              ? VeganStatusChip(
                                   label: 'Vegan Status',
                                   value: product.ingredientsAnalysisTags!.veganStatus)
                               : Text('Vegan information unavaliable'),
-                          nutritionSCoreChip(
+                          NutritionSCoreChip(
                               label: 'Nutrition Score', value: '${product.nutriscore}'),
                         ],
                       ),
@@ -177,7 +179,7 @@ class ProductDetails_View extends StatelessWidget {
                           (e) {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: nutrientsLevelsChip(
+                              child: NutrientsLevelsChip(
                                   label: '${e.key} - ${e.value.value.toUpperCase()}',
                                   value: e.value),
                             );
@@ -265,19 +267,19 @@ class ProductDetails_View extends StatelessWidget {
                         runSpacing: 5,
                         alignment: WrapAlignment.center,
                         children: [
-                          veganStatusChip(
+                          VeganStatusChip(
                               label: 'Vegan Status',
                               value: product.ingredientsAnalysisTags!.veganStatus),
-                          nutritionSCoreChip(
+                          NutritionSCoreChip(
                               label: 'Nutrition Score',
                               value: '${product.nutriscore!.toLowerCase()}'),
-                          palmOilStatusChip(
+                          PalmOilStatusChip(
                               label: 'Palm Oil Free?',
                               value: product.ingredientsAnalysisTags!.palmOilFreeStatus),
-                          vegetarianStatusChip(
+                          VegetarianStatusChip(
                               label: 'Vegetarian Status',
                               value: product.ingredientsAnalysisTags!.vegetarianStatus),
-                          novaGroupChip(
+                          NovaGroupChip(
                               label: 'Proccesed Score', value: product.nutriments!.novaGroup),
                         ],
                       ),
@@ -316,7 +318,7 @@ class ProductDetails_View extends StatelessWidget {
                                 },
                               ).toList()
                             : [
-                                enviromentStatusChip(
+                                EnviromentStatusChip(
                                     label: 'Envrioment Impact Level', value: 'unknown'),
                               ]),
                     Padding(
@@ -364,7 +366,7 @@ class ProductDetails_View extends StatelessWidget {
                               ),
                             ),
                           ),
-                    novaGroupChip(
+                    NovaGroupChip(
                       label: 'Proccesed Score',
                       value: product.nutriments!.novaGroup,
                     ),
@@ -390,355 +392,6 @@ class ProductDetails_View extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class nutrientsLevelsChip extends StatelessWidget {
-  const nutrientsLevelsChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final Level? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsLevelColor = {
-      Level.LOW: Colors.green,
-      Level.MODERATE: Colors.orange,
-      Level.HIGH: Colors.red,
-      Level.UNDEFINED: Colors.grey,
-      null: Colors.grey,
-    };
-    Map nutrientsLevelIcons = {
-      Level.LOW: LineIcons.check,
-      Level.MODERATE: LineIcons.exclamation,
-      Level.HIGH: LineIcons.skull,
-      Level.UNDEFINED: LineIcons.question,
-      null: LineIcons.question,
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsLevelColor[value],
-        child: Icon(
-          nutrientsLevelIcons[value],
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsLevelColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class veganStatusChip extends StatelessWidget {
-  const veganStatusChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final VeganStatus? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsLevelColor = {
-      VeganStatus.VEGAN: Colors.green,
-      VeganStatus.MAYBE_VEGAN: Colors.orange,
-      VeganStatus.NON_VEGAN: Colors.red,
-      VeganStatus.VEGAN_STATUS_UNKNOWN: Colors.grey,
-      null: Colors.grey,
-    };
-    Map nutrientsLevelIcons = {
-      VeganStatus.VEGAN: LineIcons.check,
-      VeganStatus.MAYBE_VEGAN: LineIcons.exclamation,
-      VeganStatus.NON_VEGAN: LineIcons.skull,
-      VeganStatus.VEGAN_STATUS_UNKNOWN: LineIcons.question,
-      null: LineIcons.question,
-    };
-    Map veganStatusLabel = {
-      VeganStatus.VEGAN: 'Vegan',
-      VeganStatus.MAYBE_VEGAN: 'Maybe Vegan',
-      VeganStatus.NON_VEGAN: 'Non-Vegan',
-      VeganStatus.VEGAN_STATUS_UNKNOWN: 'Uknown',
-      null: 'Uknown',
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsLevelColor[value],
-        child: Icon(
-          nutrientsLevelIcons[value],
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${veganStatusLabel[value]}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsLevelColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class nutritionSCoreChip extends StatelessWidget {
-  const nutritionSCoreChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final String? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsScoreColor = {
-      'a': Colors.green,
-      'b': Colors.green.shade200,
-      'c': Colors.yellow.shade600,
-      'd': Colors.orange,
-      'e': Colors.red,
-      null: Colors.grey,
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsScoreColor[value],
-        child: Text(
-          '${value!.toUpperCase()}',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${value!.toUpperCase()}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsScoreColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class palmOilStatusChip extends StatelessWidget {
-  const palmOilStatusChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final PalmOilFreeStatus? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsScoreColor = {
-      PalmOilFreeStatus.PALM_OIL_FREE: Colors.green,
-      PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: Colors.orange,
-      PalmOilFreeStatus.PALM_OIL: Colors.red,
-      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: Colors.grey,
-      null: Colors.grey,
-    };
-
-    Map palmOilLabel = {
-      PalmOilFreeStatus.PALM_OIL_FREE: 'Palm Oil Free',
-      PalmOilFreeStatus.MAY_CONTAIN_PALM_OIL: 'May Contain Palm Oil',
-      PalmOilFreeStatus.PALM_OIL: 'Contains Palm Oil',
-      PalmOilFreeStatus.PALM_OIL_CONTENT_UNKNOWN: 'Unknown',
-      Null: 'Unknown',
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsScoreColor[value],
-        child: Icon(
-          LineIcons.paw,
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${palmOilLabel[value].toString().toUpperCase()}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsScoreColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class vegetarianStatusChip extends StatelessWidget {
-  const vegetarianStatusChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final VegetarianStatus? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsScoreColor = {
-      VegetarianStatus.VEGETARIAN: Colors.green,
-      VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
-      VegetarianStatus.NON_VEGETARIAN: Colors.red,
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: Colors.grey,
-      null: Colors.grey,
-    };
-
-    Map palmOilLabel = {
-      VegetarianStatus.VEGETARIAN: 'Vegetarian',
-      VegetarianStatus.MAYBE_VEGETARIAN: 'Maybe Vegetarian',
-      VegetarianStatus.NON_VEGETARIAN: 'Non-Vegetarian',
-      VegetarianStatus.VEGETARIAN_STATUS_UNKNOWN: 'Unknown',
-      null: 'Unknown',
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsScoreColor[value],
-        child: Icon(
-          LineIcons.egg,
-          size: 18,
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${palmOilLabel[value].toString().toUpperCase()}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsScoreColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class enviromentStatusChip extends StatelessWidget {
-  const enviromentStatusChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final String? value;
-
-  @override
-  Widget build(BuildContext context) {
-    Map nutrientsScoreColor = {
-      EnvironmentImpactLevels: Colors.green,
-      VegetarianStatus.MAYBE_VEGETARIAN: Colors.orange,
-      VegetarianStatus.NON_VEGETARIAN: Colors.red,
-      'unknown': Colors.grey,
-      null: Colors.grey,
-    };
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: nutrientsScoreColor[value],
-        child: Icon(
-          LineIcons.leaf,
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${value}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsScoreColor[value],
-        ),
-      ),
-    );
-  }
-}
-
-class novaGroupChip extends StatelessWidget {
-  const novaGroupChip({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final int? value;
-
-  @override
-  Widget build(BuildContext context) {
-    List nutrientsScoreColor = [
-      Colors.green,
-      Colors.green.shade300,
-      Colors.orange,
-      Colors.red,
-    ];
-
-    return Chip(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      elevation: 3,
-      avatar: CircleAvatar(
-        backgroundColor: value != null ? nutrientsScoreColor[value! - 1] : Colors.grey,
-        child: Icon(
-          LineIcons.heartAlt,
-          size: 15,
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Apptheme.mainCardColor,
-      label: Text(
-        '$label - ${value}',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      shape: StadiumBorder(
-        side: BorderSide(
-          color: nutrientsScoreColor[value! - 1],
-        ),
       ),
     );
   }

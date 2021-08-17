@@ -4,14 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:workify/providers/userProvider.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan_View/NutritonMain_View.dart';
 import 'package:workify/views/profile/profileView.dart';
-import 'package:workify/views/recovery/recoveryView.dart';
-import 'package:workify/views/relationShip_View/relationshipMain_View.dart';
-import 'package:workify/views/saved/savedView.dart';
-import 'package:workify/views/trainer/trainerView.dart';
-
-import '../mainHome_View.dart';
 
 class NavigationRail_Widget extends StatefulWidget {
   final void Function(int) onDestinationSelected;
