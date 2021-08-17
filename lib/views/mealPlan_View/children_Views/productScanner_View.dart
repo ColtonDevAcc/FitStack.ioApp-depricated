@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,9 +8,8 @@ import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:workify/services/authServices.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan_View/productDetails_View.dart';
+import 'package:workify/functions/product/productFunctinos.dart';
+import 'productDetails_View.dart';
 
 class QRCodeScanner extends StatefulWidget {
   const QRCodeScanner({Key? key}) : super(key: key);
@@ -22,8 +19,11 @@ class QRCodeScanner extends StatefulWidget {
 }
 
 class _QRCodeScannerState extends State<QRCodeScanner> {
-  //! set this to false if you want to scan in barcodes.
-  bool debug = true;
+  IconData cameraState = LineIcons.pause;
+  ProductResult? productResult;
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   Map veganScore = {
     VeganStatus.VEGAN: "Vegan",
@@ -31,12 +31,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     VeganStatus.NON_VEGAN: "Non-Vegan",
     VeganStatus.VEGAN_STATUS_UNKNOWN: "Unknown",
   };
-  IconData cameraState = LineIcons.pause;
-
-  ProductResult? productResult;
-  Barcode? result;
-  QRViewController? controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Map nutrientsScoreColor = {
     'a': Colors.green,
     'b': Colors.green.shade200,
@@ -102,39 +96,6 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
               ),
         body: _buildQrView(context),
       ),
-    );
-  }
-
-  Column productScoreCircle({score: String, scoreTitle: String, color: Colors}) {
-    return Column(
-      children: [
-        CircleAvatar(
-          maxRadius: 30,
-          backgroundColor: color,
-          child: score == null
-              ? Text(
-                  '?',
-                  style: TextStyle(color: Colors.white),
-                )
-              : Text(
-                  '${score}',
-                  textScaleFactor: score.toString().length > 4 ? .8 : 1,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-        ),
-        SizedBox(height: 5),
-        RichText(
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          softWrap: true,
-          textScaleFactor: .8,
-          text: TextSpan(
-            text: '$scoreTitle',
-            style: TextStyle(color: Colors.black),
-            children: <TextSpan>[],
-          ),
-        ),
-      ],
     );
   }
 
@@ -254,16 +215,21 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  Future<void> _onQRViewCreated(QRViewController controller) async {
+    productResult = await GetProductResult(qrCode: '610764028495'); //use scanData.code
     setState(() {
       this.controller = controller;
+      productResult;
+      log('================== start ==================');
+      log('================== end ==================');
     });
-    controller.scannedDataStream.listen((scanData) async {
+
+//! set a function call instead of using async no setstate
+    controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
         controller.pauseCamera();
         cameraState = LineIcons.play;
-        getProductResult(qrCode: scanData.code);
+        //productResult = await GetProductResult(qrCode: scanData.code);
       });
     });
   }
@@ -276,87 +242,9 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
     }
   }
 
-  Future<ProductResult?> getProductResult({qrCode: String}) async {
-    log('starting ===================== OPENAPITRACK');
-    String resultString = qrCode;
-    var newProductResult = await OpenFoodAPIClient.getProduct(ProductQueryConfiguration(
-        resultString,
-        language: OpenFoodFactsLanguage.ENGLISH,
-        fields: [ProductField.ALL]));
-
-    log('ending ===================== OPENAPITRACK');
-
-    if (newProductResult == 1) {
-      print("Error retreiving the product : ${productResult!.status}");
-      return newProductResult;
-    } else {
-      setState(() {
-        productResult = newProductResult;
-      });
-      sendProductResults();
-      return newProductResult;
-    }
-  }
-
   @override
   void dispose() {
     controller?.dispose();
     super.dispose();
-  }
-
-  sendProductResults() async {
-    await FirebaseFirestore.instance
-        .collection('UserInfo')
-        .doc(AuthServices.userUID)
-        .collection('UserAddedProduct')
-        .doc(productResult!.product!.productName)
-        .set(productResult!.product!.toData())
-        .then(
-          (value) => FirebaseFirestore.instance
-              .collection('UserInfo')
-              .doc(AuthServices.userUID)
-              .collection('UserAddedProduct')
-              .doc(productResult!.product!.productName)
-              .update(productResult!.product!.nutriments!.toData()),
-        );
-  }
-
-  productDetailsSmallCardList({listQuerry: List, title: String}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          listQuerry != null
-              ? Container(
-                  child: Wrap(
-                    children: listQuerry
-                        .map(
-                          (item) => Padding(
-                            padding: const EdgeInsets.fromLTRB(2, 2, 0, 0),
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Apptheme.secondaryAccent,
-                              ),
-                              child: Text(
-                                '${item}',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList()
-                        .cast<Widget>(),
-                  ),
-                )
-              : Text('No $title found'),
-        ],
-      ),
-    );
   }
 }
