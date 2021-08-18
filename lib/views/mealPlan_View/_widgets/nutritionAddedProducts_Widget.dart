@@ -121,7 +121,7 @@ class NutritionAddedProducts_Widget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreateMealPlanView(),
+                          builder: (context) => AddProductView(),
                         ),
                       );
                     },

@@ -12,14 +12,14 @@ import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan_View/children_Views/productScanner_View.dart';
 
-class CreateMealPlanView extends StatefulWidget {
-  const CreateMealPlanView({Key? key}) : super(key: key);
+class AddProductView extends StatefulWidget {
+  const AddProductView({Key? key}) : super(key: key);
 
   @override
-  _CreateMealPlanViewState createState() => _CreateMealPlanViewState();
+  _AddProductViewState createState() => _AddProductViewState();
 }
 
-class _CreateMealPlanViewState extends State<CreateMealPlanView> {
+class _AddProductViewState extends State<AddProductView> {
   TextEditingController searchController = new TextEditingController();
 
   String productSearchTerm = '';
