@@ -1,6 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:openfoodfacts/utils/QueryType.dart';
 
 class NutritionState with ChangeNotifier {
+  final nutritionProductCatalogStreamProvider = StreamProvider.autoDispose(
+    (ref) async* {
+      final channel = await OpenFoodAPIClient.searchProducts(
+        User(userId: 'cbristow99@gmail.com', password: 'Colton99'),
+        ProductSearchQueryConfiguration(
+          language: OpenFoodFactsLanguage.ENGLISH,
+          parametersList: [],
+          fields: [
+            ProductField.NUTRIMENTS,
+            ProductField.NAME,
+            ProductField.BARCODE,
+            ProductField.IMAGE_FRONT_SMALL_URL,
+            ProductField.NUTRISCORE,
+            ProductField.SERVING_SIZE,
+          ],
+        ),
+        queryType: QueryType.PROD,
+      );
+    },
+  );
+
   double _calories = 0;
   double _fibers = 0;
   double _carbs = 0;
