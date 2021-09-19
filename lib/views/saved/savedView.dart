@@ -1,22 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/saved/widgets/savedMealPlan.dart';
 import 'package:workify/views/saved/workoutView.dart';
 
-class SavedView extends StatefulWidget {
+class SavedView extends ConsumerWidget {
   const SavedView({Key? key}) : super(key: key);
 
   @override
-  _SavedViewState createState() => _SavedViewState();
-}
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
 
-class _SavedViewState extends State<SavedView> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
@@ -90,7 +88,7 @@ class _SavedViewState extends State<SavedView> {
                                   StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
                                         .collection('UserInfo')
-                                        .doc(AuthServices.userUID)
+                                        .doc(currentUser!.uid)
                                         .collection('UserAddedWorkout')
                                         .snapshots(),
                                     builder: (BuildContext context,

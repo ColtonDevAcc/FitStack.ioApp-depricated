@@ -2,6 +2,7 @@ import 'package:awesome_emojis/emojis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:openfoodfacts/model/SearchResult.dart';
 import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
@@ -12,30 +13,21 @@ import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/mealPlan_View/children_Views/productScanner_View.dart';
 
-class AddProductView extends StatefulWidget {
+class AddProductView extends ConsumerWidget {
   const AddProductView({Key? key}) : super(key: key);
 
   @override
-  _AddProductViewState createState() => _AddProductViewState();
-}
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
 
-class _AddProductViewState extends State<AddProductView> {
-  TextEditingController searchController = new TextEditingController();
-
-  String productSearchTerm = '';
-
-  static List<Product> productsAdded = [];
-
-  @override
-  Widget build(BuildContext context) {
+    TextEditingController searchController = new TextEditingController();
+    String productSearchTerm = '';
     List<Parameter> productSearchParameters = <Parameter>[
       SearchTerms(terms: [productSearchTerm]),
       const SortBy(option: SortOption.POPULARITY),
       const PageSize(size: 25),
     ];
-
     SearchResult searchResult = SearchResult();
-
     GetSearchResult() async {
       searchResult = await OpenFoodAPIClient.searchProducts(
         User(userId: 'cbristow99@gmail.com', password: 'Colton99'),
@@ -55,6 +47,7 @@ class _AddProductViewState extends State<AddProductView> {
       );
     }
 
+    var productsAdded;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
@@ -125,47 +118,14 @@ class _AddProductViewState extends State<AddProductView> {
             SizedBox(height: 10),
             Text('Products Added ${productsAdded.length}'),
             SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: productsAdded
-                    .map(
-                      (child) => Dismissible(
-                        direction: DismissDirection.endToStart,
-                        key: UniqueKey(),
-                        child: productListTile(product: child),
-                        secondaryBackground: Container(
-                          color: Colors.red,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Spacer(flex: 6),
-                              Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Spacer(flex: 1),
-                            ],
-                          ),
-                        ),
-                        background: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Delete'),
-                          ],
-                        ),
-                        onDismissed: (DismissDirection dismissDirection) {
-                          setState(() {
-                            productsAdded.remove(child);
-                          });
-                        },
-                      ),
-                    )
-                    .toList()
-                    .cast<Widget>(),
-              ),
-            ),
+            // Expanded(
+            //     child: Center(
+            //   child: productCatalog.when(
+            //     data: (data) => Text(data.toString()),
+            //     loading: () => CircularProgressIndicator(),
+            //     error: (e, st) => Text('error $e'),
+            //   ),
+            // )),
             GestureDetector(
               onTap: () {
                 print('start');
@@ -192,7 +152,7 @@ class _AddProductViewState extends State<AddProductView> {
 
                   await FirebaseFirestore.instance
                       .collection('UserInfo')
-                      .doc(AuthServices.userUID)
+                      .doc(currentUser!.uid)
                       .collection('UserEvents')
                       .doc('AddMealEvent')
                       .collection(
@@ -202,7 +162,7 @@ class _AddProductViewState extends State<AddProductView> {
 
                   await FirebaseFirestore.instance
                       .collection('UserInfo')
-                      .doc(AuthServices.userUID)
+                      .doc(currentUser!.uid)
                       .collection('UserEvents')
                       .doc('AddMealEvent')
                       .collection(
@@ -212,7 +172,7 @@ class _AddProductViewState extends State<AddProductView> {
 
                   await FirebaseFirestore.instance
                       .collection('UserInfo')
-                      .doc(AuthServices.userUID)
+                      .doc(currentUser!.uid)
                       .collection('UserEvents')
                       .doc('AddMealEvent')
                       .collection('Y${DateTime.now().year}-M${DateTime.now().month}')
@@ -256,11 +216,7 @@ class _AddProductViewState extends State<AddProductView> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
-                onChanged: (searchValue) {
-                  setState(() {
-                    productSearchTerm = searchValue;
-                  });
-                },
+                onChanged: (searchValue) {},
                 controller: searchController,
                 style: TextStyle(color: Colors.black),
                 cursorColor: Colors.black,
@@ -316,11 +272,7 @@ class _AddProductViewState extends State<AddProductView> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  productsAdded.add(searchResult.products![index]);
-                                });
-                              },
+                              onTap: () {},
                               child: searchResult.products![index].productName != null
                                   ? productListTile(product: searchResult.products![index])
                                   : Text(''),

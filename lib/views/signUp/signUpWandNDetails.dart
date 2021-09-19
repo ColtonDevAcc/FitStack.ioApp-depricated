@@ -1,26 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
+
 import 'package:workify/models/user.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
 
-class SignUpWandNDetails extends StatefulWidget {
-  final firstName;
-  final lastName;
-  final email;
-  final password;
+class SignUpWandNDetails extends ConsumerWidget {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String password;
 
-  const SignUpWandNDetails({Key? key, this.firstName, this.lastName, this.email, this.password})
-      : super(key: key);
-
-  @override
-  _SignUpWandNDetailsState createState() => _SignUpWandNDetailsState();
-}
-
-class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
   int taskIndex = 0;
   int workoutFrequencySelectedButton = 0;
   int workoutGoalSelectedButton = 0;
@@ -37,10 +31,23 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
   //input buttons start
   List<String> workoutFrequencyOutput = [];
   List<String> workoutGoalOutput = [];
-  //input buttons end
+  SignUpWandNDetails({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.password,
+    required this.taskIndex,
+    required this.workoutFrequencySelectedButton,
+    required this.workoutGoalSelectedButton,
+    required this.workoutExperiencelevelSelectedButton,
+    required this.workoutFrequencyOutput,
+    required this.workoutGoalOutput,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
+
     List<Widget> onBoardingTask = [
       calorieIntake(),
       workoutFrequency(),
@@ -67,11 +74,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ],
         leading: GestureDetector(
-          onTap: () {
-            setState(() {
-              taskIndex == 0 ? Navigator.pop(context) : taskIndex--;
-            });
-          },
+          onTap: () {},
           child: Icon(
             LineIcons.arrowLeft,
             color: Colors.black,
@@ -96,9 +99,6 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                 onPressed: () async {
                   //! Sign the user up with the current info and push the extra info into firestore
                   if (taskIndex + 1 != onBoardingTask.length) {
-                    setState(() {
-                      taskIndex++;
-                    });
                   } else {
                     List<String> mainWorkoutGoalList = [
                       'I want to get stronger',
@@ -122,10 +122,10 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                     //! NEED TO IMPLEMENT TO AUTH USER
                     var user = new FirebaseUser(
                       userName: 'this.widget.userName!',
-                      firstName: this.widget.firstName!,
-                      lastName: this.widget.lastName!,
+                      firstName: this.firstName,
+                      lastName: this.lastName,
                       nationality: nationalityTextController.text,
-                      email: this.widget.email!,
+                      email: this.email,
                       admin: false,
                       height: double.tryParse(heightTextController.text)!,
                       age: int.tryParse(ageTextController.text)!,
@@ -138,7 +138,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
                     );
                     await FirebaseFirestore.instance
                         .collection('UserInfo')
-                        .doc(AuthServices.userUID)
+                        .doc(currentUser!.uid)
                         .set(user.toMap());
 
                     Navigator.push(
@@ -276,11 +276,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         ),
         Spacer(flex: 1),
         TextButton(
-          onPressed: () {
-            setState(() {
-              workoutFrequencySelectedButton = 1;
-            });
-          },
+          onPressed: () {},
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Apptheme.mainButonColor),
@@ -303,11 +299,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            setState(() {
-              workoutFrequencySelectedButton = 2;
-            });
-          },
+          onPressed: () {},
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Apptheme.mainButonColor),
@@ -331,9 +323,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         ),
         TextButton(
           onPressed: () {
-            setState(() {
-              workoutFrequencySelectedButton = 3;
-            });
+            ;
           },
           child: Container(
             decoration: BoxDecoration(
@@ -357,11 +347,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            setState(() {
-              workoutFrequencySelectedButton = 4;
-            });
-          },
+          onPressed: () {},
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: Apptheme.mainButonColor),
@@ -424,11 +410,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutGoalSelectedButton = 1;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -453,11 +435,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutGoalSelectedButton = 2;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -482,11 +460,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutGoalSelectedButton = 3;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -511,11 +485,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutGoalSelectedButton = 4;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -577,11 +547,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutExperiencelevelSelectedButton = 1;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -609,11 +575,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutExperiencelevelSelectedButton = 2;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -641,11 +603,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutExperiencelevelSelectedButton = 3;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),
@@ -673,11 +631,7 @@ class _SignUpWandNDetailsState extends State<SignUpWandNDetails> {
         Align(
           alignment: Alignment.center,
           child: TextButton(
-            onPressed: () {
-              setState(() {
-                workoutExperiencelevelSelectedButton = 4;
-              });
-            },
+            onPressed: () {},
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Apptheme.mainButonColor),

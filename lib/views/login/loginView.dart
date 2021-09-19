@@ -1,24 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:workify/providers/userProvider.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/home_View/mainHome_View.dart';
 import 'package:workify/views/signUp/signUpView.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
-
-  @override
-  _LoginViewState createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
+class LoginView extends ConsumerWidget {
   TextEditingController emailTextController = new TextEditingController();
   TextEditingController passwordTextController = new TextEditingController();
   Widget loginWidget = Text(
@@ -27,7 +17,7 @@ class _LoginViewState extends State<LoginView> {
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     double _screenWidth = MediaQuery.of(context).size.width;
     double _screenHeight = MediaQuery.of(context).size.height;
 
@@ -155,47 +145,17 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              setState(() {
-                                loginWidget = CircularProgressIndicator(
-                                  color: Apptheme.secondaryAccent,
+                              context.read(authRepositoryProvider).signIn(
+                                    email: emailTextController.text,
+                                    password: passwordTextController.text,
+                                  );
+                              if (context.read(authRepositoryProvider).getCurrentUser() != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MainView()),
                                 );
-                              });
-
-                              await context.read<AuthServices>().signIn(
-                                    email: emailTextController.text.trim(),
-                                    password: passwordTextController.text.trim(),
-                                  );
-
-                              if (context.read<AuthServices>().userLoggedIn == true) {
-                                try {
-                                  var userMap = await FirebaseFirestore.instance
-                                      .collection('UserInfo')
-                                      .doc(AuthServices.userUID)
-                                      .get();
-
-                                  context
-                                      .read<UserProvider>()
-                                      .setUserModel(firebaseUserSnapShot: userMap.data());
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChangeNotifierProvider(
-                                        child: MainView(),
-                                        create: (context) => AuthServices(FirebaseAuth.instance),
-                                      ),
-                                    ),
-                                  );
-                                } catch (e) {
-                                  print(e);
-                                }
                               } else {
-                                setState(() {
-                                  loginWidget = Text(
-                                    'Login',
-                                    style: TextStyle(color: Colors.white),
-                                  );
-                                });
+                                CircularProgressIndicator();
                               }
                             },
                             child: Container(

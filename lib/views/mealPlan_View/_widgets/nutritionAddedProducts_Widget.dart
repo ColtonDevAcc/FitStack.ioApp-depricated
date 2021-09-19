@@ -1,24 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
 import 'addProduct_Widget.dart';
 
-class NutritionAddedProducts_Widget extends StatelessWidget {
+class NutritionAddedProducts_Widget extends ConsumerWidget {
   const NutritionAddedProducts_Widget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
+
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('UserInfo')
-            .doc(AuthServices.userUID)
+            .doc(currentUser!.uid)
             .collection('UserEvents')
             .doc('AddMealEvent')
             .collection('Y${DateTime.now().year}-M${DateTime.now().month}-D${DateTime.now().day}')

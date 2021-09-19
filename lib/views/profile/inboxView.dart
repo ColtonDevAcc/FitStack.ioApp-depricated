@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 
-class InboxView extends StatelessWidget {
+class InboxView extends ConsumerWidget {
   const InboxView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
+
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
       appBar: AppBar(
@@ -40,7 +43,7 @@ class InboxView extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('UserInfo')
-            .doc(AuthServices.userUID)
+            .doc(currentUser!.uid)
             .collection('Inbox')
             .doc('relationshipRequest')
             .collection('friendRequest')

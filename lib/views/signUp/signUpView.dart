@@ -1,21 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/signUp/signUpWandNDetails.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({Key? key}) : super(key: key);
-
-  @override
-  _SigUupViewState createState() => _SigUupViewState();
-}
-
-class _SigUupViewState extends State<SignUpView> {
+class SignUpView extends ConsumerWidget {
   TextEditingController firstNameTextController = new TextEditingController();
   TextEditingController lastNameTextController = new TextEditingController();
   TextEditingController emailTextController = new TextEditingController();
@@ -25,7 +17,7 @@ class _SigUupViewState extends State<SignUpView> {
   TextEditingController phoneNumberTextController = new TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     double _screenWidth = MediaQuery.of(context).size.width;
     double _screenHeight = MediaQuery.of(context).size.height;
 
@@ -133,21 +125,21 @@ class _SigUupViewState extends State<SignUpView> {
                                 //! Sign the user up with the current info and push the extra info into firestore
                                 if (passwordTextController.text ==
                                     passwordConfirmationTextController.text) {
-                                  await AuthServices(FirebaseAuth.instance).signUp(
-                                    email: emailTextController.text,
-                                    password: passwordTextController.text,
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignUpWandNDetails(
-                                        firstName: firstNameTextController.text,
-                                        lastName: lastNameTextController.text,
+                                  await context.read(authRepositoryProvider).signUp(
                                         email: emailTextController.text,
-                                        password: passwordConfirmationTextController.text,
-                                      ),
-                                    ),
-                                  );
+                                        password: passwordTextController.text,
+                                      );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => SignUpWandNDetails(
+                                  //       firstName: firstNameTextController.text,
+                                  //       lastName: lastNameTextController.text,
+                                  //       email: emailTextController.text,
+                                  //       password: passwordConfirmationTextController.text,
+                                  //     ),
+                                  //   ),
+                                  // );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 }

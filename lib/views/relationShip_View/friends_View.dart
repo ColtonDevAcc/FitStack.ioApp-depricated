@@ -1,23 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:workify/providers/userProvider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/views/relationShip_View/_widgets/friendsTab_Widget.dart';
 
-class FriendsView extends StatelessWidget {
+class FriendsView extends ConsumerWidget {
   const FriendsView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context);
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
+
     return Column(
       children: [
         Flexible(
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('UserInfo')
-                .where('friends', arrayContains: user.email)
+                .where('friends', arrayContains: currentUser!.email)
                 .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {

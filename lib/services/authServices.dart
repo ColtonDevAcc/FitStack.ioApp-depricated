@@ -1,79 +1,43 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:workify/models/workout.dart';
-import 'package:workify/providers/userProvider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:workify/providers/generalProviders.dart';
 
-class AuthServices extends ChangeNotifier {
-  bool userLoggedIn = false;
-  static String? userUID;
+abstract class BaseAuthRepository {
+  Stream<User?> get authStateChanges;
+  Future<void> signIn({email: String, password: String});
+  Future<void> signUp({email, String, password: String});
+  User? getCurrentUser();
+  Future<void> signOut();
+}
 
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository(ref.read));
 
-  AuthServices(this._firebaseAuth);
+class AuthRepository implements BaseAuthRepository {
+  final Reader _read;
+  const AuthRepository(this._read);
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  @override
+  Stream<User?> get authStateChanges => _read(firebaseAuthProvider).authStateChanges();
 
-  Future<String> signIn({email: String, password: String}) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      userLoggedIn = true;
-      userUID = _firebaseAuth.currentUser!.uid;
-      await getUserInfo(userUID: userUID);
-      return "Signed In";
-    } on FirebaseAuthException catch (e) {
-      userLoggedIn = false;
-      print(e);
-      return 'Not Signed In';
-    }
+  @override
+  User? getCurrentUser() {
+    return _read(firebaseAuthProvider).currentUser;
   }
 
-  Future<String> signUp({email: String, password: String}) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      userLoggedIn = true;
-      userUID = _firebaseAuth.currentUser!.uid;
-      return "Signed Up";
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      return e.message.toString();
-    }
+  @override
+  Future<void> signIn({email, password}) async {
+    await _read(firebaseAuthProvider).signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> getUserInfo({userUID: String}) async {
-    print('START');
-    print('User ID == $userUID');
-    await FirebaseFirestore.instance
-        .collection('UserInfo')
-        .doc(userUID)
-        .get()
-        .then((value) => UserProvider);
-    print('END');
+  @override
+  Future<void> signOut() async {
+    await _read(firebaseAuthProvider).signOut();
+    await signIn();
   }
 
-  static Future<String> addUserWorkout({
-    workoutType: String,
-    workoutTitle: String,
-    workoutDescription: String,
-    workoutTags: List,
-  }) async {
-    try {
-      UserAddWorkout newUserWorkout = UserAddWorkout(
-        workoutTitle,
-        workoutDescription,
-        workoutType,
-        workoutTags,
-      );
-
-      await FirebaseFirestore.instance
-          .collection('UserInfo')
-          .doc(AuthServices.userUID)
-          .collection('UserAddedWorkout')
-          .doc(workoutTitle)
-          .set(newUserWorkout.toMap());
-      return "Signed Up";
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
-    }
+  @override
+  Future<void> signUp({email, String, password = String}) async {
+    await _read(firebaseAuthProvider)
+        .createUserWithEmailAndPassword(email: email, password: password);
   }
 }

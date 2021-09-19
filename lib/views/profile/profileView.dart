@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
-import 'package:workify/providers/userProvider.dart';
 import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/profile/inboxView.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends ConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context);
+  Widget build(BuildContext context, ScopedReader watch) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -52,7 +51,7 @@ class ProfileView extends StatelessWidget {
                         child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('UserInfo')
-                              .doc(AuthServices.userUID)
+                              .doc(currentUser!.uid)
                               .collection('Inbox')
                               .doc('relationshipRequest')
                               .collection('friendRequest')
@@ -112,7 +111,7 @@ class ProfileView extends StatelessWidget {
                   maxLines: 3,
                   softWrap: true,
                   text: TextSpan(
-                    text: ' ${user.userName}\n',
+                    text: ' ${currentUser.uid}\n',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -132,7 +131,7 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: '${user.nationality}',
+                        text: '${currentUser.uid}',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.normal,

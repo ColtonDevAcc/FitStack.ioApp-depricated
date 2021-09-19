@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
-import 'package:workify/providers/userProvider.dart';
+import 'package:workify/services/authServices.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/profile/profileView.dart';
 
-class NavigationRail_Widget extends StatefulWidget {
+class NavigationRail_Widget extends ConsumerWidget {
   final void Function(int) onDestinationSelected;
   final int currentIndex;
   const NavigationRail_Widget(
@@ -14,23 +14,18 @@ class NavigationRail_Widget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _NavigationRail_WidgetState createState() => _NavigationRail_WidgetState();
-}
-
-class _NavigationRail_WidgetState extends State<NavigationRail_Widget> {
-  @override
-  Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context);
+  Widget build(BuildContext context, ScopedReader watch) {
+    var user = context.read(authRepositoryProvider).getCurrentUser();
     double _screenHeight = MediaQuery.of(context).size.width.toDouble();
 
     return NavigationRail(
       backgroundColor: Apptheme.mainCardColor,
-      selectedIndex: this.widget.currentIndex,
+      selectedIndex: this.currentIndex,
       unselectedIconTheme: IconThemeData(color: Apptheme.mainIconColor, size: 30),
       selectedIconTheme: IconThemeData(
         color: Apptheme.mainButonColor,
       ),
-      onDestinationSelected: this.widget.onDestinationSelected,
+      onDestinationSelected: this.onDestinationSelected,
       leading: Column(
         children: [
           SizedBox(height: AppBar().preferredSize.height - 5),
@@ -53,7 +48,7 @@ class _NavigationRail_WidgetState extends State<NavigationRail_Widget> {
           RotatedBox(
             quarterTurns: 3,
             child: Text(
-              user.userName ?? 'null',
+              user!.email ?? 'null',
               style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
             ),
           )
@@ -66,19 +61,23 @@ class _NavigationRail_WidgetState extends State<NavigationRail_Widget> {
       trailing: Column(
         children: [
           SizedBox(height: _screenHeight * .30),
-          RotatedBox(
-            quarterTurns: 3,
-            child: Text(
-              'OverView',
-              style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
+          Center(
+            child: RotatedBox(
+              quarterTurns: 3,
+              child: Text(
+                'OverView',
+                style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-          SizedBox(height: 25),
-          RotatedBox(
-            quarterTurns: 3,
-            child: Text(
-              'Feed',
-              style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
+          SizedBox(height: 10),
+          Center(
+            child: RotatedBox(
+              quarterTurns: 3,
+              child: Text(
+                'Feed',
+                style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           SizedBox(height: 20),
