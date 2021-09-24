@@ -162,7 +162,7 @@ class AddProductView extends ConsumerWidget {
 
                   await FirebaseFirestore.instance
                       .collection('UserInfo')
-                      .doc(currentUser!.uid)
+                      .doc(currentUser.uid)
                       .collection('UserEvents')
                       .doc('AddMealEvent')
                       .collection(
@@ -172,7 +172,7 @@ class AddProductView extends ConsumerWidget {
 
                   await FirebaseFirestore.instance
                       .collection('UserInfo')
-                      .doc(currentUser!.uid)
+                      .doc(currentUser.uid)
                       .collection('UserEvents')
                       .doc('AddMealEvent')
                       .collection('Y${DateTime.now().year}-M${DateTime.now().month}')

@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
         sliderTheme: SliderThemeData(valueIndicatorColor: Color.fromRGBO(33, 40, 67, 1)),
         // ignore: deprecated_member_use
         accentColor: Apptheme.mainButonColor,
+        //launch app
         textTheme: TextTheme(
           subtitle1: TextStyle(color: Apptheme.mainTextColor),
           subtitle2: TextStyle(color: Apptheme.mainTextColor),
