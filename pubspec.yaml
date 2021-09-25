@@ -34,6 +34,7 @@ dependencies:
   chart_sparkline: 
   sliding_up_panel:
   awesome_emojis: 
+  flutter_snake_navigationbar:
   
 
   #state/flow managment

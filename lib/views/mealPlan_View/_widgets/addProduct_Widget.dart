@@ -22,6 +22,7 @@ class AddProductView extends ConsumerWidget {
 
     TextEditingController searchController = new TextEditingController();
     String productSearchTerm = '';
+
     List<Parameter> productSearchParameters = <Parameter>[
       SearchTerms(terms: [productSearchTerm]),
       const SortBy(option: SortOption.POPULARITY),
@@ -116,7 +117,7 @@ class AddProductView extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 10),
-            Text('Products Added ${productsAdded.length}'),
+            Text('Products Added '),
             SizedBox(height: 10),
             // Expanded(
             //     child: Center(

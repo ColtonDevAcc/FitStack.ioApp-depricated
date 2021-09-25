@@ -16,10 +16,13 @@ class SavedView extends ConsumerWidget {
     var currentUser = context.read(authRepositoryProvider).getCurrentUser();
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Apptheme.secondaryAccent,
-          child: Icon(LineIcons.plus),
+        floatingActionButton: Align(
+          alignment: Alignment(0.9999, 0.8),
+          child: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: Apptheme.secondaryAccent,
+            child: Icon(LineIcons.plus),
+          ),
         ),
         backgroundColor: Apptheme.mainBackgroundColor,
         body: DefaultTabController(

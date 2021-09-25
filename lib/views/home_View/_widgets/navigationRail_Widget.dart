@@ -16,10 +16,10 @@ class NavigationRail_Widget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     var user = context.read(authRepositoryProvider).getCurrentUser();
-    double _screenHeight = MediaQuery.of(context).size.width.toDouble();
 
     return NavigationRail(
       backgroundColor: Apptheme.mainCardColor,
+      elevation: 2,
       selectedIndex: this.currentIndex,
       unselectedIconTheme: IconThemeData(color: Apptheme.mainIconColor, size: 30),
       selectedIconTheme: IconThemeData(
@@ -48,19 +48,21 @@ class NavigationRail_Widget extends ConsumerWidget {
           RotatedBox(
             quarterTurns: 3,
             child: Text(
-              user!.email ?? 'null',
+              user!.displayName ?? 'null',
               style: TextStyle(color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
             ),
           )
         ],
       ),
-      minWidth: 56,
-      groupAlignment: 1,
+      minWidth: 40,
+      groupAlignment: 0,
       labelType: NavigationRailLabelType.none,
       selectedLabelTextStyle: TextStyle(color: Colors.white),
       trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: _screenHeight * .30),
+          SizedBox(height: 100),
           Center(
             child: RotatedBox(
               quarterTurns: 3,
@@ -80,7 +82,6 @@ class NavigationRail_Widget extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
         ],
       ),
       destinations: [

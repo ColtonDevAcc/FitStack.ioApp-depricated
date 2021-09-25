@@ -16,19 +16,22 @@ class _GroupViewState extends State<GroupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showBottomSheet(
-            backgroundColor: Apptheme.mainBackgroundColor,
-            context: context,
-            builder: (context) {
-              return AddFriend_Widget();
-            },
-          );
-          AddFriend_Widget;
-        },
-        backgroundColor: Apptheme.secondaryAccent,
-        child: Icon(LineIcons.share),
+      floatingActionButton: Align(
+        alignment: Alignment(0.9999, 0.8),
+        child: FloatingActionButton(
+          onPressed: () {
+            showBottomSheet(
+              backgroundColor: Apptheme.mainBackgroundColor,
+              context: context,
+              builder: (context) {
+                return AddFriend_Widget();
+              },
+            );
+            AddFriend_Widget;
+          },
+          backgroundColor: Apptheme.secondaryAccent,
+          child: Icon(LineIcons.share),
+        ),
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: DefaultTabController(

@@ -9,10 +9,13 @@ class RecoveryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Apptheme.secondaryAccent,
-        child: Icon(LineIcons.plus),
+      floatingActionButton: Align(
+        alignment: Alignment(0.9999, 0.8),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Apptheme.secondaryAccent,
+          child: Icon(LineIcons.plus),
+        ),
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: DefaultTabController(

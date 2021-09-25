@@ -8,8 +8,6 @@ class Nutrition_View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Padding(

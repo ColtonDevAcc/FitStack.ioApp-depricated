@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/home_View/_widgets/navigationRail_Widget.dart';
+import 'package:workify/views/home_View/_widgets/SnakeNavigationBar_Widget.dart';
 import 'package:workify/views/home_View/_widgets/nutritionStatisticsContainer_Widget.dart';
 import 'package:workify/views/home_View/_widgets/progressStatisticsList_Widget.dart';
 import 'package:workify/views/home_View/_widgets/workoutList_Widget.dart';
 import 'package:workify/views/mealPlan_View/NutritonMain_View.dart';
+import 'package:workify/views/more_View/MoreMain_View.dart';
 import 'package:workify/views/recovery/recoveryView.dart';
 import 'package:workify/views/relationShip_View/relationshipMain_View.dart';
 import 'package:workify/views/saved/savedView.dart';
-import 'package:workify/views/trainer/trainerView.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -28,43 +28,23 @@ class _MainViewState extends State<MainView> {
     SavedView(),
     GroupView(),
     RecoveryView(),
-    TrainerView(),
+    More_View(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBody: true,
       backgroundColor: Apptheme.mainBackgroundColor,
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              color: Apptheme.mainBackgroundColor,
-              width: size.width * .2,
-              height: size.height,
-              child: NavigationRail_Widget(
-                currentIndex: _currentIndex,
-                onDestinationSelected: (selected) {
-                  setState(() {
-                    //sets the screen that is being displayed
-                    _currentIndex = selected;
-                  });
-                },
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              height: size.height,
-              width: size.width * .82,
-              color: Apptheme.mainBackgroundColor,
-              child: _currentIndex == 0 ? homeView(context: context) : _children[_currentIndex],
-            ),
-          ),
-        ],
+      body: _currentIndex == 0 ? homeView(context: context) : _children[_currentIndex],
+      bottomNavigationBar: SnakeNavigationBar_Widget(
+        currentIndex: _currentIndex,
+        onDestinationSelected: (selected) {
+          setState(() {
+            //sets the screen that is being displayed
+            _currentIndex = selected;
+          });
+        },
       ),
     );
   }
@@ -81,7 +61,7 @@ class _MainViewState extends State<MainView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'HOW YOUR DAY LOOKS',
+                  'HOW DOES YOUR DAY LOOK?',
                   textScaleFactor: 1.4,
                   style: TextStyle(
                     color: Apptheme.mainButonColor,
