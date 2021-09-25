@@ -41,7 +41,7 @@ class _SnakeNavigationBar_WidgetState extends State<SnakeNavigationBar_Widget> {
       onTap: this.widget.onDestinationSelected,
       elevation: 4,
       behaviour: SnakeBarBehaviour.floating,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
       currentIndex: this.widget.currentIndex,
       backgroundColor: Apptheme.mainCardColor,
       selectedItemColor: Apptheme.mainButonColor,
