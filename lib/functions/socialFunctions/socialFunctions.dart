@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
-import 'package:workify/models/userGroup_model.dart';
+import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/providers/generalProviders.dart';
 
 abstract class SocialFunctionsBaseClass {
@@ -31,8 +31,8 @@ class UserGroupRepository implements SocialFunctionsBaseClass {
   @override
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
-      final snap = await _read(firebaseFirestoreProvider).userGroupRef(userID).get();
-      return snap.docs.map((doc) => UserGroup.fromDocument(doc)).toList();
+      final snap = await _read(firebaseFirestoreProvider).userGroupRef(userID);
+      return snap['groups'];
     } on FirebaseException catch (e) {
       throw Exception(e);
     }
