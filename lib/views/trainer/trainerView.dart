@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
@@ -17,9 +16,7 @@ class TrainerView extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 10),
-            Text('Trainers',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
+            Text('Trainers', textScaleFactor: 1.3, style: TextStyle(color: Apptheme.mainTextColor)),
             SizedBox(height: 10),
             TextFormField(
               controller: _searchcontroller,
@@ -29,8 +26,7 @@ class TrainerView extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 labelText: 'Search trainers or trainer types',
-                labelStyle:
-                    TextStyle(color: Apptheme.mainTextColor.withOpacity(.5)),
+                labelStyle: TextStyle(color: Apptheme.mainTextColor.withOpacity(.5)),
                 fillColor: Apptheme.mainCardColor,
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white.withOpacity(0)),
@@ -45,28 +41,21 @@ class TrainerView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   recommendationTab(text: "Featured", icon: LineIcons.star),
-                  recommendationTab(
-                      text: "In your area", icon: LineIcons.locationArrow),
+                  recommendationTab(text: "In your area", icon: LineIcons.locationArrow),
                   recommendationTab(text: "Global", icon: LineIcons.globe),
-                  recommendationTab(
-                      text: "Recommended", icon: LineIcons.thumbsUp),
+                  recommendationTab(text: "Recommended", icon: LineIcons.thumbsUp),
                 ],
               ),
             ),
             SizedBox(height: 10),
-            Text('Featured',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
+            Text('Featured', textScaleFactor: 1.3, style: TextStyle(color: Apptheme.mainTextColor)),
             SizedBox(height: 10),
             SizedBox(height: 10),
             Text('In your area',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
+                textScaleFactor: 1.3, style: TextStyle(color: Apptheme.mainTextColor)),
             SizedBox(height: 10),
             SizedBox(height: 10),
-            Text('Global',
-                textScaleFactor: 1.3,
-                style: TextStyle(color: Apptheme.mainTextColor)),
+            Text('Global', textScaleFactor: 1.3, style: TextStyle(color: Apptheme.mainTextColor)),
             SizedBox(height: 10),
             SizedBox(height: 10),
           ],

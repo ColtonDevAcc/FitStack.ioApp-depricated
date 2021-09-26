@@ -14,10 +14,6 @@ dependencies:
   dio: 
   flutter_svg: 
 
-  #workflow
-  hooks_riverpod: 
-  freezed: 
-
   #OpenFoodFactsAPI Dep
   openfoodfacts: 
   qr_code_scanner: 
@@ -36,24 +32,24 @@ dependencies:
   awesome_emojis: 
   flutter_snake_navigationbar:
   
-
   #state/flow managment
-  carousel_slider:
-  rxdart: 
+  hooks_riverpod: 
+  flutter_hooks:
+  
+  #annotation
+  freezed_annotation: ^0.14.3
 
   #Firebase
   firebase_core: 
-  firebase_database: 
   firebase_auth:
   cloud_firestore: 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  freezed: 
+  json_serializable: 
   build_runner:
-  stacked_generator: 
-  places_service: 
   analyzer: 
 
 flutter:

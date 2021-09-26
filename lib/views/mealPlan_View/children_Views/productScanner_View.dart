@@ -1,8 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
@@ -216,17 +213,16 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    //productResult = await GetProductResult(qrCode: '610764028495'); //use scanData.code
+    //productResult = await GetProductResult(qrCode: '610764028495'); //!uncomment this once not in debugmode
 
+    //!get product once function has been called from recogntion of barcode from camera
     Future<void> pullProduct() async {
-      productResult = await GetProductResult(qrCode: result!.code);
+      productResult = await GetProductResult(qrCode: productResult!.barcode);
     }
 
     setState(() {
       this.controller = controller;
       productResult;
-      log('================== start ==================');
-      log('================== end ==================');
     });
 
 //! set a function call instead of using async no setstate

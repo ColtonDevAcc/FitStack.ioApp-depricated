@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -41,7 +43,8 @@ class _SnakeNavigationBar_WidgetState extends State<SnakeNavigationBar_Widget> {
       onTap: this.widget.onDestinationSelected,
       elevation: 4,
       behaviour: SnakeBarBehaviour.floating,
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      padding:
+          Platform.isIOS ? EdgeInsets.fromLTRB(20, 0, 20, 0) : EdgeInsets.fromLTRB(20, 0, 20, 10),
       currentIndex: this.widget.currentIndex,
       backgroundColor: Apptheme.mainCardColor,
       selectedItemColor: Apptheme.mainButonColor,

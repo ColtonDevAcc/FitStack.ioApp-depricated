@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/relationShip_View/_views/groups_view.dart';
 import 'package:workify/views/relationShip_View/_widgets/addFriend_Widget.dart';
-import 'package:workify/views/relationShip_View/friends_View.dart';
+import 'package:workify/views/relationShip_View/_views/friends_View.dart';
 
 class GroupView extends StatefulWidget {
   const GroupView({Key? key}) : super(key: key);
@@ -82,7 +82,11 @@ class _GroupViewState extends State<GroupView> {
               SizedBox(height: 15),
               Expanded(
                 child: TabBarView(
-                  children: [FriendsView(), Text('data'), Text('data')],
+                  children: [
+                    FriendsView(),
+                    Groups_View(),
+                    Text('data'),
+                  ],
                 ),
               )
             ],

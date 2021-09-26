@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:openfoodfacts/model/ProductResult.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:openfoodfacts/utils/ProductQueryConfigurations.dart';
 
 Future<ProductResult?> GetProductResult({qrCode: String, onSuccess: Function}) async {
   log('starting ===================== OPENAPITRACK');
@@ -21,7 +19,7 @@ Future<ProductResult?> GetProductResult({qrCode: String, onSuccess: Function}) a
   }
 }
 
-sendProductResults({productResult: Product, userUID: String}) async {
+SendProductResults({productResult: Product, userUID: String}) async {
   await FirebaseFirestore.instance
       .collection('UserInfo')
       .doc(userUID)
