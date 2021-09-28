@@ -6,17 +6,19 @@ import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/providers/generalProviders.dart';
 
-abstract class SocialFunctionsBaseClass {
+abstract class UserGroupRepsitoryBaseClass {
   Future<List<UserGroup>> retrieveUserGroups({required String userID});
   Future<String> createUserGroup({required String userID, required String groupName});
-  Future<void> updateUserGroup({required String userID, required String userGroupID});
+  Future<void> updateUserGroup({required String userID, required UserGroup userGroup});
   Future<void> deleteUserGroup({required String userID, required String userGroupID});
 }
 
-class UserGroupRepository implements SocialFunctionsBaseClass {
-  final Reader _read;
+final userGroupRepositoryProvider = Provider((ref) => UserGroupRepository(ref.read));
 
-  const UserGroupRepository(this._read);
+class UserGroupRepository implements UserGroupRepsitoryBaseClass {
+  final Reader read;
+
+  const UserGroupRepository(this.read);
 
   @override
   Future<String> createUserGroup({required String userID, required String groupName}) {
@@ -33,7 +35,7 @@ class UserGroupRepository implements SocialFunctionsBaseClass {
   @override
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
-      final snap = await _read(firebaseFirestoreProvider).userGroupRef(userID);
+      final snap = await read(firebaseFirestoreProvider).userGroupRef(userID);
       log(snap['groups']);
       return snap['groups'];
     } on FirebaseException catch (e) {
@@ -42,12 +44,8 @@ class UserGroupRepository implements SocialFunctionsBaseClass {
   }
 
   @override
-  Future<void> updateUserGroup({required String userID, required String userGroupID}) {
+  Future<void> updateUserGroup({required String userID, required UserGroup userGroup}) {
     // TODO: implement updateUserGroup
     throw UnimplementedError();
   }
-}
-
-GetUserGroups({userUID: String}) async {
-  await FirebaseFirestore.instance.collection('UserInfo').doc(userUID).get();
 }
