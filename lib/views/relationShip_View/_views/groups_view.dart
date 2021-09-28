@@ -12,11 +12,12 @@ class Groups_View extends HookWidget {
     final firebaseIdeaProvider = StreamProvider.autoDispose<List<UserGroup>>((ref) {
       final stream = FirebaseFirestore.instance.collection('Groups').snapshots();
       return stream
-          .map((snapshot) => snapshot.docs.map((doc) => UserGroup.fromJson(doc.data())).toList());
+          .map((snapshot) => snapshot.docs.map((e) => UserGroup.fromJson(e.data())).toList());
     });
 
     return Column(
       children: [
+        Text(firebaseIdeaProvider.toString()),
         useProvider(firebaseIdeaProvider).when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(

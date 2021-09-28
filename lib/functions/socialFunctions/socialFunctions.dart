@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
@@ -32,6 +34,7 @@ class UserGroupRepository implements SocialFunctionsBaseClass {
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
       final snap = await _read(firebaseFirestoreProvider).userGroupRef(userID);
+      log(snap['groups']);
       return snap['groups'];
     } on FirebaseException catch (e) {
       throw Exception(e);

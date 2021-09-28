@@ -4,19 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/services/authServices.dart';
 
-final authControllerProvider = StateNotifierProvider<AuthController, dynamic>(
+final authControllerProvider = StateNotifierProvider<AuthController, User?>(
   (ref) => AuthController(ref.read)..appStarter(),
 );
 
 class AuthController extends StateNotifier<User?> {
-  final Reader _read;
+  final Reader read;
 
   StreamSubscription<User?>? _authStateChangesSubscription;
 
-  AuthController(this._read) : super(null) {
+  AuthController(this.read) : super(null) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
-        _read(authRepositoryProvider).authStateChanges.listen((user) => state = user);
+        read(authRepositoryProvider).authStateChanges.listen((user) => state = user);
   }
 
   @override
@@ -26,13 +26,13 @@ class AuthController extends StateNotifier<User?> {
   }
 
   void appStarter() async {
-    final user = _read(authRepositoryProvider).getCurrentUser();
+    final user = read(authRepositoryProvider).getCurrentUser();
     if (user == null) {
-      await _read(authRepositoryProvider).signIn();
+      await read(authRepositoryProvider).signIn();
     }
   }
 
   void signOut() async {
-    await _read(authRepositoryProvider).signOut();
+    await read(authRepositoryProvider).signOut();
   }
 }
