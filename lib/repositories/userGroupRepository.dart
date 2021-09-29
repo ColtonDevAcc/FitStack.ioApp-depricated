@@ -35,7 +35,9 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   @override
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
-      final snap = await read(firebaseFirestoreProvider).userGroupRef(userID);
+      final snap =
+          await read(firebaseFirestoreProvider).userGroupRef('NgZfXAnIXlXpckFhJp75QE4BEHA2');
+      //!TODO: grab user id instead of hardcoding user ID
       log(snap['groups']);
       return snap['groups'];
     } on FirebaseException catch (e) {

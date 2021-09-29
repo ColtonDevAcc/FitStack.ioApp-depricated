@@ -4,7 +4,8 @@ import 'package:workify/repositories/userGroupRepository.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/customExceptions.dart';
 
-final GroupsListControllerProvider = StateNotifierProvider<GroupsListController, dynamic>((ref) {
+final GroupsListControllerProvider =
+    StateNotifierProvider<GroupsListController, AsyncValue<dynamic>>((ref) {
   final user = ref.watch(authControllerProvider);
   return GroupsListController(ref.read, user!.uid);
 });
