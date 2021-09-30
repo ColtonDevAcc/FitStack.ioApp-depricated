@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/services/authServices.dart';
+import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/saved/widgets/savedMealPlan.dart';
 import 'package:workify/views/saved/workoutView.dart';

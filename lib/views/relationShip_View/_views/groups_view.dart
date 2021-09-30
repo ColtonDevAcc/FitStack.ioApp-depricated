@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/repositories/customExceptions.dart';
+import 'package:workify/theme/theme.dart';
 
 class Groups_View extends StatelessWidget {
   const Groups_View({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ProviderListener(
-      onChange: (BuildContext context, StateController<CustomException?> customException) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(customException.state!.message!),
-          ),
-        );
-      },
-      provider: groupListExceptionProvider,
-      child: const UserGroupList(),
+    return Scaffold(
+      floatingActionButton: Align(
+        alignment: Alignment(1.04, 0.76),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Apptheme.secondaryAccent,
+          child: Icon(LineIcons.plus),
+        ),
+      ),
+      body: ProviderListener(
+        onChange: (BuildContext context, StateController<CustomException?> customException) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(customException.state!.message!),
+            ),
+          );
+        },
+        provider: groupListExceptionProvider,
+        child: const UserGroupList(),
+      ),
     );
   }
 }

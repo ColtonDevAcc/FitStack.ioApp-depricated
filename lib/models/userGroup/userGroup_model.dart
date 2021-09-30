@@ -12,10 +12,14 @@ abstract class UserGroup implements _$UserGroup {
   factory UserGroup({
     String? id,
     required String name,
+    List<String>? userIdList,
+    List<String>? moderaterList,
+    List<String>? ownerList,
     @Default(false) bool obtained,
   }) = _UserGroup;
 
-  factory UserGroup.empty() => UserGroup(name: '');
+  factory UserGroup.empty() =>
+      UserGroup(name: '', userIdList: [], moderaterList: [], ownerList: []);
 
   factory UserGroup.fromJson(Map<String, dynamic> json) => _$UserGroupFromJson(json);
 
@@ -27,4 +31,4 @@ abstract class UserGroup implements _$UserGroup {
   Map<String, dynamic> toDocument() => toJson()..remove('id');
 }
 
-//!flutter packages pub run build_runner watch --delete-conflitcting-outputs
+//!flutter packages pub run build_runner watch --delete-conflicting-outputs

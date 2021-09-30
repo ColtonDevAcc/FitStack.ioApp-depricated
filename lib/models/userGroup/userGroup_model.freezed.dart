@@ -20,10 +20,19 @@ UserGroup _$UserGroupFromJson(Map<String, dynamic> json) {
 class _$UserGroupTearOff {
   const _$UserGroupTearOff();
 
-  _UserGroup call({String? id, required String name, bool obtained = false}) {
+  _UserGroup call(
+      {String? id,
+      required String name,
+      List<String>? userIdList,
+      List<String>? moderaterList,
+      List<String>? ownerList,
+      bool obtained = false}) {
     return _UserGroup(
       id: id,
       name: name,
+      userIdList: userIdList,
+      moderaterList: moderaterList,
+      ownerList: ownerList,
       obtained: obtained,
     );
   }
@@ -40,6 +49,9 @@ const $UserGroup = _$UserGroupTearOff();
 mixin _$UserGroup {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  List<String>? get userIdList => throw _privateConstructorUsedError;
+  List<String>? get moderaterList => throw _privateConstructorUsedError;
+  List<String>? get ownerList => throw _privateConstructorUsedError;
   bool get obtained => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,7 +64,13 @@ mixin _$UserGroup {
 abstract class $UserGroupCopyWith<$Res> {
   factory $UserGroupCopyWith(UserGroup value, $Res Function(UserGroup) then) =
       _$UserGroupCopyWithImpl<$Res>;
-  $Res call({String? id, String name, bool obtained});
+  $Res call(
+      {String? id,
+      String name,
+      List<String>? userIdList,
+      List<String>? moderaterList,
+      List<String>? ownerList,
+      bool obtained});
 }
 
 /// @nodoc
@@ -67,6 +85,9 @@ class _$UserGroupCopyWithImpl<$Res> implements $UserGroupCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? userIdList = freezed,
+    Object? moderaterList = freezed,
+    Object? ownerList = freezed,
     Object? obtained = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +99,18 @@ class _$UserGroupCopyWithImpl<$Res> implements $UserGroupCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      userIdList: userIdList == freezed
+          ? _value.userIdList
+          : userIdList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      moderaterList: moderaterList == freezed
+          ? _value.moderaterList
+          : moderaterList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      ownerList: ownerList == freezed
+          ? _value.ownerList
+          : ownerList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       obtained: obtained == freezed
           ? _value.obtained
           : obtained // ignore: cast_nullable_to_non_nullable
@@ -92,7 +125,13 @@ abstract class _$UserGroupCopyWith<$Res> implements $UserGroupCopyWith<$Res> {
           _UserGroup value, $Res Function(_UserGroup) then) =
       __$UserGroupCopyWithImpl<$Res>;
   @override
-  $Res call({String? id, String name, bool obtained});
+  $Res call(
+      {String? id,
+      String name,
+      List<String>? userIdList,
+      List<String>? moderaterList,
+      List<String>? ownerList,
+      bool obtained});
 }
 
 /// @nodoc
@@ -108,6 +147,9 @@ class __$UserGroupCopyWithImpl<$Res> extends _$UserGroupCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? userIdList = freezed,
+    Object? moderaterList = freezed,
+    Object? ownerList = freezed,
     Object? obtained = freezed,
   }) {
     return _then(_UserGroup(
@@ -119,6 +161,18 @@ class __$UserGroupCopyWithImpl<$Res> extends _$UserGroupCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      userIdList: userIdList == freezed
+          ? _value.userIdList
+          : userIdList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      moderaterList: moderaterList == freezed
+          ? _value.moderaterList
+          : moderaterList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      ownerList: ownerList == freezed
+          ? _value.ownerList
+          : ownerList // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       obtained: obtained == freezed
           ? _value.obtained
           : obtained // ignore: cast_nullable_to_non_nullable
@@ -129,9 +183,14 @@ class __$UserGroupCopyWithImpl<$Res> extends _$UserGroupCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-@freezed
 class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
-  _$_UserGroup({this.id, required this.name, this.obtained = false})
+  _$_UserGroup(
+      {this.id,
+      required this.name,
+      this.userIdList,
+      this.moderaterList,
+      this.ownerList,
+      this.obtained = false})
       : super._();
 
   factory _$_UserGroup.fromJson(Map<String, dynamic> json) =>
@@ -141,13 +200,19 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
   final String? id;
   @override
   final String name;
+  @override
+  final List<String>? userIdList;
+  @override
+  final List<String>? moderaterList;
+  @override
+  final List<String>? ownerList;
   @JsonKey(defaultValue: false)
   @override
   final bool obtained;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserGroup(id: $id, name: $name, obtained: $obtained)';
+    return 'UserGroup(id: $id, name: $name, userIdList: $userIdList, moderaterList: $moderaterList, ownerList: $ownerList, obtained: $obtained)';
   }
 
   @override
@@ -157,6 +222,9 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'UserGroup'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('userIdList', userIdList))
+      ..add(DiagnosticsProperty('moderaterList', moderaterList))
+      ..add(DiagnosticsProperty('ownerList', ownerList))
       ..add(DiagnosticsProperty('obtained', obtained));
   }
 
@@ -168,6 +236,15 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.userIdList, userIdList) ||
+                const DeepCollectionEquality()
+                    .equals(other.userIdList, userIdList)) &&
+            (identical(other.moderaterList, moderaterList) ||
+                const DeepCollectionEquality()
+                    .equals(other.moderaterList, moderaterList)) &&
+            (identical(other.ownerList, ownerList) ||
+                const DeepCollectionEquality()
+                    .equals(other.ownerList, ownerList)) &&
             (identical(other.obtained, obtained) ||
                 const DeepCollectionEquality()
                     .equals(other.obtained, obtained)));
@@ -178,6 +255,9 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(userIdList) ^
+      const DeepCollectionEquality().hash(moderaterList) ^
+      const DeepCollectionEquality().hash(ownerList) ^
       const DeepCollectionEquality().hash(obtained);
 
   @JsonKey(ignore: true)
@@ -192,8 +272,13 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
 }
 
 abstract class _UserGroup extends UserGroup {
-  factory _UserGroup({String? id, required String name, bool obtained}) =
-      _$_UserGroup;
+  factory _UserGroup(
+      {String? id,
+      required String name,
+      List<String>? userIdList,
+      List<String>? moderaterList,
+      List<String>? ownerList,
+      bool obtained}) = _$_UserGroup;
   _UserGroup._() : super._();
 
   factory _UserGroup.fromJson(Map<String, dynamic> json) =
@@ -203,6 +288,12 @@ abstract class _UserGroup extends UserGroup {
   String? get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
+  @override
+  List<String>? get userIdList => throw _privateConstructorUsedError;
+  @override
+  List<String>? get moderaterList => throw _privateConstructorUsedError;
+  @override
+  List<String>? get ownerList => throw _privateConstructorUsedError;
   @override
   bool get obtained => throw _privateConstructorUsedError;
   @override

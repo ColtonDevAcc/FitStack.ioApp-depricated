@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/services/authServices.dart';
+import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 
 class SignUpView extends ConsumerWidget {

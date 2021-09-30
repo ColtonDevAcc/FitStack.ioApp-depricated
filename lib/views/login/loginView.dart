@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:workify/services/authServices.dart';
+import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/home_View/mainHome_View.dart';
 import 'package:workify/views/signUp/signUpView.dart';

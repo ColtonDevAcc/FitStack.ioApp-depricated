@@ -34,7 +34,8 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
 
   Future<void> addGroup({required String name, bool obtained = false}) async {
     try {
-      final group = UserGroup(name: name, obtained: obtained);
+      final group = UserGroup(
+          name: name, obtained: obtained, moderaterList: [], ownerList: [], userIdList: []);
       final groupID = await read(userGroupRepositoryProvider).createUserGroup(
         userID: userID,
         groupName: name,
