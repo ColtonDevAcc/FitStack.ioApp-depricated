@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/relationShip_View/_views/groups_view.dart';
-import 'package:workify/views/relationShip_View/_widgets/addFriend_Widget.dart';
 import 'package:workify/views/relationShip_View/_views/friends_View.dart';
 
 class GroupView extends StatefulWidget {

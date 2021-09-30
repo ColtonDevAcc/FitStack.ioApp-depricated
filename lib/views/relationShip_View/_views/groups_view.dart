@@ -5,19 +5,33 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/repositories/customExceptions.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/relationship_View/_widgets/addGroup_Widget.dart';
 
-class Groups_View extends StatelessWidget {
+final fabProvider = Provider<dynamic>((ref) {
+  return [LineIcons.plus, AddGroup_Widget()];
+});
+
+class Groups_View extends HookWidget {
   const Groups_View({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Apptheme.mainBackgroundColor,
       floatingActionButton: Align(
         alignment: Alignment(1.04, 0.76),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            showBottomSheet(
+              backgroundColor: Apptheme.mainBackgroundColor,
+              context: context,
+              builder: (context) {
+                return AddGroup_Widget();
+              },
+            );
+          },
           backgroundColor: Apptheme.secondaryAccent,
-          child: Icon(LineIcons.plus),
+          child: Icon(LineIcons.share),
         ),
       ),
       body: ProviderListener(
