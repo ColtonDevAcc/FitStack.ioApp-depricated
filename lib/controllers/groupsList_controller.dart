@@ -17,9 +17,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   final String userID;
 
   GroupsListController(this.read, this.userID) : super(AsyncValue.loading()) {
-    if (userID != null) {
-      retrieveGroups();
-    }
+    retrieveGroups();
   }
 
   Future<void> retrieveGroups({bool isRefreshing = false}) async {

@@ -1,5 +1,3 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 class CustomException implements Exception {
   final String? message;
 
