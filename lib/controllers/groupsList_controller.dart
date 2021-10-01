@@ -32,13 +32,29 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
     }
   }
 
-  Future<void> addGroup({required String name, bool obtained = false}) async {
+  Future<void> addGroup({
+    required String name,
+    required userID,
+    bool obtained = false,
+    required List<String>? moderaterList,
+    required List<String>? ownerList,
+    required List<String>? userIDList,
+  }) async {
     try {
       final group = UserGroup(
-          name: name, obtained: obtained, moderaterList: [], ownerList: [], userIdList: []);
+        id: userID,
+        name: name,
+        obtained: obtained,
+        moderaterList: moderaterList,
+        ownerList: ownerList,
+        userIdList: userIDList,
+      );
       final groupID = await read(userGroupRepositoryProvider).createUserGroup(
         userID: userID,
         groupName: name,
+        moderaterList: ['moderaterList', 'f'],
+        ownerList: ['ownerList + userID'],
+        userIDList: ['userID + userIdList'],
       );
       state.whenData((groups) => state = AsyncValue.data(groups..add(group.copyWith(id: groupID))));
     } on CustomException catch (e) {

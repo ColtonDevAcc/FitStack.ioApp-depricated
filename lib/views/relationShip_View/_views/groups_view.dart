@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/repositories/customExceptions.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/relationShip_View/_widgets/groupCard_Widet.dart';
 import 'package:workify/views/relationship_View/_widgets/addGroup_Widget.dart';
 
 final fabProvider = Provider<dynamic>((ref) {
@@ -54,19 +55,24 @@ class UserGroupList extends HookWidget {
   const UserGroupList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    //!this does not work at all and i have no idea why. I just cant access .when
     final userGroupList = useProvider(GroupsListControllerProvider);
     return userGroupList.when(
       data: (groups) => groups.isEmpty
           ? const Center(child: Text('add a group'))
-          : ListView.builder(
-              itemCount: groups.length,
-              itemBuilder: (BuildContext context, int index) {
-                final group = groups[index];
-                return Container(
-                  child: Text(group.name),
-                );
-              },
+          : Scrollbar(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: groups.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final group = groups[index];
+                  return Center(
+                    child: GroupCardWidet(
+                      description: '',
+                      title: group.name,
+                    ),
+                  );
+                },
+              ),
             ),
       loading: () => Column(
         children: [

@@ -8,7 +8,13 @@ import 'package:workify/providers/generalProviders.dart';
 
 abstract class UserGroupRepsitoryBaseClass {
   Future<List<UserGroup>> retrieveUserGroups({required String userID});
-  Future<String> createUserGroup({required String userID, required String groupName});
+  Future<String> createUserGroup({
+    required String userID,
+    required String groupName,
+    required List<String> moderaterList,
+    required List<String> ownerList,
+    required List<String> userIDList,
+  });
   Future<void> updateUserGroup({required String userID, required UserGroup userGroup});
   Future<void> deleteUserGroup({required String userID, required String userGroupID});
 }
@@ -21,9 +27,24 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   const UserGroupRepository(this.read);
 
   @override
-  Future<String> createUserGroup({required String userID, required String groupName}) {
-    // TODO: implement deleteUserGroup
-    throw UnimplementedError();
+  Future<String> createUserGroup({
+    required String userID,
+    required String groupName,
+    required List<String>? moderaterList,
+    required List<String>? ownerList,
+    required List<String>? userIDList,
+  }) async {
+    final snap = await read(firebaseFirestoreProvider).groupListRef();
+    final newGroupID = snap
+        .add(UserGroup(
+          name: groupName,
+          moderaterList: moderaterList,
+          ownerList: ownerList,
+          userIdList: userIDList,
+        ).toDocument())
+        .then((value) => value.id);
+    log(await newGroupID);
+    return newGroupID;
   }
 
   @override
@@ -45,7 +66,7 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
         (groupName) async {
           userGroups.add(
             UserGroup.fromDocument(
-              await read(firebaseFirestoreProvider).groupList(groupName.toString()),
+              await read(firebaseFirestoreProvider).getGroupList(groupName.toString()),
             ),
           );
         },
