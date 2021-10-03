@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/relationShip_View/_views/groups_view.dart';
 import 'package:workify/views/relationShip_View/_views/friends_View.dart';
 
-class GroupView extends StatefulWidget {
+class GroupView extends HookWidget {
   const GroupView({Key? key}) : super(key: key);
 
-  @override
-  _GroupViewState createState() => _GroupViewState();
-}
-
-class _GroupViewState extends State<GroupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

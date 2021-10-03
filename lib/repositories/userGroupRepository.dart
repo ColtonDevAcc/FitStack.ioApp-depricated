@@ -34,16 +34,21 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
     required List<String>? ownerList,
     required List<String>? userIDList,
   }) async {
-    final snap = await read(firebaseFirestoreProvider).groupListRef();
-    final newGroupID = snap
+    final snap = await read(firebaseFirestoreProvider);
+    final newGroupID = await snap
+        .groupListRef()
         .add(UserGroup(
           name: groupName,
           moderaterList: moderaterList,
           ownerList: ownerList,
           userIdList: userIDList,
         ).toDocument())
-        .then((value) => value.id);
-    log(await newGroupID);
+        .then((value) {
+      return value.id;
+    });
+    snap.userGroupRef(userID).update({
+      'groups': FieldValue.arrayUnion([newGroupID])
+    });
     return newGroupID;
   }
 
@@ -56,7 +61,7 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   @override
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
-      final snap = await read(firebaseFirestoreProvider).userGroupRef(userID);
+      final snap = await read(firebaseFirestoreProvider).userGroupRef(userID).get();
       log(snap['groups'].toString());
       List<dynamic> groupNameList = snap['groups'];
 

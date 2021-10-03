@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,11 +16,17 @@ abstract class UserGroup implements _$UserGroup {
     List<String>? userIdList,
     List<String>? moderaterList,
     List<String>? ownerList,
+    String? bannerImageURL,
     @Default(false) bool obtained,
   }) = _UserGroup;
 
-  factory UserGroup.empty() =>
-      UserGroup(name: '', userIdList: [], moderaterList: [], ownerList: []);
+  factory UserGroup.empty() => UserGroup(
+        name: '',
+        userIdList: [],
+        moderaterList: [],
+        ownerList: [],
+        bannerImageURL: 'assets/images/gymGirl.png',
+      );
 
   factory UserGroup.fromJson(Map<String, dynamic> json) => _$UserGroupFromJson(json);
 

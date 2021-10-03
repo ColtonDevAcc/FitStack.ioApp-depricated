@@ -18,6 +18,7 @@ _$_UserGroup _$_$_UserGroupFromJson(Map<String, dynamic> json) {
         .toList(),
     ownerList:
         (json['ownerList'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    bannerImageURL: json['bannerImageURL'] as String?,
     obtained: json['obtained'] as bool? ?? false,
   );
 }
@@ -29,5 +30,6 @@ Map<String, dynamic> _$_$_UserGroupToJson(_$_UserGroup instance) =>
       'userIdList': instance.userIdList,
       'moderaterList': instance.moderaterList,
       'ownerList': instance.ownerList,
+      'bannerImageURL': instance.bannerImageURL,
       'obtained': instance.obtained,
     };

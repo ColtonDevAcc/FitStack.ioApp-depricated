@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/controllers/auth_controller.dart';
 import 'package:workify/repositories/userGroupRepository.dart';
@@ -5,25 +8,27 @@ import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/customExceptions.dart';
 
 final GroupsListControllerProvider =
-    StateNotifierProvider<GroupsListController, AsyncValue<dynamic>>((ref) {
+    StateNotifierProvider<GroupsListController, AsyncValue<List<UserGroup>>>((ref) {
   final user = ref.watch(authControllerProvider);
-  return GroupsListController(ref.read, user!.uid);
+  return GroupsListController(ref.read, user);
 });
 
 final groupListExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   final Reader read;
-  final String userID;
+  final User? user;
 
-  GroupsListController(this.read, this.userID) : super(AsyncValue.loading()) {
-    retrieveGroups();
+  GroupsListController(this.read, this.user) : super(AsyncValue.loading()) {
+    if (user != null) {
+      retrieveGroups();
+    }
   }
 
   Future<void> retrieveGroups({bool isRefreshing = false}) async {
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final group = await read(userGroupRepositoryProvider).retrieveUserGroups(userID: userID);
+      final group = await read(userGroupRepositoryProvider).retrieveUserGroups(userID: user!.uid);
       if (mounted) {
         state = AsyncValue.data(group);
       }
@@ -52,10 +57,11 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
       final groupID = await read(userGroupRepositoryProvider).createUserGroup(
         userID: userID,
         groupName: name,
-        moderaterList: ['moderaterList', 'f'],
-        ownerList: ['ownerList + userID'],
-        userIDList: ['userID + userIdList'],
+        moderaterList: moderaterList,
+        ownerList: ownerList,
+        userIDList: userIDList,
       );
+      log('new group created ${groupID}');
       state.whenData((groups) => state = AsyncValue.data(groups..add(group.copyWith(id: groupID))));
     } on CustomException catch (e) {
       read(groupListExceptionProvider).state = e;
@@ -65,7 +71,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   Future<void> updateGroup({required UserGroup updatedGroup}) async {
     try {
       await read(userGroupRepositoryProvider)
-          .updateUserGroup(userID: userID, userGroup: updatedGroup);
+          .updateUserGroup(userID: user!.uid, userGroup: updatedGroup);
       state.whenData((groups) {
         state = AsyncValue.data([
           for (final group in groups)
@@ -80,7 +86,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   Future<void> deleteGroup({required String groupID}) async {
     try {
       await read(userGroupRepositoryProvider).deleteUserGroup(
-        userID: userID,
+        userID: user!.uid,
         userGroupID: groupID,
       );
       state.whenData(

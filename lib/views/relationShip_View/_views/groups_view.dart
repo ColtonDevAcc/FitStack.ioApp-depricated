@@ -5,8 +5,9 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/repositories/customExceptions.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/relationShip_View/_widgets/groupCard_Widet.dart';
+import 'package:workify/views/relationship_View/_views/userGroup_View.dart';
 import 'package:workify/views/relationship_View/_widgets/addGroup_Widget.dart';
+import 'package:workify/views/relationship_View/_widgets/groupCard_Widet.dart';
 
 final fabProvider = Provider<dynamic>((ref) {
   return [LineIcons.plus, AddGroup_Widget()];
@@ -56,6 +57,7 @@ class UserGroupList extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final userGroupList = useProvider(GroupsListControllerProvider);
+
     return userGroupList.when(
       data: (groups) => groups.isEmpty
           ? const Center(child: Text('add a group'))
@@ -65,10 +67,16 @@ class UserGroupList extends HookWidget {
                 itemCount: groups.length,
                 itemBuilder: (BuildContext context, int index) {
                   final group = groups[index];
-                  return Center(
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UserGroup_View(group)),
+                      );
+                    },
+                    onLongPress: () {},
                     child: GroupCardWidet(
-                      description: '',
-                      title: group.name,
+                      group: group,
                     ),
                   );
                 },
@@ -76,12 +84,14 @@ class UserGroupList extends HookWidget {
             ),
       loading: () => Column(
         children: [
-          Container(
-            width: 50,
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
+          Center(
+            child: Container(
+              width: 50,
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(),
+              ),
             ),
           ),
         ],

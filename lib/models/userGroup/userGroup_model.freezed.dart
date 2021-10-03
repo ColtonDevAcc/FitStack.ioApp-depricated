@@ -26,6 +26,7 @@ class _$UserGroupTearOff {
       List<String>? userIdList,
       List<String>? moderaterList,
       List<String>? ownerList,
+      String? bannerImageURL,
       bool obtained = false}) {
     return _UserGroup(
       id: id,
@@ -33,6 +34,7 @@ class _$UserGroupTearOff {
       userIdList: userIdList,
       moderaterList: moderaterList,
       ownerList: ownerList,
+      bannerImageURL: bannerImageURL,
       obtained: obtained,
     );
   }
@@ -52,6 +54,7 @@ mixin _$UserGroup {
   List<String>? get userIdList => throw _privateConstructorUsedError;
   List<String>? get moderaterList => throw _privateConstructorUsedError;
   List<String>? get ownerList => throw _privateConstructorUsedError;
+  String? get bannerImageURL => throw _privateConstructorUsedError;
   bool get obtained => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -70,6 +73,7 @@ abstract class $UserGroupCopyWith<$Res> {
       List<String>? userIdList,
       List<String>? moderaterList,
       List<String>? ownerList,
+      String? bannerImageURL,
       bool obtained});
 }
 
@@ -88,6 +92,7 @@ class _$UserGroupCopyWithImpl<$Res> implements $UserGroupCopyWith<$Res> {
     Object? userIdList = freezed,
     Object? moderaterList = freezed,
     Object? ownerList = freezed,
+    Object? bannerImageURL = freezed,
     Object? obtained = freezed,
   }) {
     return _then(_value.copyWith(
@@ -111,6 +116,10 @@ class _$UserGroupCopyWithImpl<$Res> implements $UserGroupCopyWith<$Res> {
           ? _value.ownerList
           : ownerList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      bannerImageURL: bannerImageURL == freezed
+          ? _value.bannerImageURL
+          : bannerImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       obtained: obtained == freezed
           ? _value.obtained
           : obtained // ignore: cast_nullable_to_non_nullable
@@ -131,6 +140,7 @@ abstract class _$UserGroupCopyWith<$Res> implements $UserGroupCopyWith<$Res> {
       List<String>? userIdList,
       List<String>? moderaterList,
       List<String>? ownerList,
+      String? bannerImageURL,
       bool obtained});
 }
 
@@ -150,6 +160,7 @@ class __$UserGroupCopyWithImpl<$Res> extends _$UserGroupCopyWithImpl<$Res>
     Object? userIdList = freezed,
     Object? moderaterList = freezed,
     Object? ownerList = freezed,
+    Object? bannerImageURL = freezed,
     Object? obtained = freezed,
   }) {
     return _then(_UserGroup(
@@ -173,6 +184,10 @@ class __$UserGroupCopyWithImpl<$Res> extends _$UserGroupCopyWithImpl<$Res>
           ? _value.ownerList
           : ownerList // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      bannerImageURL: bannerImageURL == freezed
+          ? _value.bannerImageURL
+          : bannerImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
       obtained: obtained == freezed
           ? _value.obtained
           : obtained // ignore: cast_nullable_to_non_nullable
@@ -190,6 +205,7 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
       this.userIdList,
       this.moderaterList,
       this.ownerList,
+      this.bannerImageURL,
       this.obtained = false})
       : super._();
 
@@ -206,13 +222,15 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
   final List<String>? moderaterList;
   @override
   final List<String>? ownerList;
+  @override
+  final String? bannerImageURL;
   @JsonKey(defaultValue: false)
   @override
   final bool obtained;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserGroup(id: $id, name: $name, userIdList: $userIdList, moderaterList: $moderaterList, ownerList: $ownerList, obtained: $obtained)';
+    return 'UserGroup(id: $id, name: $name, userIdList: $userIdList, moderaterList: $moderaterList, ownerList: $ownerList, bannerImageURL: $bannerImageURL, obtained: $obtained)';
   }
 
   @override
@@ -225,6 +243,7 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('userIdList', userIdList))
       ..add(DiagnosticsProperty('moderaterList', moderaterList))
       ..add(DiagnosticsProperty('ownerList', ownerList))
+      ..add(DiagnosticsProperty('bannerImageURL', bannerImageURL))
       ..add(DiagnosticsProperty('obtained', obtained));
   }
 
@@ -245,6 +264,9 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
             (identical(other.ownerList, ownerList) ||
                 const DeepCollectionEquality()
                     .equals(other.ownerList, ownerList)) &&
+            (identical(other.bannerImageURL, bannerImageURL) ||
+                const DeepCollectionEquality()
+                    .equals(other.bannerImageURL, bannerImageURL)) &&
             (identical(other.obtained, obtained) ||
                 const DeepCollectionEquality()
                     .equals(other.obtained, obtained)));
@@ -258,6 +280,7 @@ class _$_UserGroup extends _UserGroup with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(userIdList) ^
       const DeepCollectionEquality().hash(moderaterList) ^
       const DeepCollectionEquality().hash(ownerList) ^
+      const DeepCollectionEquality().hash(bannerImageURL) ^
       const DeepCollectionEquality().hash(obtained);
 
   @JsonKey(ignore: true)
@@ -278,6 +301,7 @@ abstract class _UserGroup extends UserGroup {
       List<String>? userIdList,
       List<String>? moderaterList,
       List<String>? ownerList,
+      String? bannerImageURL,
       bool obtained}) = _$_UserGroup;
   _UserGroup._() : super._();
 
@@ -294,6 +318,8 @@ abstract class _UserGroup extends UserGroup {
   List<String>? get moderaterList => throw _privateConstructorUsedError;
   @override
   List<String>? get ownerList => throw _privateConstructorUsedError;
+  @override
+  String? get bannerImageURL => throw _privateConstructorUsedError;
   @override
   bool get obtained => throw _privateConstructorUsedError;
   @override
