@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
-import 'package:workify/repositories/auth_controller.dart';
+import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 
 class AddGroup_Widget extends HookWidget {

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/controllers/auth_controller.dart';
-import 'package:workify/repositories/userGroupRepository.dart';
+import 'package:workify/repositories/userGroup_Repository.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/customExceptions.dart';
 

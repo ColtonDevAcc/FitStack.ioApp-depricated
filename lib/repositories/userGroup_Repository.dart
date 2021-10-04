@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
+import 'package:workify/models/user/user_model.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/providers/generalProviders.dart';
 
@@ -17,6 +18,10 @@ abstract class UserGroupRepsitoryBaseClass {
   });
   Future<void> updateUserGroup({required String userID, required UserGroup userGroup});
   Future<void> deleteUserGroup({required String userID, required String userGroupID});
+  Future<void> kickUser({required String authorizingUserID, required String kickingUserID});
+  Future<List<User>> retrieveUserList(
+      {required String authorizingUserID, required List userIdLIst});
+  Future<void> inviteUsers({required String authorizingUserID, required List userIdLIst});
 }
 
 final userGroupRepositoryProvider = Provider((ref) => UserGroupRepository(ref.read));
@@ -71,7 +76,7 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
         (groupName) async {
           userGroups.add(
             UserGroup.fromDocument(
-              await read(firebaseFirestoreProvider).getGroupList(groupName.toString()),
+              await read(firebaseFirestoreProvider).getGroupList(groupName),
             ),
           );
         },
@@ -86,6 +91,42 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   @override
   Future<void> updateUserGroup({required String userID, required UserGroup userGroup}) {
     // TODO: implement updateUserGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<User>> retrieveUserList(
+      {required String authorizingUserID, required List userIdLIst}) async {
+    final List<User> userList = [];
+
+    try {
+      userIdLIst.forEach(
+        (user) async {
+          log(user);
+          userList.add(
+            User.fromDocument(
+              await read(firebaseFirestoreProvider).userRef(user).get(),
+            ),
+          );
+          log('${userList.first.lastName}');
+        },
+      );
+      print('returning user list');
+      return userList;
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> inviteUsers({required String authorizingUserID, required List userIdLIst}) {
+    // TODO: implement inviteUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> kickUser({required String authorizingUserID, required String kickingUserID}) {
+    // TODO: implement kickUser
     throw UnimplementedError();
   }
 }

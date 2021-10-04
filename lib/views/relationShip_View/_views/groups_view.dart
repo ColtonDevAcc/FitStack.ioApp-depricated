@@ -5,7 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/repositories/customExceptions.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/relationship_View/_views/userGroup_View.dart';
+import 'package:workify/views/relationShip_View/_views/userGroup_View/userGroup_View.dart';
 import 'package:workify/views/relationship_View/_widgets/addGroup_Widget.dart';
 import 'package:workify/views/relationship_View/_widgets/groupCard_Widet.dart';
 

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:workify/models/user/user_model.dart';
 
-import 'package:workify/models/user.dart';
 import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/login/loginView.dart';
@@ -119,7 +119,7 @@ class SignUpWandNDetails extends ConsumerWidget {
                     ];
 
                     //! NEED TO IMPLEMENT TO AUTH USER
-                    var user = new FirebaseUser(
+                    User user = new User(
                       userName: 'this.widget.userName!',
                       firstName: this.firstName,
                       lastName: this.lastName,
@@ -138,7 +138,7 @@ class SignUpWandNDetails extends ConsumerWidget {
                     await FirebaseFirestore.instance
                         .collection('UserInfo')
                         .doc(currentUser!.uid)
-                        .set(user.toMap());
+                        .set(user.toDocument());
 
                     Navigator.push(
                       context,
