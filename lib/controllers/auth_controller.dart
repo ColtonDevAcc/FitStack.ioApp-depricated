@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/repositories/auth_repository.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, User?>(
-  (ref) => AuthController(ref.read)..appStarter(),
+  (ref) => AuthController(ref.read),
 );
 
 class AuthController extends StateNotifier<User?> {
@@ -25,11 +25,8 @@ class AuthController extends StateNotifier<User?> {
     super.dispose();
   }
 
-  void appStarter() async {
-    final user = read(authRepositoryProvider).getCurrentUser();
-    if (user == null) {
-      await read(authRepositoryProvider).signIn();
-    }
+  void signIn({email: String, password: String}) async {
+    await read(authRepositoryProvider).signIn(email: email, password: password);
   }
 
   void signOut() async {

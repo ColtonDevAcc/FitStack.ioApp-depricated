@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/controllers/auth_controller.dart';
 import 'package:workify/repositories/userGroup_Repository.dart';
@@ -10,17 +9,17 @@ import 'package:workify/repositories/customExceptions.dart';
 final GroupsListControllerProvider =
     StateNotifierProvider<GroupsListController, AsyncValue<List<UserGroup>>>((ref) {
   final user = ref.watch(authControllerProvider);
-  return GroupsListController(ref.read, user);
+  return GroupsListController(ref.read, user!.uid);
 });
 
 final groupListExceptionProvider = StateProvider<CustomException?>((_) => null);
 
 class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   final Reader read;
-  final User? user;
+  final String? userID;
 
-  GroupsListController(this.read, this.user) : super(AsyncValue.loading()) {
-    if (user != null) {
+  GroupsListController(this.read, this.userID) : super(AsyncValue.loading()) {
+    if (userID != null) {
       retrieveGroups();
     }
   }
@@ -28,7 +27,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   Future<void> retrieveGroups({bool isRefreshing = false}) async {
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final group = await read(userGroupRepositoryProvider).retrieveUserGroups(userID: user!.uid);
+      final group = await read(userGroupRepositoryProvider).retrieveUserGroups(userID: userID!);
       if (mounted) {
         state = AsyncValue.data(group);
       }
@@ -71,7 +70,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   Future<void> updateGroup({required UserGroup updatedGroup}) async {
     try {
       await read(userGroupRepositoryProvider)
-          .updateUserGroup(userID: user!.uid, userGroup: updatedGroup);
+          .updateUserGroup(userID: userID!, userGroup: updatedGroup);
       state.whenData((groups) {
         state = AsyncValue.data([
           for (final group in groups)
@@ -86,7 +85,7 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   Future<void> deleteGroup({required String groupID}) async {
     try {
       await read(userGroupRepositoryProvider).deleteUserGroup(
-        userID: user!.uid,
+        userID: userID!,
         userGroupID: groupID,
       );
       state.whenData(

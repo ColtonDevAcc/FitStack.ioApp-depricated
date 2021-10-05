@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:workify/controllers/auth_controller.dart';
 import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/home_View/mainHome_View.dart';
@@ -144,11 +147,14 @@ class LoginView extends ConsumerWidget {
                           ),
                           TextButton(
                             onPressed: () async {
-                              context.read(authRepositoryProvider).signIn(
+                              context.read(authControllerProvider.notifier).signIn(
                                     email: emailTextController.text,
                                     password: passwordTextController.text,
                                   );
+
                               if (context.read(authRepositoryProvider).getCurrentUser() != null) {
+                                log('user ${context.read(authRepositoryProvider).getCurrentUser()}');
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => MainView()),

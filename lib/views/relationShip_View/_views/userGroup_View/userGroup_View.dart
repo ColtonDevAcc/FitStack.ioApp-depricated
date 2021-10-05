@@ -19,9 +19,10 @@ class UserGroup_View extends HookWidget {
     final authStateController = context.read((authControllerProvider));
 
     final userListProvider = FutureProvider.autoDispose<List<User>>(
-      (ref) async {
-        return await ref.watch(userGroupRepositoryProvider).retrieveUserList(
+      (ref) {
+        final userList = ref.watch(userGroupRepositoryProvider).retrieveUserList(
             authorizingUserID: authStateController!.uid, userIdLIst: group.userIdList!);
+        return userList;
       },
     );
 
@@ -78,15 +79,19 @@ class UserGroup_View extends HookWidget {
           ),
           Consumer(
             builder: (BuildContext context, watch, child) {
-              return Column(
-                children: [
-                  watch(userListProvider).maybeWhen(
-                    data: (u) => u.isEmpty ? Text('empty') : Text(u.first.lastName),
-                    loading: () => CircularProgressIndicator(),
-                    orElse: () => Text('or else'),
-                  ),
-                  child!
-                ],
+              final f = watch(userListProvider);
+
+              return f.maybeWhen(
+                data: (u) => u.isEmpty ? Text('empty') : Text(u.first.lastName),
+                loading: () => CircularProgressIndicator(),
+                error: (Object error, StackTrace? stackTrace) {
+                  return Column(
+                    children: [
+                      Text('data'),
+                    ],
+                  );
+                },
+                orElse: () => Text('or else'),
               );
             },
             child: Text('ff'),

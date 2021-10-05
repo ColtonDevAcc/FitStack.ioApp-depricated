@@ -232,12 +232,19 @@ PODS:
   - Firebase/Firestore (8.3.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.3.0)
+  - Firebase/Storage (8.3.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 8.3.0)
   - firebase_auth (1.4.1):
     - Firebase/Auth (= 8.3.0)
     - firebase_core
     - Flutter
   - firebase_core (1.4.0):
     - Firebase/CoreOnly (= 8.3.0)
+    - Flutter
+  - firebase_storage (10.0.1):
+    - Firebase/Storage (= 8.3.0)
+    - firebase_core
     - Flutter
   - FirebaseAuth (8.3.0):
     - FirebaseCore (~> 8.0)
@@ -265,6 +272,9 @@ PODS:
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
+  - FirebaseStorage (8.3.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - Flutter (1.0.0)
   - GoogleDataTransport (9.1.0):
     - GoogleUtilities/Environment (~> 7.2)
@@ -310,6 +320,8 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.6.1)
+  - image_picker (0.0.1):
+    - Flutter
   - leveldb-library (1.22.1)
   - MTBBarcodeScanner (5.0.11)
   - nanopb (2.30908.0):
@@ -329,7 +341,9 @@ DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
 
@@ -342,6 +356,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
+    - FirebaseStorage
     - GoogleDataTransport
     - GoogleUtilities
     - "gRPC-C++"
@@ -361,8 +376,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_storage:
+    :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   qr_code_scanner:
@@ -376,16 +395,19 @@ SPEC CHECKSUMS:
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
   firebase_auth: 5d48a6c2c9de6d8f7946269ef904136298c6aa12
   firebase_core: 72374607c8c6f5a0adc0559e5c5bf57deda975e3
+  firebase_storage: 0569941c22a1362f682ebef93755d8916601d22f
   FirebaseAuth: fd12c82de44e7ad3b821610c387b8251f03aa0f9
   FirebaseCore: a6dba751680d7033b9d3831e1cfc95ead0605118
   FirebaseCoreDiagnostics: cad03be1904b975f845e632f2720c3337da27faf
   FirebaseFirestore: f4f42828c6d82f6945575611c23dd343e0e7d0aa
+  FirebaseStorage: ff380720c204593d98c3e5482e62ccfbb522f0c5
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
+  image_picker: 9aa50e1d8cdacdbed739e925b7eea16d014367e6
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
