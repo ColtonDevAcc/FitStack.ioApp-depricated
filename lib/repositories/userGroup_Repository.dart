@@ -24,7 +24,8 @@ abstract class UserGroupRepsitoryBaseClass {
   Future<void> inviteUsers({required String authorizingUserID, required List userIdLIst});
 }
 
-final userGroupRepositoryProvider = Provider((ref) => UserGroupRepository(ref.read));
+final userGroupRepositoryProvider =
+    Provider<UserGroupRepository>((ref) => UserGroupRepository(ref.read));
 
 class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   final Reader read;
@@ -111,6 +112,8 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
           log('${userList.first.lastName}');
         },
       );
+
+      //!TODO: use auto dispose
       print('returning user list');
       return userList;
     } on FirebaseException catch (e) {

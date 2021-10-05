@@ -16,16 +16,14 @@ class UserGroup_View extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authStateController = useProvider(authControllerProvider);
+    final authStateController = context.read((authControllerProvider));
 
-    final userListProvider = FutureProvider<List<User>>((ref) async {
-      final getUserList = await ref.watch(userGroupRepositoryProvider).retrieveUserList(
-          authorizingUserID: authStateController!.uid, userIdLIst: group.userIdList!);
-
-      return getUserList;
-    });
-
-    AsyncValue<List<User>> userlist = context.read((userListProvider));
+    final userListProvider = FutureProvider.autoDispose<List<User>>(
+      (ref) async {
+        return await ref.watch(userGroupRepositoryProvider).retrieveUserList(
+            authorizingUserID: authStateController!.uid, userIdLIst: group.userIdList!);
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -78,15 +76,21 @@ class UserGroup_View extends HookWidget {
               ),
             ),
           ),
-          Center(
-            child: userlist.when(
-              loading: () => const CircularProgressIndicator(),
-              error: (err, stack) => Text('Error: $err'),
-              data: (userList) {
-                return Text(userList.length.toString());
-              },
-            ),
-          ),
+          Consumer(
+            builder: (BuildContext context, watch, child) {
+              return Column(
+                children: [
+                  watch(userListProvider).maybeWhen(
+                    data: (u) => u.isEmpty ? Text('empty') : Text(u.first.lastName),
+                    loading: () => CircularProgressIndicator(),
+                    orElse: () => Text('or else'),
+                  ),
+                  child!
+                ],
+              );
+            },
+            child: Text('ff'),
+          )
         ],
       ),
     );
