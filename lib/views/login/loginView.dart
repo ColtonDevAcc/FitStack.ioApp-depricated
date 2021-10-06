@@ -147,20 +147,15 @@ class LoginView extends ConsumerWidget {
                           ),
                           TextButton(
                             onPressed: () async {
-                              context.read(authControllerProvider.notifier).signIn(
-                                    email: emailTextController.text,
-                                    password: passwordTextController.text,
-                                  );
-
-                              if (context.read(authRepositoryProvider).getCurrentUser() != null) {
-                                log('user ${context.read(authRepositoryProvider).getCurrentUser()}');
-
+                              if (await context.read(authControllerProvider.notifier).signIn(
+                                        email: emailTextController.text,
+                                        password: passwordTextController.text,
+                                      ) !=
+                                  null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => MainView()),
                                 );
-                              } else {
-                                CircularProgressIndicator();
                               }
                             },
                             child: Container(

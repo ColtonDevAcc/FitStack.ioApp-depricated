@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/controllers/auth_controller.dart';
+import 'package:workify/models/user/user_model.dart';
 import 'package:workify/repositories/userGroup_Repository.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/customExceptions.dart';
@@ -21,15 +22,19 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
   GroupsListController(this.read, this.userID) : super(AsyncValue.loading()) {
     if (userID != null) {
       retrieveGroups();
+    } else {
+      log('user id is null');
     }
   }
 
   Future<void> retrieveGroups({bool isRefreshing = false}) async {
     if (isRefreshing) state = AsyncValue.loading();
     try {
-      final group = await read(userGroupRepositoryProvider).retrieveUserGroups(userID: userID!);
+      List<UserGroup> group =
+          await read(userGroupRepositoryProvider).retrieveUserGroups(userID: userID!);
       if (mounted) {
-        state = AsyncValue.data(group);
+        state = AsyncValue.data(await group);
+        log('groups is empty ${group.isEmpty}');
       }
     } on CustomException catch (e, st) {
       state = AsyncValue.error(e, st);
@@ -93,5 +98,13 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
     } on CustomException catch (e) {
       read(groupListExceptionProvider).state = e;
     }
+  }
+
+  Future<List<User>> retrieveUserList(
+      {required String authorizingUserID, required List userIdLIst}) async {
+    final userList = await read(userGroupRepositoryProvider)
+        .retrieveUserList(authorizingUserID: authorizingUserID, userIdLIst: userIdLIst);
+
+    return userList;
   }
 }

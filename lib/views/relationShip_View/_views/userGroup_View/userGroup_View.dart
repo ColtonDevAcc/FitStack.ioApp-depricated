@@ -1,8 +1,12 @@
+import 'dart:math';
+
+import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/auth_controller.dart';
+import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/models/user/user_model.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/userGroup_Repository.dart';
@@ -16,16 +20,6 @@ class UserGroup_View extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authStateController = context.read((authControllerProvider));
-
-    final userListProvider = FutureProvider.autoDispose<List<User>>(
-      (ref) {
-        final userList = ref.watch(userGroupRepositoryProvider).retrieveUserList(
-            authorizingUserID: authStateController!.uid, userIdLIst: group.userIdList!);
-        return userList;
-      },
-    );
-
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -77,27 +71,97 @@ class UserGroup_View extends HookWidget {
               ),
             ),
           ),
-          Consumer(
-            builder: (BuildContext context, watch, child) {
-              final f = watch(userListProvider);
-
-              return f.maybeWhen(
-                data: (u) => u.isEmpty ? Text('empty') : Text(u.first.lastName),
-                loading: () => CircularProgressIndicator(),
-                error: (Object error, StackTrace? stackTrace) {
-                  return Column(
-                    children: [
-                      Text('data'),
-                    ],
-                  );
-                },
-                orElse: () => Text('or else'),
-              );
-            },
-            child: Text('ff'),
+          Expanded(
+            child: UserList_Widget(group.userIdList!),
           )
         ],
       ),
+    );
+  }
+}
+
+class UserList_Widget extends HookWidget {
+  final List groupUserIdList;
+  const UserList_Widget(this.groupUserIdList, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final authStateController = context.read((authControllerProvider));
+
+    final userListProvider = FutureProvider<List<User>>(
+      (ref) async {
+        final userList = await ref.watch(userGroupRepositoryProvider).retrieveUserList(
+            authorizingUserID: authStateController!.uid, userIdLIst: groupUserIdList);
+        return userList;
+      },
+    );
+    return Consumer(
+      builder: (context, watch, child) {
+        return watch(userListProvider).when(
+          data: (users) {
+            if (users.isEmpty == true) {
+              return Text('no users to display');
+            } else {
+              return ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "${index + 1}st",
+                          textScaleFactor: 1.5,
+                          style: TextStyle(color: Apptheme.mainButonColor),
+                        ),
+                        SizedBox(width: 5),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://guycounseling.com/wp-content/uploads/2015/06/body-building-advanced-training-techniques-678x381.jpg'),
+                        )
+                      ],
+                    ),
+                    title: Text(
+                      users[index].userName,
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      children: [
+                        Container(
+                          height: 15,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: LinearProgressIndicator(
+                              value: index + 1 * .10 + .2,
+                              backgroundColor: Colors.grey.withOpacity(.2),
+                              color: Apptheme.mainButonColor,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${((index + 1 * .10 + .2) * 100).round()}%',
+                            textScaleFactor: 1.4,
+                            style: TextStyle(
+                                color: Apptheme.mainButonColor, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+          },
+          loading: () => CircularProgressIndicator(),
+          error: (error, st) => Text(error.toString()),
+        );
+      },
     );
   }
 }

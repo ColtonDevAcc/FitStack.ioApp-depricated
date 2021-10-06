@@ -52,11 +52,12 @@ class Groups_View extends HookWidget {
   }
 }
 
-class UserGroupList extends ConsumerWidget {
+class UserGroupList extends HookWidget {
   const UserGroupList({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    return watch(GroupsListControllerProvider).when(
+  Widget build(BuildContext context) {
+    final groups = useProvider(GroupsListControllerProvider);
+    return groups.when(
       data: (groups) => groups.isEmpty
           ? const Center(child: Text('add a group'))
           : Scrollbar(

@@ -68,20 +68,27 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
   Future<List<UserGroup>> retrieveUserGroups({required String userID}) async {
     try {
       final snap = await read(firebaseFirestoreProvider).userGroupRef(userID).get();
-      log(snap['groups'].toString());
-      List<dynamic> groupNameList = snap['groups'];
-
+      List<dynamic> groupNameList = await snap['groups'];
       List<UserGroup> userGroups = [];
 
-      groupNameList.forEach(
-        (groupName) async {
-          userGroups.add(
-            UserGroup.fromDocument(
-              await read(firebaseFirestoreProvider).getGroupList(groupName),
-            ),
-          );
-        },
-      );
+      for (var group in groupNameList) {
+        userGroups.add(
+          UserGroup.fromDocument(
+            await read(firebaseFirestoreProvider).getGroupList(group),
+          ),
+        );
+        log('logged $group');
+      }
+
+      // groupNameList.forEach(
+      //   (groupName) async {
+      //     userGroups.add(
+      //       UserGroup.fromDocument(
+      //         await read(firebaseFirestoreProvider).getGroupList(groupName),
+      //       ),
+      //     );
+      //   },
+      // );
 
       return userGroups;
     } on FirebaseException catch (e) {
@@ -101,20 +108,15 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
     final List<User> userList = [];
 
     try {
-      userIdLIst.forEach(
-        (user) async {
-          log(user);
-          userList.add(
-            User.fromDocument(
-              await read(firebaseFirestoreProvider).userRef(user).get(),
-            ),
-          );
-          log('${userList.first.lastName}');
-        },
-      );
+      for (var user in userIdLIst) {
+        userList.add(
+          User.fromDocument(
+            await read(firebaseFirestoreProvider).userRef(user).get(),
+          ),
+        );
+        log('logged user ${userList.first.lastName}');
+      }
 
-      //!TODO: use auto dispose
-      print('returning user list');
       return userList;
     } on FirebaseException catch (e) {
       throw Exception(e);

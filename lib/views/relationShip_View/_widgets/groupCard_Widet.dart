@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/auth_controller.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/theme/theme.dart';
 
@@ -16,8 +14,6 @@ class GroupCardWidet extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authStateController = useProvider(authControllerProvider);
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: ClipRRect(
