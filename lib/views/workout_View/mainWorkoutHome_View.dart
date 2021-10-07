@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/workout_View/_views/workouts/workout_View.dart';
 
-class RecoveryView extends StatelessWidget {
-  const RecoveryView({Key? key}) : super(key: key);
+class MainWorkout_View extends HookWidget {
+  const MainWorkout_View({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = context.read(authRepositoryProvider).getCurrentUser();
+
     return Scaffold(
-      floatingActionButton: Align(
-        alignment: Alignment(0.9999, 0.8),
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Apptheme.secondaryAccent,
-          child: Icon(LineIcons.plus),
-        ),
-      ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: DefaultTabController(
         length: 3,
@@ -27,7 +24,7 @@ class RecoveryView extends StatelessWidget {
             children: [
               SizedBox(height: AppBar().preferredSize.height),
               Text(
-                'Recovery',
+                'MY WORKOUTS',
                 textScaleFactor: 1.4,
                 style: TextStyle(
                   color: Colors.black,
@@ -56,14 +53,14 @@ class RecoveryView extends StatelessWidget {
                   tabs: [
                     // first tab [you can add an icon using the icon property]
                     Tab(
-                      text: 'Upper',
+                      text: 'Workouts',
                     ),
                     // second tab [you can add an icon using the icon property]
                     Tab(
-                      text: 'Lower',
+                      text: 'Recovery',
                     ),
                     Tab(
-                      text: 'Recommendation',
+                      text: 'History',
                     ),
                   ],
                 ),
@@ -72,32 +69,17 @@ class RecoveryView extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TabBarView(
+                  child: Column(
                     children: [
-                      Column(
-                        children: [
-                          Text('data'),
-                          ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: 0),
-                            focusColor: Apptheme.mainCardColor,
-                            tileColor: Apptheme.mainCardColor,
-                            leading: Container(
-                              color: Colors.black,
-                              height: 50,
-                              child: Image.asset(
-                                'assets/images/BodyRecovery/qwewqe-1.png',
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            title: Text(
-                              'Lats',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            Workout_View(),
+                            Text('recovery'),
+                            Text('history'),
+                          ],
+                        ),
                       ),
-                      Text('data'),
-                      Text('data'),
                     ],
                   ),
                 ),

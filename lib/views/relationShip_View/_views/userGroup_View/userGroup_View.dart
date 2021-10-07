@@ -1,12 +1,8 @@
-import 'dart:math';
-
-import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/controllers/auth_controller.dart';
-import 'package:workify/controllers/groupsList_controller.dart';
 import 'package:workify/models/user/user_model.dart';
 import 'package:workify/models/userGroup/userGroup_model.dart';
 import 'package:workify/repositories/userGroup_Repository.dart';
@@ -21,7 +17,9 @@ class UserGroup_View extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: UserGroupEndDrawer_View(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -36,15 +34,6 @@ class UserGroup_View extends HookWidget {
           group.name,
           style: TextStyle(color: Apptheme.mainButonColor),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              LineIcons.gripLines,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Column(
@@ -162,6 +151,83 @@ class UserList_Widget extends HookWidget {
           error: (error, st) => Text(error.toString()),
         );
       },
+    );
+  }
+}
+
+class UserGroupEndDrawer_View extends HookWidget {
+  const UserGroupEndDrawer_View({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Apptheme.mainBackgroundColor,
+      child: ListView(
+        children: [
+          ListTile(
+            leading: Icon(LineIcons.share),
+            title: Text('Invite users'),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.userAlt),
+            title: Text('Requested users'),
+            trailing: Container(
+              child: Text(
+                '  3  ',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: Apptheme.mainButonColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.book),
+            title: Text('Rules'),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.dumbbell),
+            title: Text('Workouts'),
+            trailing: Container(
+              child: Text(
+                '  1  ',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: Apptheme.mainButonColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.heartbeat),
+            title: Text('Recovery'),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.barChart),
+            title: Text('Progress'),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.userEdit),
+            title: Text('User managment'),
+          ),
+          ListTile(
+            leading: Icon(LineIcons.fileContract),
+            title: Text('Activity'),
+            trailing: Container(
+              child: Text(
+                '  1  ',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(
+                color: Apptheme.mainButonColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

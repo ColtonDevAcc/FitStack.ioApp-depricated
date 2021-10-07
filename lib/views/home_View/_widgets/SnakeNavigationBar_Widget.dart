@@ -25,6 +25,9 @@ class _SnakeNavigationBar_WidgetState extends State<SnakeNavigationBar_Widget> {
           icon: Icon(LineIcons.home),
         ),
         BottomNavigationBarItem(
+          icon: Icon(LineIcons.dumbbell),
+        ),
+        BottomNavigationBarItem(
           icon: Icon(LineIcons.utensils),
         ),
         BottomNavigationBarItem(
@@ -34,11 +37,8 @@ class _SnakeNavigationBar_WidgetState extends State<SnakeNavigationBar_Widget> {
           icon: Icon(LineIcons.users),
         ),
         BottomNavigationBarItem(
-          icon: Icon(LineIcons.peopleCarry),
-        ),
-        BottomNavigationBarItem(
           icon: Icon(LineIcons.horizontalEllipsis),
-        )
+        ),
       ],
       onTap: this.widget.onDestinationSelected,
       elevation: 4,

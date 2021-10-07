@@ -7,9 +7,9 @@ import 'package:workify/views/home_View/_widgets/progressStatisticsList_Widget.d
 import 'package:workify/views/home_View/_widgets/workoutList_Widget.dart';
 import 'package:workify/views/mealPlan_View/NutritonMain_View.dart';
 import 'package:workify/views/more_View/MoreMain_View.dart';
-import 'package:workify/views/recovery/recoveryView.dart';
 import 'package:workify/views/relationShip_View/relationshipMain_View.dart';
 import 'package:workify/views/saved/savedView.dart';
+import 'package:workify/views/workout_View/mainWorkoutHome_View.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -23,10 +23,10 @@ class _MainViewState extends State<MainView> {
   var _currentIndex = 0;
   final List<Widget> _children = [
     MainView(),
+    MainWorkout_View(),
     Nutrition_View(),
     SavedView(),
     GroupView(),
-    RecoveryView(),
     More_View(),
   ];
 
