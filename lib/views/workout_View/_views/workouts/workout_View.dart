@@ -11,7 +11,7 @@ class Workout_View extends StatelessWidget {
     return Scaffold(
       backgroundColor: Apptheme.mainBackgroundColor,
       floatingActionButton: Align(
-        alignment: Alignment(0.9999, 0.82),
+        alignment: Alignment(1.04, 0.76),
         child: FloatingActionButton(
           onPressed: () {
             print('object');

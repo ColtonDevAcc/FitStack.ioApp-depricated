@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:path/path.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/workout_View/_views/workouts/_widget/addWorkout_Widget.dart';
 
@@ -50,7 +49,9 @@ class AddMoreButton_Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet<void>(
+        showModalBottomSheet<Null>(
+          isScrollControlled: true,
+          backgroundColor: Apptheme.mainBackgroundColor,
           context: context,
           builder: (BuildContext context) {
             return AddWorkout_Widget();

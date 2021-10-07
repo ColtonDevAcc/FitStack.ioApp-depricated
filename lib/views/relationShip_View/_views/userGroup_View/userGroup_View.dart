@@ -161,7 +161,6 @@ class UserGroupEndDrawer_View extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Apptheme.mainBackgroundColor,
       child: ListView(
         children: [
           ListTile(
