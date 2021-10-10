@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
+import 'package:workify/views/workout_View/_views/recovery/recovery_view.dart';
 import 'package:workify/views/workout_View/_views/workouts/workout_View.dart';
 
 class MainWorkout_View extends HookWidget {
@@ -75,7 +76,7 @@ class MainWorkout_View extends HookWidget {
                         child: TabBarView(
                           children: [
                             Workout_View(),
-                            Text('recovery'),
+                            Recovery_View(),
                             Text('history'),
                           ],
                         ),

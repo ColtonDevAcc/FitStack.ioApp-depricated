@@ -24,7 +24,10 @@ dependencies:
     
   #files
   path:
-
+  xml: ^5.3.0
+  touchable: ^1.0.0
+  svg_path_parser: ^1.1.1
+  
   #UI
   material_floating_search_bar: 
   salomon_bottom_bar: 
