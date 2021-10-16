@@ -21,12 +21,6 @@ dependencies:
   #camera
   camera:
   image_picker:
-    
-  #files
-  path:
-  xml: ^5.3.0
-  touchable: ^1.0.0
-  svg_path_parser: ^1.1.1
   
   #UI
   material_floating_search_bar: 
@@ -53,6 +47,11 @@ dependencies:
   firebase_auth:
   cloud_firestore: 
   firebase_storage:
+
+  #touchable model
+  xml: ^5.3.0
+  touchable: ^1.0.0
+  svg_path_parser: ^1.1.1
 
 dev_dependencies:
   flutter_test:
