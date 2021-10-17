@@ -99,17 +99,19 @@ class Recovery_View extends HookWidget {
           'm 567.3,1173.1 c -0.5,-14.38 0.49,-33.73 0.49,-50.6 0.5,-4.47 3,-7 7.94,-7 0,0 14.39,-1 42.67,-2.48 6,1.49 7.44,5.46 5.46,12.4 -7,20.84 -23.82,39.7 -49.12,50.61 q -6,3 -7.44,-3 z'),
     ];
 
+    final muslceListContoller = useProvider(MuscleListControllerProvider(paths));
+    final muslceListContollerProvider = useProvider(MuscleListControllerProvider(paths).notifier);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        useProvider(MuscleListControllerProvider(paths)).when(
+        muslceListContoller.when(
           data: (muscleList) => Container(
             width: 300,
             height: 650,
             child: CanvasTouchDetector(
               builder: (context) => CustomPaint(
-                painter: MyPainter(context, muscleList),
+                painter: MyPainter(context, muscleList, muslceListContollerProvider),
               ),
             ),
           ),
@@ -124,7 +126,8 @@ class Recovery_View extends HookWidget {
 class MyPainter extends CustomPainter {
   final BuildContext _context;
   final List<Muscle> muscleList;
-  MyPainter(this._context, this.muscleList);
+  final MuscleListController muscleListProvider;
+  MyPainter(this._context, this.muscleList, this.muscleListProvider);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -149,7 +152,9 @@ class MyPainter extends CustomPainter {
           ..color = muscle.nonSelectedModelColor
           ..strokeWidth = 4.0,
         onTapDown: (e) {
-          print(e.globalPosition.toString());
+          muscleListProvider.selectMuscleGroup(muscle: muscle);
+
+          print(muscle.nonSelectedModelColor);
         },
       );
     }

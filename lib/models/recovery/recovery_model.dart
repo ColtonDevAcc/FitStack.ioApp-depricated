@@ -51,8 +51,8 @@ enum PullMuscleGroups {
 class Muscle {
   final String muscleName;
   final PrimaryMuscleGroups muscleGroup;
-  final Color nonSelectedModelColor;
-  final Color selctedModelColor;
+  Color nonSelectedModelColor;
+  Color selctedModelColor;
   final String path;
   Path? parsedPath;
 
