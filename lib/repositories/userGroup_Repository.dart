@@ -80,16 +80,6 @@ class UserGroupRepository implements UserGroupRepsitoryBaseClass {
         log('logged $group');
       }
 
-      // groupNameList.forEach(
-      //   (groupName) async {
-      //     userGroups.add(
-      //       UserGroup.fromDocument(
-      //         await read(firebaseFirestoreProvider).getGroupList(groupName),
-      //       ),
-      //     );
-      //   },
-      // );
-
       return userGroups;
     } on FirebaseException catch (e) {
       throw Exception(e);

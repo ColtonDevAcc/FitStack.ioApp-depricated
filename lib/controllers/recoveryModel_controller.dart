@@ -38,16 +38,7 @@ class MuscleListController extends StateNotifier<AsyncValue<List<Muscle>>> {
     }
   }
 
-  selectMuscleGroup({muscle: Muscle}) {
-    var index = parsedMuscleList.forEach(
-      (m) {
-        m.muscleGroup == muscle.muscleGroup;
-        {
-          m.nonSelectedModelColor = Colors.blue;
-        }
-      },
-    );
-  }
+  selectMuscleGroup({selectedMuscle: Muscle, muscleList: List}) {}
 
   muscleModelImageParser() {}
 }
