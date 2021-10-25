@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:workify/repositories/muscleModel_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:svg_path_parser/svg_path_parser.dart';
 import 'package:workify/models/recovery/recovery_model.dart';
@@ -38,7 +38,18 @@ class MuscleListController extends StateNotifier<AsyncValue<List<Muscle>>> {
     }
   }
 
-  selectMuscleGroup({selectedMuscle: Muscle, muscleList: List}) {}
+  selectMuscleGroup({selectedMuscle: Muscle, muscleList: List}) {
+    List<Muscle> newMuscleList = read(MuscleModelRepositoryProvider)
+        .selectMuscleGroup(muscleList: muscleList, selectedMuscle: selectedMuscle);
+
+    state.whenData(
+      (muscleList) => state = AsyncValue.data(
+        muscleList
+          ..clear()
+          ..addAll(newMuscleList),
+      ),
+    );
+  }
 
   muscleModelImageParser() {}
 }

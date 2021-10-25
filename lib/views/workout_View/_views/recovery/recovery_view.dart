@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:touchable/touchable.dart';
 import 'package:workify/controllers/recoveryModel_controller.dart';
 import 'package:workify/models/recovery/recovery_model.dart';
+import 'package:workify/repositories/customExceptions.dart';
 import 'package:workify/theme/theme.dart';
 
 class Recovery_View extends HookWidget {
@@ -106,15 +107,28 @@ class Recovery_View extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         muslceListContoller.when(
-          data: (muscleList) => Container(
-            width: 300,
-            height: 650,
-            child: CanvasTouchDetector(
-              builder: (context) => CustomPaint(
-                painter: MyPainter(context, muscleList, muslceListContollerProvider),
-              ),
-            ),
-          ),
+          data: (muscleList) => ProviderListener(
+              onChange: (BuildContext context, StateController<CustomException?> customException) {
+                Container(
+                  width: 300,
+                  height: 650,
+                  child: CanvasTouchDetector(
+                    builder: (context) => CustomPaint(
+                      painter: MyPainter(context, muscleList, muslceListContollerProvider),
+                    ),
+                  ),
+                );
+              },
+              provider: groupListExceptionProvider,
+              child: Container(
+                width: 300,
+                height: 650,
+                child: CanvasTouchDetector(
+                  builder: (context) => CustomPaint(
+                    painter: MyPainter(context, muscleList, muslceListContollerProvider),
+                  ),
+                ),
+              )),
           loading: () => CircularProgressIndicator(),
           error: (e, st) => Text('$e $st'),
         ),
@@ -152,9 +166,8 @@ class MyPainter extends CustomPainter {
           ..color = muscle.nonSelectedModelColor
           ..strokeWidth = 4.0,
         onTapDown: (e) {
-          muscleListProvider.selectMuscleGroup(muscle: muscle);
-
           print(muscle.nonSelectedModelColor);
+          muscleListProvider.selectMuscleGroup(muscleList: muscleList, selectedMuscle: muscle);
         },
       );
     }

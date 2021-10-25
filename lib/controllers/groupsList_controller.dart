@@ -89,10 +89,8 @@ class GroupsListController extends StateNotifier<AsyncValue<List<UserGroup>>> {
 
   Future<void> deleteGroup({required String groupID}) async {
     try {
-      await read(userGroupRepositoryProvider).deleteUserGroup(
-        userID: userID!,
-        userGroupID: groupID,
-      );
+      await read(userGroupRepositoryProvider)
+          .deleteUserGroup(userID: userID!, userGroupID: groupID);
       state.whenData(
           (groups) => state = AsyncValue.data(groups..removeWhere((group) => group.id == groupID)));
     } on CustomException catch (e) {

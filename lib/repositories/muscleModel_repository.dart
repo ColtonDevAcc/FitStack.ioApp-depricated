@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:workify/models/recovery/recovery_model.dart';
@@ -28,14 +30,23 @@ class MuscleModelRepository implements MuscleModelBaseRepository {
   }
 
   @override
-  void selectMuscleGroup({muscleList = List, selectedMuscle = Muscle}) {
-    var index = muscleList.forEach(
-      (m) {
-        m.muscleGroup == selectedMuscle.muscleGroup;
-        {
-          m.nonSelectedModelColor = Colors.blue;
-        }
-      },
-    );
+  List<Muscle> selectMuscleGroup({muscleList = List, selectedMuscle = Muscle}) {
+    List<Muscle> newMuscleList = [];
+
+    //!this is the error
+    for (Muscle m in muscleList) {
+      if (m.muscleGroup == selectedMuscle.muscleGroup) {
+        final oldM = m;
+        int index =
+            muscleList.indexWhere((muscle) => muscle.muscleGroup == selectedMuscle.muscleGroup);
+
+        m.nonSelectedModelColor = Colors.blue;
+        log('selected muscle group ${m.muscleGroup} has been changed to ${m.nonSelectedModelColor} the old value was ${oldM.nonSelectedModelColor}');
+
+        muscleList[index] = m;
+      } else {}
+    }
+
+    return newMuscleList;
   }
 }
