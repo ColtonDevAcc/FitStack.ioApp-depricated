@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/models/userGroup/userGroup_model.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../models/userGroup/userGroup_model.dart';
+import '../../../theme/theme.dart';
 
 class GroupCardWidet extends HookWidget {
   final UserGroup group;

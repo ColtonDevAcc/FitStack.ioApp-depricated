@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/workout_View/_views/recovery/recovery_view.dart';
-import 'package:workify/views/workout_View/_views/workouts/workout_View.dart';
+import '../../repositories/auth_repository.dart';
+import '../../theme/theme.dart';
+import '_views/recovery/recovery_view.dart';
+import '_views/workouts/workout_View.dart';
 
 class MainWorkout_View extends HookWidget {
   const MainWorkout_View({Key? key}) : super(key: key);

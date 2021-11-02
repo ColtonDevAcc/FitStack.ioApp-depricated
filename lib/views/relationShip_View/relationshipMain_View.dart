@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/relationShip_View/_views/groups_view.dart';
-import 'package:workify/views/relationShip_View/_views/friends_View.dart';
+import '../../theme/theme.dart';
+import '_views/groups_view.dart';
+import '_views/friends_View.dart';
 
 class GroupView extends HookWidget {
   const GroupView({Key? key}) : super(key: key);

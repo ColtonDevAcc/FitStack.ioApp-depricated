@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/workout_View/_views/workouts/_widget/addWorkout_Widget.dart';
+import '../../../../theme/theme.dart';
+import '_widget/addWorkout_Widget.dart';
 
 class AddWorkout_View extends StatelessWidget {
   const AddWorkout_View({Key? key}) : super(key: key);

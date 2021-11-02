@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/more_View/_widgets/children_Views/profile_Widget.dart';
-import 'package:workify/views/more_View/_widgets/extraTab_Widget.dart';
-import 'package:workify/views/more_View/_widgets/featuredStatistics_Widget.dart';
+import '../../theme/theme.dart';
+import '_widgets/children_Views/profile_Widget.dart';
+import '_widgets/extraTab_Widget.dart';
+import '_widgets/featuredStatistics_Widget.dart';
 
 class More_View extends StatefulWidget {
   const More_View({Key? key}) : super(key: key);

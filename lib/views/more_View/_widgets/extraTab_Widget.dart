@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class ExtraTab_Widget extends StatelessWidget {
   final String title;

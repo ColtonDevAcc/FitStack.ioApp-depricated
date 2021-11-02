@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'inboxView.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/profile/inboxView.dart';
+import '../../repositories/auth_repository.dart';
+import '../../theme/theme.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);

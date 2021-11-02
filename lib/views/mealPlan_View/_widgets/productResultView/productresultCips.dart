@@ -3,7 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:openfoodfacts/model/EnvironmentImpactLevels.dart';
 import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/model/NutrientLevels.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../../theme/theme.dart';
 
 class NutrientsLevelsChip extends StatelessWidget {
   const NutrientsLevelsChip({

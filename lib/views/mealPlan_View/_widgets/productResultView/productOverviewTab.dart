@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/model/Product.dart';
-import 'package:workify/views/mealPlan_View/_widgets/productResultView/productresultCips.dart';
+import 'productresultCips.dart';
 
 class ProductOverViewTab extends StatelessWidget {
   final Product product;

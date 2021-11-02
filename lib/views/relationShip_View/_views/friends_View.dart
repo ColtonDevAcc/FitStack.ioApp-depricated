@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/views/relationShip_View/_widgets/friendsTab_Widget.dart';
+import '../../../repositories/auth_repository.dart';
+import '../_widgets/friendsTab_Widget.dart';
 
 class FriendsView extends ConsumerWidget {
   const FriendsView({Key? key}) : super(key: key);

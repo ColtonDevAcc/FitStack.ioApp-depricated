@@ -1,4 +1,4 @@
-# workify
+# fitstack
 
 A new Flutter project.
 

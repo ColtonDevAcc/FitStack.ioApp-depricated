@@ -1,8 +1,7 @@
-import 'dart:developer';
-
+import 'package:fitstack/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/models/recovery/recovery_model.dart';
+import '../models/recovery/recovery_model.dart';
 
 abstract class MuscleModelBaseRepository {
   List<Muscle> getMuscleModel({muscleList: List});
@@ -33,19 +32,24 @@ class MuscleModelRepository implements MuscleModelBaseRepository {
   List<Muscle> selectMuscleGroup({muscleList = List, selectedMuscle = Muscle}) {
     List<Muscle> newMuscleList = [];
 
-    //!this is the error
-    for (Muscle m in muscleList) {
-      if (m.muscleGroup == selectedMuscle.muscleGroup) {
-        final oldM = m;
-        int index =
-            muscleList.indexWhere((muscle) => muscle.muscleGroup == selectedMuscle.muscleGroup);
+    selectedMuscle.nonSelectedModelColor = Colors.teal;
+    selectedMuscle.selctedModelColor = Colors.green;
 
-        m.nonSelectedModelColor = Colors.blue;
-        log('selected muscle group ${m.muscleGroup} has been changed to ${m.nonSelectedModelColor} the old value was ${oldM.nonSelectedModelColor}');
-
-        muscleList[index] = m;
-      } else {}
-    }
+    muscleList.forEach(
+      (muscle) {
+        if (muscle.muscleGroup == selectedMuscle.muscleGroup &&
+            muscle.muscleGroup != PrimaryMuscleGroups.empty) {
+          muscle.nonSelectedModelColor = Colors.green;
+          newMuscleList.add(muscle);
+        } else if (muscle.muscleGroup != PrimaryMuscleGroups.empty) {
+          muscle.nonSelectedModelColor = Apptheme.mainButonColor;
+          newMuscleList.add(muscle);
+        } else {
+          muscle.nonSelectedModelColor = Colors.black;
+          newMuscleList.add(muscle);
+        }
+      },
+    );
 
     return newMuscleList;
   }

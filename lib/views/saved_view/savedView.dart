@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/saved_view/widgets/savedMealPlan.dart';
-import 'package:workify/views/saved_view/workoutView.dart';
+import '../../repositories/auth_repository.dart';
+import '../../theme/theme.dart';
+import 'widgets/savedMealPlan.dart';
+import 'workoutView.dart';
 
 class SavedView extends ConsumerWidget {
   const SavedView({Key? key}) : super(key: key);

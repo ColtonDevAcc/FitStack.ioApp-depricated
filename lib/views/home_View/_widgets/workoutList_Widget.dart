@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class WorkoutList_Widget extends StatelessWidget {
   const WorkoutList_Widget({Key? key}) : super(key: key);

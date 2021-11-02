@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
-import 'package:workify/models/user/user_model.dart';
-import 'package:workify/models/userGroup/userGroup_model.dart';
-import 'package:workify/providers/generalProviders.dart';
+import '../extenstions/firebaseFirestore_Extentions.dart';
+import '../models/user/user_model.dart';
+import '../models/userGroup/userGroup_model.dart';
+import '../providers/generalProviders.dart';
 
 abstract class UserGroupRepsitoryBaseClass {
   Future<List<UserGroup>> retrieveUserGroups({required String userID});

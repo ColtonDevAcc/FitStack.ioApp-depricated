@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class NutritionStatisticsContainer_Widget extends StatelessWidget {
   final IconData icon;

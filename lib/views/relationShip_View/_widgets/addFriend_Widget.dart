@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/relationShip_View/_widgets/friendsTab_Widget.dart';
+import '../../../theme/theme.dart';
+import 'friendsTab_Widget.dart';
 
 class AddFriend_Widget extends StatelessWidget {
   const AddFriend_Widget({Key? key}) : super(key: key);

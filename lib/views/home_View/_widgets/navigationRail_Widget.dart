@@ -1,9 +1,9 @@
+import '../../profile_view/profileView.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/profile/profileView.dart';
+import '../../../repositories/auth_repository.dart';
+import '../../../theme/theme.dart';
 
 class NavigationRail_Widget extends ConsumerWidget {
   final void Function(int) onDestinationSelected;

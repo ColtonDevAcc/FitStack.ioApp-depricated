@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/controllers/auth_controller.dart';
-import 'package:workify/models/user/user_model.dart';
-import 'package:workify/models/userGroup/userGroup_model.dart';
-import 'package:workify/repositories/userGroup_Repository.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../../controllers/auth_controller.dart';
+import '../../../../models/user/user_model.dart';
+import '../../../../models/userGroup/userGroup_model.dart';
+import '../../../../repositories/userGroup_Repository.dart';
+import '../../../../theme/theme.dart';
 
-import 'package:workify/views/relationShip_View/_views/userGroup_View/_Widgets/userAvatar_Widget.dart';
+import '_Widgets/userAvatar_Widget.dart';
 
 class UserGroup_View extends HookWidget {
   final UserGroup group;

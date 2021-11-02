@@ -7,9 +7,9 @@ import 'package:openfoodfacts/model/parameter/SearchTerms.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:openfoodfacts/utils/QueryType.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/mealPlan_View/children_Views/productScanner_View.dart';
+import '../../../repositories/auth_repository.dart';
+import '../../../theme/theme.dart';
+import '../children_Views/productScanner_View.dart';
 
 class AddProductView extends ConsumerWidget {
   const AddProductView({Key? key}) : super(key: key);

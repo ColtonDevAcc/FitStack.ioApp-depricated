@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/controllers/auth_controller.dart';
-import 'package:workify/models/user/user_model.dart';
-import 'package:workify/repositories/userGroup_Repository.dart';
-import 'package:workify/models/userGroup/userGroup_model.dart';
-import 'package:workify/repositories/customExceptions.dart';
+import 'auth_controller.dart';
+import '../models/user/user_model.dart';
+import '../repositories/userGroup_Repository.dart';
+import '../models/userGroup/userGroup_model.dart';
+import '../repositories/customExceptions.dart';
 
 final GroupsListControllerProvider =
     StateNotifierProvider<GroupsListController, AsyncValue<List<UserGroup>>>((ref) {

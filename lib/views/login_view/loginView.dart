@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:workify/controllers/auth_controller.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/home_View/mainHome_View.dart';
-import 'package:workify/views/signUp_view/signUpView.dart';
+import '../../controllers/auth_controller.dart';
+import '../../theme/theme.dart';
+import '../home_View/mainHome_View.dart';
+import '../signUp_view/signUpView.dart';
 
 class LoginView extends ConsumerWidget {
   TextEditingController emailTextController = new TextEditingController();

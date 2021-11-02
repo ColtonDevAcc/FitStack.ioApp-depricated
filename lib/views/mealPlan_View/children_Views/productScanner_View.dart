@@ -5,7 +5,7 @@ import 'package:openfoodfacts/model/IngredientsAnalysisTags.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:workify/functions/product/productFunctinos.dart';
+import '../../../functions/product/productFunctinos.dart';
 import 'productDetails_View.dart';
 
 class QRCodeScanner extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:workify/views/mealPlan_View/_widgets/productResultView/productNutritionTab.dart';
-import 'package:workify/views/mealPlan_View/_widgets/productResultView/productOverviewTab.dart';
+import '../_widgets/productResultView/productNutritionTab.dart';
+import '../_widgets/productResultView/productOverviewTab.dart';
 
 class ProductDetails_View extends StatelessWidget {
   final Product product;

@@ -1,6 +1,6 @@
 import 'package:awesome_emojis/emojis.dart';
 import 'package:flutter/material.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class FeaturedStatistics_Widget extends StatelessWidget {
   const FeaturedStatistics_Widget({Key? key}) : super(key: key);

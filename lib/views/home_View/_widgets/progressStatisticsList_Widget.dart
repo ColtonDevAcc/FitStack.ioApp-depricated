@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class ProgressStatisticsList_Widget extends StatelessWidget {
   const ProgressStatisticsList_Widget({Key? key}) : super(key: key);

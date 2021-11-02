@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:workify/extenstions/firebaseFirestore_Extentions.dart';
-import 'package:workify/models/user/user_model.dart' as currentUser;
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/repositories/generalProviders.dart';
+import '../extenstions/firebaseFirestore_Extentions.dart';
+import '../models/user/user_model.dart' as currentUser;
+import '../repositories/auth_repository.dart';
+import '../repositories/generalProviders.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, User?>(
   (ref) => AuthController(ref.read),

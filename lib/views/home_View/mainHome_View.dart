@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/home_View/_widgets/SnakeNavigationBar_Widget.dart';
-import 'package:workify/views/home_View/_widgets/nutritionStatisticsContainer_Widget.dart';
-import 'package:workify/views/home_View/_widgets/progressStatisticsList_Widget.dart';
-import 'package:workify/views/home_View/_widgets/workoutList_Widget.dart';
-import 'package:workify/views/mealPlan_View/NutritonMain_View.dart';
-import 'package:workify/views/more_View/MoreMain_View.dart';
-import 'package:workify/views/relationShip_View/relationshipMain_View.dart';
-import 'package:workify/views/saved_view/savedView.dart';
-import 'package:workify/views/workout_View/mainWorkoutHome_View.dart';
+import '../../theme/theme.dart';
+import '_widgets/SnakeNavigationBar_Widget.dart';
+import '_widgets/nutritionStatisticsContainer_Widget.dart';
+import '_widgets/progressStatisticsList_Widget.dart';
+import '_widgets/workoutList_Widget.dart';
+import '../mealPlan_View/NutritonMain_View.dart';
+import '../more_View/MoreMain_View.dart';
+import '../relationShip_View/relationshipMain_View.dart';
+import '../saved_view/savedView.dart';
+import '../workout_View/mainWorkoutHome_View.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);

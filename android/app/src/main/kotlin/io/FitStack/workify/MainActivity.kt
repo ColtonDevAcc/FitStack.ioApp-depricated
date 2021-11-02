@@ -1,4 +1,4 @@
-package io.FitStack.workify
+package io.FitStack.fitstack
 
 import io.flutter.embedding.android.FlutterActivity
 

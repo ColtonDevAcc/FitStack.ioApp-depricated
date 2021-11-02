@@ -1,6 +1,6 @@
 {
-    "name": "workify",
-    "short_name": "workify",
+    "name": "fitstack",
+    "short_name": "fitstack",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

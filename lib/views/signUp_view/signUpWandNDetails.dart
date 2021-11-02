@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/models/user/user_model.dart';
+import '../../models/user/user_model.dart';
 
-import 'package:workify/repositories/auth_repository.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/login_view/loginView.dart';
+import '../../repositories/auth_repository.dart';
+import '../../theme/theme.dart';
+import '../login_view/loginView.dart';
 
 class SignUpWandNDetails extends ConsumerWidget {
   final String firstName;

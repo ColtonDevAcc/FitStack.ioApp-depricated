@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class SnakeNavigationBar_Widget extends StatefulWidget {
   const SnakeNavigationBar_Widget(

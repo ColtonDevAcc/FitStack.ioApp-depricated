@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:workify/theme/theme.dart';
+import '../../../theme/theme.dart';
 
 class SavedMealPlanView extends StatelessWidget {
   const SavedMealPlanView({Key? key}) : super(key: key);

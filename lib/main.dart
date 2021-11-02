@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:workify/theme/theme.dart';
-import 'package:workify/views/login_view/loginView.dart';
+import 'theme/theme.dart';
+import 'views/login_view/loginView.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
