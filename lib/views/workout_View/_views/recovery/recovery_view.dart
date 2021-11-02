@@ -26,9 +26,8 @@ class Recovery_View extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  color: Colors.green,
-                  width: 300,
-                  height: 650,
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * .7,
                   child: CanvasTouchDetector(
                     builder: (context) => CustomPaint(
                       painter: MyPainter(context, muscleList, muslceListContollerNotifier),
@@ -61,8 +60,8 @@ class MyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var _canvas = TouchyCanvas(_context, canvas);
 
-    var xScale = size.width * 3.9 / 5.1 / 856.37140;
-    var yScale = size.height * 4 / 6 / 1668.08337;
+    var xScale = size.width * 2.39 / 3 / 900;
+    var yScale = size.height * 10 / 5.5 / 4300;
     final Matrix4 matrix4 = Matrix4.identity();
     matrix4.scale(xScale, yScale);
 
