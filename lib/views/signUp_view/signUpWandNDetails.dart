@@ -6,7 +6,7 @@ import 'package:workify/models/user/user_model.dart';
 
 import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/login/loginView.dart';
+import 'package:workify/views/login_view/loginView.dart';
 
 class SignUpWandNDetails extends ConsumerWidget {
   final String firstName;

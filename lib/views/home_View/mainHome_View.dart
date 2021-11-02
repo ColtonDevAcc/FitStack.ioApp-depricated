@@ -8,7 +8,7 @@ import 'package:workify/views/home_View/_widgets/workoutList_Widget.dart';
 import 'package:workify/views/mealPlan_View/NutritonMain_View.dart';
 import 'package:workify/views/more_View/MoreMain_View.dart';
 import 'package:workify/views/relationShip_View/relationshipMain_View.dart';
-import 'package:workify/views/saved/savedView.dart';
+import 'package:workify/views/saved_view/savedView.dart';
 import 'package:workify/views/workout_View/mainWorkoutHome_View.dart';
 
 class MainView extends StatefulWidget {

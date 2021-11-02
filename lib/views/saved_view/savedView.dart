@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:workify/repositories/auth_repository.dart';
 import 'package:workify/theme/theme.dart';
-import 'package:workify/views/saved/widgets/savedMealPlan.dart';
-import 'package:workify/views/saved/workoutView.dart';
+import 'package:workify/views/saved_view/widgets/savedMealPlan.dart';
+import 'package:workify/views/saved_view/workoutView.dart';
 
 class SavedView extends ConsumerWidget {
   const SavedView({Key? key}) : super(key: key);

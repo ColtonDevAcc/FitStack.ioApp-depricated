@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:workify/controllers/auth_controller.dart';
 import 'package:workify/theme/theme.dart';
 import 'package:workify/views/home_View/mainHome_View.dart';
-import 'package:workify/views/signUp/signUpView.dart';
+import 'package:workify/views/signUp_view/signUpView.dart';
 
 class LoginView extends ConsumerWidget {
   TextEditingController emailTextController = new TextEditingController();
