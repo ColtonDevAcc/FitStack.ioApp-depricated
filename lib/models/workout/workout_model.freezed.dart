@@ -22,17 +22,13 @@ class _$WorkoutTearOff {
 
   _Workout call(
       {required String workoutName,
-      required List<dynamic> reps,
-      required int sets,
-      required List<dynamic> weight,
+      required List<Exercise> exercises,
       String? id,
       List<dynamic>? muscleGroups,
       List<dynamic>? tags}) {
     return _Workout(
       workoutName: workoutName,
-      reps: reps,
-      sets: sets,
-      weight: weight,
+      exercises: exercises,
       id: id,
       muscleGroups: muscleGroups,
       tags: tags,
@@ -50,9 +46,7 @@ const $Workout = _$WorkoutTearOff();
 /// @nodoc
 mixin _$Workout {
   String get workoutName => throw _privateConstructorUsedError;
-  List<dynamic> get reps => throw _privateConstructorUsedError;
-  int get sets => throw _privateConstructorUsedError;
-  List<dynamic> get weight => throw _privateConstructorUsedError;
+  List<Exercise> get exercises => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
   List<dynamic>? get muscleGroups => throw _privateConstructorUsedError;
   List<dynamic>? get tags => throw _privateConstructorUsedError;
@@ -68,9 +62,7 @@ abstract class $WorkoutCopyWith<$Res> {
       _$WorkoutCopyWithImpl<$Res>;
   $Res call(
       {String workoutName,
-      List<dynamic> reps,
-      int sets,
-      List<dynamic> weight,
+      List<Exercise> exercises,
       String? id,
       List<dynamic>? muscleGroups,
       List<dynamic>? tags});
@@ -87,9 +79,7 @@ class _$WorkoutCopyWithImpl<$Res> implements $WorkoutCopyWith<$Res> {
   @override
   $Res call({
     Object? workoutName = freezed,
-    Object? reps = freezed,
-    Object? sets = freezed,
-    Object? weight = freezed,
+    Object? exercises = freezed,
     Object? id = freezed,
     Object? muscleGroups = freezed,
     Object? tags = freezed,
@@ -99,18 +89,10 @@ class _$WorkoutCopyWithImpl<$Res> implements $WorkoutCopyWith<$Res> {
           ? _value.workoutName
           : workoutName // ignore: cast_nullable_to_non_nullable
               as String,
-      reps: reps == freezed
-          ? _value.reps
-          : reps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      sets: sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as int,
-      weight: weight == freezed
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+      exercises: exercises == freezed
+          ? _value.exercises
+          : exercises // ignore: cast_nullable_to_non_nullable
+              as List<Exercise>,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -134,9 +116,7 @@ abstract class _$WorkoutCopyWith<$Res> implements $WorkoutCopyWith<$Res> {
   @override
   $Res call(
       {String workoutName,
-      List<dynamic> reps,
-      int sets,
-      List<dynamic> weight,
+      List<Exercise> exercises,
       String? id,
       List<dynamic>? muscleGroups,
       List<dynamic>? tags});
@@ -154,9 +134,7 @@ class __$WorkoutCopyWithImpl<$Res> extends _$WorkoutCopyWithImpl<$Res>
   @override
   $Res call({
     Object? workoutName = freezed,
-    Object? reps = freezed,
-    Object? sets = freezed,
-    Object? weight = freezed,
+    Object? exercises = freezed,
     Object? id = freezed,
     Object? muscleGroups = freezed,
     Object? tags = freezed,
@@ -166,18 +144,10 @@ class __$WorkoutCopyWithImpl<$Res> extends _$WorkoutCopyWithImpl<$Res>
           ? _value.workoutName
           : workoutName // ignore: cast_nullable_to_non_nullable
               as String,
-      reps: reps == freezed
-          ? _value.reps
-          : reps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      sets: sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as int,
-      weight: weight == freezed
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+      exercises: exercises == freezed
+          ? _value.exercises
+          : exercises // ignore: cast_nullable_to_non_nullable
+              as List<Exercise>,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -199,9 +169,7 @@ class __$WorkoutCopyWithImpl<$Res> extends _$WorkoutCopyWithImpl<$Res>
 class _$_Workout extends _Workout with DiagnosticableTreeMixin {
   _$_Workout(
       {required this.workoutName,
-      required this.reps,
-      required this.sets,
-      required this.weight,
+      required this.exercises,
       this.id,
       this.muscleGroups,
       this.tags})
@@ -213,11 +181,7 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
   @override
   final String workoutName;
   @override
-  final List<dynamic> reps;
-  @override
-  final int sets;
-  @override
-  final List<dynamic> weight;
+  final List<Exercise> exercises;
   @override
   final String? id;
   @override
@@ -227,7 +191,7 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Workout(workoutName: $workoutName, reps: $reps, sets: $sets, weight: $weight, id: $id, muscleGroups: $muscleGroups, tags: $tags)';
+    return 'Workout(workoutName: $workoutName, exercises: $exercises, id: $id, muscleGroups: $muscleGroups, tags: $tags)';
   }
 
   @override
@@ -236,9 +200,7 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'Workout'))
       ..add(DiagnosticsProperty('workoutName', workoutName))
-      ..add(DiagnosticsProperty('reps', reps))
-      ..add(DiagnosticsProperty('sets', sets))
-      ..add(DiagnosticsProperty('weight', weight))
+      ..add(DiagnosticsProperty('exercises', exercises))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('muscleGroups', muscleGroups))
       ..add(DiagnosticsProperty('tags', tags));
@@ -251,12 +213,9 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
             (identical(other.workoutName, workoutName) ||
                 const DeepCollectionEquality()
                     .equals(other.workoutName, workoutName)) &&
-            (identical(other.reps, reps) ||
-                const DeepCollectionEquality().equals(other.reps, reps)) &&
-            (identical(other.sets, sets) ||
-                const DeepCollectionEquality().equals(other.sets, sets)) &&
-            (identical(other.weight, weight) ||
-                const DeepCollectionEquality().equals(other.weight, weight)) &&
+            (identical(other.exercises, exercises) ||
+                const DeepCollectionEquality()
+                    .equals(other.exercises, exercises)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.muscleGroups, muscleGroups) ||
@@ -270,9 +229,7 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(workoutName) ^
-      const DeepCollectionEquality().hash(reps) ^
-      const DeepCollectionEquality().hash(sets) ^
-      const DeepCollectionEquality().hash(weight) ^
+      const DeepCollectionEquality().hash(exercises) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(muscleGroups) ^
       const DeepCollectionEquality().hash(tags);
@@ -291,9 +248,7 @@ class _$_Workout extends _Workout with DiagnosticableTreeMixin {
 abstract class _Workout extends Workout {
   factory _Workout(
       {required String workoutName,
-      required List<dynamic> reps,
-      required int sets,
-      required List<dynamic> weight,
+      required List<Exercise> exercises,
       String? id,
       List<dynamic>? muscleGroups,
       List<dynamic>? tags}) = _$_Workout;
@@ -304,11 +259,7 @@ abstract class _Workout extends Workout {
   @override
   String get workoutName => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get reps => throw _privateConstructorUsedError;
-  @override
-  int get sets => throw _privateConstructorUsedError;
-  @override
-  List<dynamic> get weight => throw _privateConstructorUsedError;
+  List<Exercise> get exercises => throw _privateConstructorUsedError;
   @override
   String? get id => throw _privateConstructorUsedError;
   @override

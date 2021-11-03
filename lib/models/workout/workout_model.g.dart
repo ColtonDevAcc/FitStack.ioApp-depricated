@@ -9,9 +9,9 @@ part of 'workout_model.dart';
 _$_Workout _$_$_WorkoutFromJson(Map<String, dynamic> json) {
   return _$_Workout(
     workoutName: json['workoutName'] as String,
-    reps: json['reps'] as List<dynamic>,
-    sets: json['sets'] as int,
-    weight: json['weight'] as List<dynamic>,
+    exercises: (json['exercises'] as List<dynamic>)
+        .map((e) => Exercise.fromJson(e as Map<String, dynamic>))
+        .toList(),
     id: json['id'] as String?,
     muscleGroups: json['muscleGroups'] as List<dynamic>?,
     tags: json['tags'] as List<dynamic>?,
@@ -21,9 +21,7 @@ _$_Workout _$_$_WorkoutFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_WorkoutToJson(_$_Workout instance) =>
     <String, dynamic>{
       'workoutName': instance.workoutName,
-      'reps': instance.reps,
-      'sets': instance.sets,
-      'weight': instance.weight,
+      'exercises': instance.exercises,
       'id': instance.id,
       'muscleGroups': instance.muscleGroups,
       'tags': instance.tags,

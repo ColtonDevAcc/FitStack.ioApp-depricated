@@ -7,13 +7,17 @@ abstract class MuscleModelBaseRepository {
   List<Muscle> getMuscleModel({muscleList: List});
   List<Muscle> getMuscleRecoveryModel({muscleList: List});
   void selectMuscleGroup({muscleList: List, selectedMuscle: Muscle});
+  Muscle? getSelectedMuscleGroup();
 }
 
 final MuscleModelRepositoryProvider =
     Provider<MuscleModelRepository>((ref) => MuscleModelRepository(ref.read));
 
+final SelectedButtonProvider = StateProvider<Muscle?>((ref) => null);
+
 class MuscleModelRepository implements MuscleModelBaseRepository {
   final Reader read;
+  Muscle? selectedMuscle;
 
   MuscleModelRepository(this.read);
   @override
@@ -32,14 +36,13 @@ class MuscleModelRepository implements MuscleModelBaseRepository {
   List<Muscle> selectMuscleGroup({muscleList = List, selectedMuscle = Muscle}) {
     List<Muscle> newMuscleList = [];
 
-    selectedMuscle.nonSelectedModelColor = Colors.teal;
-    selectedMuscle.selctedModelColor = Colors.green;
+    read(SelectedButtonProvider).state = selectedMuscle;
 
     muscleList.forEach(
       (muscle) {
         if (muscle.muscleGroup == selectedMuscle.muscleGroup &&
             muscle.muscleGroup != PrimaryMuscleGroups.empty) {
-          muscle.nonSelectedModelColor = Colors.green;
+          muscle.nonSelectedModelColor = Apptheme.mainStatisticColor;
           newMuscleList.add(muscle);
         } else if (muscle.muscleGroup != PrimaryMuscleGroups.empty) {
           muscle.nonSelectedModelColor = Apptheme.mainButonColor;
@@ -53,4 +56,6 @@ class MuscleModelRepository implements MuscleModelBaseRepository {
 
     return newMuscleList;
   }
+
+  Muscle? getSelectedMuscleGroup() => this.selectedMuscle;
 }

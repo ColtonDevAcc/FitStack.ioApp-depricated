@@ -1,7 +1,8 @@
+import 'package:fitstack/views/workout_View/_views/workouts/_views/addExcersize_view.dart';
+import 'package:fitstack/views/workout_View/_views/workouts/_views/addExerciseBoarding_views/addExcersizeForm_view.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import '../../../../theme/theme.dart';
-import '_widget/addWorkout_Widget.dart';
 
 class AddWorkout_View extends StatelessWidget {
   const AddWorkout_View({Key? key}) : super(key: key);
@@ -13,12 +14,21 @@ class AddWorkout_View extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.black),
-        leading: Icon(LineIcons.arrowLeft),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(LineIcons.arrowLeft),
+        ),
         backgroundColor: Apptheme.mainCardColor,
         title: Text(
           'ADD YOUR WORKOUT',
           style: TextStyle(color: Apptheme.mainButonColor),
         ),
+        actions: [
+          Icon(LineIcons.edit),
+          SizedBox(width: 8),
+        ],
       ),
       backgroundColor: Apptheme.mainBackgroundColor,
       body: Column(
@@ -49,13 +59,11 @@ class AddMoreButton_Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet<Null>(
-          isScrollControlled: true,
-          backgroundColor: Apptheme.mainBackgroundColor,
-          context: context,
-          builder: (BuildContext context) {
-            return AddWorkout_Widget();
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddExcersize_View(),
+          ),
         );
       },
       child: Container(

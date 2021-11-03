@@ -124,9 +124,7 @@ class MuscleListController extends StateNotifier<AsyncValue<List<Muscle>>> {
     state = AsyncValue.data(newMuscleList);
   }
 
+  getSelectedMuscleGroup() => read(MuscleModelRepositoryProvider).getSelectedMuscleGroup();
+
   muscleModelImageParser() {}
 }
-
-// final userProvider = ChangeNotifierProvider.autoDispose.family<UserProvider, bool>((ref, isFemale) {
-//   return UserProvider(isFemale);
-// });

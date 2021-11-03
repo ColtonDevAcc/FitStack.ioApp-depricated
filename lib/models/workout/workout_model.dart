@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitstack/models/exercise/exercise_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -11,21 +12,17 @@ abstract class Workout implements _$Workout {
 
   factory Workout({
     required String workoutName,
-    required List reps,
-    required int sets,
-    required List weight,
+    required List<Exercise> exercises,
     String? id,
     List? muscleGroups,
     List? tags,
   }) = _Workout;
 
   factory Workout.empty() => Workout(
-        reps: [],
-        weight: [],
-        sets: 0,
         tags: [],
         muscleGroups: [],
         workoutName: '',
+        exercises: [],
       );
 
   factory Workout.fromJson(Map<String, dynamic> json) => _$WorkoutFromJson(json);
