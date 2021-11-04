@@ -16,7 +16,6 @@ abstract class Exercise implements _$Exercise {
     required List<int> reps,
     required int sets,
     String? id,
-    List? muscleGroups,
     List? tags,
   }) = _Exercise;
 
@@ -24,7 +23,6 @@ abstract class Exercise implements _$Exercise {
         reps: [],
         sets: 0,
         tags: [],
-        muscleGroups: [],
         muscleGroup: [],
         exerciseTitle: '',
       );
